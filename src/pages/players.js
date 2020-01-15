@@ -3,9 +3,19 @@ import React from 'react';
 import { AddPlayer } from '../components/add-player';
 
 export function Players() {
+    const players = ['mimi', 'emily'];
+
     const handleAddPlayer = () => {
         console.log('handle add player');
     };
+
+    const renderPlayers = () => {
+        return players.map((player) => (
+            <li className="list-group-item" key={player}>
+                {player}
+            </li>
+        ));
+    }
 
     return (
         <div>
@@ -15,7 +25,7 @@ export function Players() {
             <div className="row">
                 <div className="col-12">
                     <ul className="list-group">
-                        <li className="list-group-item">Cras justo odio</li>
+                        {renderPlayers()}
                     </ul>
                 </div>
             </div>
