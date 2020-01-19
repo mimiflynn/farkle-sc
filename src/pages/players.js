@@ -19,6 +19,7 @@ export function Players() {
 
     return (
         <div>
+            <h2>Players</h2>
             <div className="row players">
                 <AddPlayer handleSave={handleAddPlayer} />
             </div>
@@ -29,6 +30,7 @@ export function Players() {
                     </ul>
                 </div>
             </div>
+            <button className="btn btn-primary" disabled={players.length === 0}>Start Game</button>
         </div>
     )
 }
