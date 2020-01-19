@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { AddPlayer } from '../components/add-player';
 
 export function Players() {
-    const players = ['mimi', 'emily'];
+    const [players, setPlayers] = useState([]);
 
-    const handleAddPlayer = () => {
-        console.log('handle add player');
+    const handleAddPlayer = (newPlayer) => {
+        setPlayers([[newPlayer], ...players]);
     };
 
     const renderPlayers = () => {
