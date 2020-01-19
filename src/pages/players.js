@@ -26,7 +26,9 @@ export function Players(props) {
         <div>
             <h2>Players</h2>
             <div className="row players">
-                <AddPlayer handleSave={handleAddPlayer} />
+                <div className="col-12">
+                    <AddPlayer handleSave={handleAddPlayer} />
+                </div>
             </div>
             <div className="row">
                 <div className="col-12">

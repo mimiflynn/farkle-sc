@@ -16,11 +16,21 @@ export function AddPlayer(props) {
     return (
         <form>
             <div className="input-group mb-3">
-                <input type="text"
-                    name="player" className="form-control" placeholder="Player" aria-label="Player"
-                    value={value} onChange={handleInputUpdate} />
+                <input
+                    type="text"
+                    name="player"
+                    className="form-control" placeholder="Player"
+                    aria-label="Player"
+                    value={value}
+                    onChange={handleInputUpdate} />
                 <div className="input-group-append">
-                    <button className="btn btn-outline-secondary" type="submit" id="button-addon2" onClick={handleAddPlayer}>Add</button>
+                    <button
+                        className="btn btn-outline-secondary"
+                        type="submit"
+                        id="button-addon2"
+                        onClick={handleAddPlayer}>
+                        Add
+                        </button>
                 </div>
             </div>
         </form>
