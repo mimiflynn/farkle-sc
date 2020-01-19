@@ -2,16 +2,21 @@ import React, { useState } from 'react';
 
 import { AddPlayer } from '../components/add-player';
 
-export function Players() {
+export function Players(props) {
     const [players, setPlayers] = useState([]);
 
     const handleAddPlayer = (newPlayer) => {
         setPlayers([[newPlayer], ...players]);
     };
 
+    const handleSavePlayers = () => {
+        props.setPlayers(players);
+    }
+
     const renderPlayers = () => {
         return players.map((player) => (
-            <li className="list-group-item" key={player}>
+            <li className="list-group-item"
+                key={player}>
                 {player}
             </li>
         ));
@@ -30,7 +35,12 @@ export function Players() {
                     </ul>
                 </div>
             </div>
-            <button className="btn btn-primary" disabled={players.length === 0}>Start Game</button>
+            <button
+                className="btn btn-primary"
+                disabled={players.length === 0}
+                onClick={handleSavePlayers}>
+                Start Game
+            </button>
         </div>
     )
 }
