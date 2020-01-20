@@ -1,24 +1,32 @@
 import React, { useState } from 'react';
 
 import { AddPlayer } from '../components/add-player';
+import { Player } from '../components/player';
 
 export function Players(props) {
     const [players, setPlayers] = useState([]);
 
     const handleAddPlayer = (newPlayer) => {
-        setPlayers([[newPlayer], ...players]);
+        setPlayers([newPlayer, ...players]);
     };
 
     const handleSavePlayers = () => {
         props.setPlayers(players);
     }
 
+    const handleEditPlayer = (oldPlayer, newPlayer) => {
+        const newPlayers = players.slice();
+        const index = players.indexOf(oldPlayer);
+        newPlayers[index] = newPlayer;
+        setPlayers(newPlayers);
+    }
+
     const renderPlayers = () => {
+        console.log(players);
         return players.map((player) => (
-            <li className="list-group-item"
-                key={player}>
-                {player}
-            </li>
+            <Player key={player}
+                player={player}
+                handleEdit={handleEditPlayer} />
         ));
     }
 
