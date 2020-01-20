@@ -19,6 +19,11 @@ export function Player(props) {
         setEdit(true);
     };
 
+    const handleRemovePlayer = (event) => {
+        event.preventDefault();
+        props.handleRemove(props.player);
+    };
+
     const editPlayer = (
         <form>
             <div className="input-group mb-3">
@@ -57,7 +62,14 @@ export function Player(props) {
                     type="submit"
                     id="button-addon2"
                     onClick={handleEditPlayer}>
-                    edit
+                    Edit
+                 </button>
+                <button
+                    className="btn btn-outline-danger"
+                    type="submit"
+                    id="button-addon2"
+                    onClick={handleRemovePlayer}>
+                    Remove
                  </button>
             </div>
         </div>

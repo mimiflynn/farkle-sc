@@ -21,12 +21,20 @@ export function Players(props) {
         setPlayers(newPlayers);
     }
 
+    const handleRemovePlayer = (oldPlayer, newPlayer) => {
+        const newPlayers = players.slice();
+        const index = players.indexOf(oldPlayer);
+        newPlayers.splice(index, 1);
+        setPlayers(newPlayers);
+    }
+
     const renderPlayers = () => {
         console.log(players);
         return players.map((player) => (
             <Player key={player}
                 player={player}
-                handleEdit={handleEditPlayer} />
+                handleEdit={handleEditPlayer}
+                handleRemove={handleRemovePlayer} />
         ));
     }
 
