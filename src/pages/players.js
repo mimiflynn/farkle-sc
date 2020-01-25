@@ -4,32 +4,31 @@ import { AddPlayer } from '../components/add-player';
 import { Player } from '../components/player';
 
 export function Players(props) {
-    const [players, setPlayers] = useState([]);
+    const [players, setPlayers] = useState(['Mimi', 'Emily']);
 
-    const handleAddPlayer = (newPlayer) => {
+    function handleAddPlayer(newPlayer) {
         setPlayers([newPlayer, ...players]);
     };
 
-    const handleSavePlayers = () => {
+    function handleSavePlayers() {
         props.setPlayers(players);
     }
 
-    const handleEditPlayer = (oldPlayer, newPlayer) => {
+    function handleEditPlayer(oldPlayer, newPlayer) {
         const newPlayers = players.slice();
         const index = players.indexOf(oldPlayer);
         newPlayers[index] = newPlayer;
         setPlayers(newPlayers);
     }
 
-    const handleRemovePlayer = (oldPlayer, newPlayer) => {
+    function handleRemovePlayer(oldPlayer) {
         const newPlayers = players.slice();
         const index = players.indexOf(oldPlayer);
         newPlayers.splice(index, 1);
         setPlayers(newPlayers);
     }
 
-    const renderPlayers = () => {
-        console.log(players);
+    function renderPlayers() {
         return players.map((player) => (
             <Player key={player}
                 player={player}
@@ -48,9 +47,7 @@ export function Players(props) {
             </div>
             <div className="row">
                 <div className="col-12">
-                    <ul className="list-group">
-                        {renderPlayers()}
-                    </ul>
+                    {renderPlayers()}
                 </div>
             </div>
             <button

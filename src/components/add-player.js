@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 export function AddPlayer(props) {
     const [value, setValue] = useState('');
 
-    const handleInputUpdate = (event) => {
+    function handleInputUpdate(event) {
         setValue(event.target.value);
     }
 
-    const handleAddPlayer = (event) => {
+    function handleAddPlayer(event) {
         event.preventDefault();
         props.handleSave(value);
         setValue('');

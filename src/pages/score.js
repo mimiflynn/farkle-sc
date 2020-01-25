@@ -1,12 +1,18 @@
 import React from 'react';
 
 export function Score(props) {
-    const renderPlayers = () => {
+
+    function handleScorecard(player, score) {
+
+    }
+
+    function renderPlayers() {
         return props.players.map((player) => (
-            <li className="list-group-item"
-                key={player}>
-                {player}
-            </li>
+            <div key={player}>
+                <h3>{player}</h3>
+                <div>Total: {props.scorecard[player].total}</div>
+                <div>On the board: {props.scorecard[player].onBoard}</div>
+            </div>
         ));
     }
 
