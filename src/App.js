@@ -9,6 +9,7 @@ import './App.scss';
 
 function App() {
     const [players, setPlayers] = useState([]);
+    const [reference, setReference] = useState(false);
     const [scorecard, setScorecard] = useState({});
 
     function handleSetPlayers(allPlayers) {
@@ -38,15 +39,22 @@ function App() {
         }
     }
 
+    function renderReference() {
+        if (reference) {
+            return (
+                <div className="row">
+                    <Rules className="col-6"></Rules>
+                    <Reference className="col-6"></Reference>
+                </div>
+            )
+        }
+    }
     return (
         <div>
             <Nav></Nav>
             <div className="App container-fluid">
                 {renderScreen()}
-                <div className="row">
-                    <Reference className="col-6"></Reference>
-                    <Rules className="col-6"></Rules>
-                </div>
+                {renderReference()}
             </div>
         </div>
     );
