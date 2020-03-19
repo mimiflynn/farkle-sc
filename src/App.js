@@ -12,6 +12,10 @@ function App() {
     const [reference, setReference] = useState(false);
     const [scorecard, setScorecard] = useState({});
 
+    function handleToggleReference() {
+        setReference(!reference);
+    }
+
     function handleSetPlayers(allPlayers) {
         const newScoreCard = {};
 
@@ -49,9 +53,15 @@ function App() {
             )
         }
     }
+
     return (
         <div>
             <Nav></Nav>
+            <button
+                className="btn btn-primary"
+                onClick={handleToggleReference}>
+                Reference
+            </button>
             <div className="App container-fluid">
                 {renderScreen()}
                 {renderReference()}
