@@ -56,12 +56,13 @@ function App() {
 
     return (
         <div>
-            <Nav></Nav>
-            <button
-                className="btn btn-primary"
-                onClick={handleToggleReference}>
-                Reference
-            </button>
+            <Nav>
+                <button
+                    className="btn btn-secondary"
+                    onClick={handleToggleReference}>
+                    Reference
+                </button>
+            </Nav>
             <div className="App container-fluid">
                 {renderScreen()}
                 {renderReference()}
