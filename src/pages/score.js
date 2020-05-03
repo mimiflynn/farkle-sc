@@ -14,12 +14,15 @@ export function Score(props) {
 
     function renderPlayers() {
         return props.players.map((player) => (
-            <PlayerScore
-                key={player}
-                player={player}
-                scorecard={scorecards[player]}
-                select={handleScorecardSelect}
-            />
+            <div
+                className="col-sm"
+                key={player}>
+                <PlayerScore
+                    player={player}
+                    scorecard={scorecards[player]}
+                    select={handleScorecardSelect}
+                />
+            </div>
         ));
     }
 
@@ -42,7 +45,9 @@ export function Score(props) {
     return (
         <div>
             <h2>Scorecard</h2>
-            {renderPlayers()}
+            <div className="row">
+                {renderPlayers()}
+            </div>
             {renderCurrentPlayer()}
         </div>
     )
