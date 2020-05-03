@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { EditPlayerScore } from '../components/edit-player-score';
 
 export function Score(props) {
-    const [selectedPlayer, setSelectedPlayer] = useState({});
+    const [selectedPlayer, setSelectedPlayer] = useState();
 
     function handleScorecardSelect(player) {
         setSelectedPlayer(player);
@@ -19,11 +19,24 @@ export function Score(props) {
         ));
     }
 
+    function renderCurrentPlayer() {
+        if (selectedPlayer) {
+            return (
+                <EditPlayerScore player={selectedPlayer} scorecard={props.scorecard[selectedPlayer]}></EditPlayerScore>
+            )
+        } else {
+            return (
+                <h2>no player selected</h2>
+            )
+        }
+
+    }
+
     return (
         <div>
             <h2>Scorecard</h2>
             {renderPlayers()}
-            <EditPlayerScore player={selectedPlayer}></EditPlayerScore>
+            {renderCurrentPlayer()}
         </div>
     )
 };

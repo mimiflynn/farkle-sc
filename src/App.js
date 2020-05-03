@@ -17,20 +17,22 @@ function App() {
     }
 
     function handleSetPlayers(allPlayers) {
-        const newScoreCard = {};
+        const newScoreCards = {};
 
         allPlayers.forEach((player) => {
-            newScoreCard[player] = {
+            newScoreCards[player] = {
                 turn: [],
                 total: 0,
                 onBoard: false
             };
         });
         setPlayers(allPlayers);
-        setScorecard(newScoreCard);
+        setScorecard(newScoreCards);
     };
 
     function renderScreen() {
+        console.log('scorecards', scorecard)
+        console.log('all players', players)
         if (players.length === 0) {
             return (
                 <Players setPlayers={handleSetPlayers} />
@@ -54,14 +56,29 @@ function App() {
         }
     }
 
+    function resetGame() {
+        console.log('reset click');
+    }
+
     return (
         <div>
             <Nav>
-                <button
-                    className="btn btn-secondary"
-                    onClick={handleToggleReference}>
-                    Reference
-                </button>
+                <ul className="navbar-nav mr-auto">
+                    <li className="nav-item">
+                        <button
+                            className="btn btn-link"
+                            onClick={resetGame}>
+                            New Game
+                        </button>
+                    </li>
+                    <li className="nav-item">
+                        <button
+                            className="btn btn-link"
+                            onClick={handleToggleReference}>
+                            Reference
+                        </button>
+                    </li>
+                </ul>
             </Nav>
             <div className="App container-fluid">
                 {renderScreen()}
