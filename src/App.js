@@ -10,7 +10,7 @@ import './App.scss';
 function App() {
     const [players, setPlayers] = useState([]);
     const [reference, setReference] = useState(false);
-    const [scorecard, setScorecard] = useState({});
+    const [scorecards, setScorecards] = useState({});
 
     function handleToggleReference() {
         setReference(!reference);
@@ -27,12 +27,10 @@ function App() {
             };
         });
         setPlayers(allPlayers);
-        setScorecard(newScoreCards);
+        setScorecards(newScoreCards);
     };
 
-    function renderScreen() {
-        console.log('scorecards', scorecard)
-        console.log('all players', players)
+    function renderGame() {
         if (players.length === 0) {
             return (
                 <Players setPlayers={handleSetPlayers} />
@@ -40,7 +38,7 @@ function App() {
         } else {
             return (
                 <Score players={players}
-                    scorecard={scorecard} />
+                    scorecards={scorecards} />
             );
         }
     }
@@ -57,7 +55,7 @@ function App() {
     }
 
     function resetGame() {
-        console.log('reset click');
+        setPlayers([]);
     }
 
     return (
@@ -81,7 +79,7 @@ function App() {
                 </ul>
             </Nav>
             <div className="App container-fluid">
-                {renderScreen()}
+                {renderGame()}
                 {renderReference()}
             </div>
         </div>

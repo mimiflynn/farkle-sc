@@ -7,7 +7,7 @@ export function EditPlayerScore(props) {
     return (
         <div key={player}>
             <h3>{player}</h3>
-            <div>Total: {scorecard}</div>
+            <div>Total: {scorecard.total}</div>
             <div>On the board: {scorecard.onBoard}</div>
         </div>
     )

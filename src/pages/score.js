@@ -1,28 +1,35 @@
 import React, { useState } from 'react';
 
 import { EditPlayerScore } from '../components/edit-player-score';
+import { PlayerScore } from '../components/player-score';
 
 export function Score(props) {
+    const scorecards = props.scorecards;
     const [selectedPlayer, setSelectedPlayer] = useState();
 
     function handleScorecardSelect(player) {
+        console.log('selected player', player);
         setSelectedPlayer(player);
     }
 
     function renderPlayers() {
         return props.players.map((player) => (
-            <div key={player} onClick={handleScorecardSelect}>
-                <h3>{player}</h3>
-                <div>Total: {props.scorecard[player].total}</div>
-                <div>On the board: {props.scorecard[player].onBoard}</div>
-            </div>
+            <PlayerScore
+                key={player}
+                player={player}
+                scorecard={scorecards[player]}
+                select={handleScorecardSelect}
+            />
         ));
     }
 
     function renderCurrentPlayer() {
         if (selectedPlayer) {
             return (
-                <EditPlayerScore player={selectedPlayer} scorecard={props.scorecard[selectedPlayer]}></EditPlayerScore>
+                <EditPlayerScore
+                    player={selectedPlayer}
+                    scorecard={scorecards[selectedPlayer]}
+                />
             )
         } else {
             return (
