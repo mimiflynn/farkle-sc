@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Players } from './pages/players';
+import { Setup } from './pages/setup';
 import { Score } from './pages/score';
 import { Nav } from './components/nav';
 import { Reference } from './components/reference';
@@ -31,15 +31,17 @@ function App() {
     };
 
     function renderGame() {
-        if (players.length === 0) {
-            return (
-                <Players setPlayers={handleSetPlayers} />
-            );
-        } else {
-            return (
-                <Score players={players}
-                    scorecards={scorecards} />
-            );
+        if (!reference) {
+            if (players.length === 0) {
+                return (
+                    <Setup setPlayers={handleSetPlayers} />
+                );
+            } else {
+                return (
+                    <Score players={players}
+                        scorecards={scorecards} />
+                );
+            }
         }
     }
 
@@ -73,7 +75,7 @@ function App() {
                         <button
                             className="btn btn-link"
                             onClick={handleToggleReference}>
-                            Reference
+                            {reference ? 'Game' : 'Reference'}
                         </button>
                     </li>
                 </ul>

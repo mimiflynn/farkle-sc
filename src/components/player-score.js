@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 export function PlayerScore(props) {
     const player = props.player;
@@ -10,7 +11,10 @@ export function PlayerScore(props) {
     }
 
     return (
-        <div className="card" key={player}>
+        <div className={classNames('card', {
+            'off-board': !player.onBoard,
+            'on-board': player.onBoard
+        })} key={player}>
             <div className="card-body">
                 <h5 className="card-title">{player}</h5>
                 <p className="card-text">Total: {scorecard.total}</p>

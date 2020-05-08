@@ -5,10 +5,10 @@ export function EditPlayerScore(props) {
     const scorecard = props.scorecard;
 
     return (
-        <div key={player}>
+        <div key={player}
+            className={scorecard.onBoard ? 'on-board' : 'off-board'}>
             <h3>{player}</h3>
             <div>Total: {scorecard.total}</div>
-            <div>On the board: {scorecard.onBoard}</div>
         </div>
     )
 }

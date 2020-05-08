@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { AddPlayer } from '../components/add-player';
 import { Player } from '../components/player';
 
-export function Players(props) {
+export function Setup(props) {
     const [players, setPlayers] = useState(['Mimi', 'Emily']);
 
     function handleAddPlayer(newPlayer) {
