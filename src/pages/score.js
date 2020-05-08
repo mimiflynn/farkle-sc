@@ -6,9 +6,15 @@ import { PlayerScore } from '../components/player-score';
 export function Score(props) {
     const scorecards = props.scorecards;
     const [selectedPlayer, setSelectedPlayer] = useState();
+    const [score, setScore] = useState();
+
+    function handleSetScore(newScore) {
+        console.log('new score', newScore);
+        console.log('for player', selectedPlayer);
+        // setScore([newPlayer, ...players]);
+    };
 
     function handleScorecardSelect(player) {
-        console.log('selected player', player);
         setSelectedPlayer(player);
     }
 
@@ -32,6 +38,7 @@ export function Score(props) {
                 <EditPlayerScore
                     player={selectedPlayer}
                     scorecard={scorecards[selectedPlayer]}
+                    handleSave={handleSetScore}
                 />
             )
         } else {
@@ -39,7 +46,6 @@ export function Score(props) {
                 <h2>no player selected</h2>
             )
         }
-
     }
 
     return (

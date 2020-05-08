@@ -18,12 +18,11 @@ export function PlayerScore(props) {
             <div className="card-body">
                 <h5 className="card-title">{player}</h5>
                 <p className="card-text">Total: {scorecard.total}</p>
-                <p className="card-text">On the board: {scorecard.onBoard}</p>
                 <button
                     onClick={handleSelect}
                     className="btn btn-primary">
                     My turn
-                        </button>
+                </button>
             </div>
         </div>
     )
