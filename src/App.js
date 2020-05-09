@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { Setup } from './pages/setup';
-import { Score } from './pages/score';
+import { Game } from './pages/game';
 import { Nav } from './components/nav';
 import { Reference } from './components/reference';
 import { Rules } from './components/rules';
@@ -17,6 +17,11 @@ function App() {
     }
 
     function handleSetPlayers(allPlayers) {
+        setPlayers(allPlayers);
+        setAllScorecards(allPlayers);
+    };
+
+    function setAllScorecards(allPlayers) {
         const newScoreCards = {};
 
         allPlayers.forEach((player) => {
@@ -26,9 +31,9 @@ function App() {
                 onBoard: false
             };
         });
-        setPlayers(allPlayers);
+
         setScorecards(newScoreCards);
-    };
+    }
 
     function handleUpdateScores(player, score) {
         const cardToUpdate = scorecards[player];
@@ -55,7 +60,7 @@ function App() {
                 );
             } else {
                 return (
-                    <Score players={players}
+                    <Game players={players}
                         scorecards={scorecards}
                         setScorecards={handleUpdateScores} />
                 );

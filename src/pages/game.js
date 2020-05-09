@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { EditPlayerScore } from '../components/edit-player-score';
 import { PlayerScore } from '../components/player-score';
 
-export function Score(props) {
+export function Game(props) {
     const scorecards = props.scorecards;
     const setScorecards = props.setScorecards;
 
