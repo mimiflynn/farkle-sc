@@ -21,7 +21,7 @@ function App() {
 
         allPlayers.forEach((player) => {
             newScoreCards[player] = {
-                turn: [],
+                turns: [],
                 total: parseInt(0, 10),
                 onBoard: false
             };
@@ -38,7 +38,7 @@ function App() {
             const total = parseInt(score, 10) + cardToUpdate.total;
 
             updatedScoreCards[player] = Object.assign({}, cardToUpdate, {
-                turn: [...cardToUpdate.turn, ...[score]],
+                turns: [...cardToUpdate.turns, ...[score]],
                 total,
                 onBoard: (parseInt(score, 10) + cardToUpdate.total) > 500
             });
