@@ -5,13 +5,13 @@ import { PlayerScore } from '../components/player-score';
 
 export function Score(props) {
     const scorecards = props.scorecards;
+    const setScorecards = props.setScorecards;
     const [selectedPlayer, setSelectedPlayer] = useState();
-    const [score, setScore] = useState();
 
     function handleSetScore(newScore) {
         console.log('new score', newScore);
         console.log('for player', selectedPlayer);
-        // setScore([newPlayer, ...players]);
+        setScorecards(selectedPlayer, newScore);
     };
 
     function handleScorecardSelect(player) {

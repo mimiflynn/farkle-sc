@@ -12,8 +12,8 @@ export function PlayerScore(props) {
 
     return (
         <div className={classNames('card', {
-            'off-board': !player.onBoard,
-            'on-board': player.onBoard
+            'off-board': !scorecard.onBoard,
+            'on-board': scorecard.onBoard
         })} key={player}>
             <div className="card-body">
                 <h5 className="card-title">{player}</h5>
