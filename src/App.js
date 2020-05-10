@@ -45,7 +45,7 @@ function App() {
             updatedScoreCards[player] = Object.assign({}, cardToUpdate, {
                 turns: [...cardToUpdate.turns, ...[score]],
                 total,
-                onBoard: (parseInt(score, 10) + cardToUpdate.total) > 500
+                onBoard: !cardToUpdate.onBoard ? (parseInt(score, 10) + cardToUpdate.total) > 500 : true
             });
 
             setScorecards(Object.assign({}, scorecards, updatedScoreCards));
@@ -83,8 +83,6 @@ function App() {
         setPlayers([]);
     }
 
-    console.log('scorecards', scorecards);
-
     return (
         <div>
             <Nav>
@@ -105,7 +103,7 @@ function App() {
                     </li>
                 </ul>
             </Nav>
-            <div className="App container-fluid">
+            <div className="App container-fluid mt-3">
                 {renderGame()}
                 {renderReference()}
             </div>

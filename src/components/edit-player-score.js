@@ -19,7 +19,6 @@ export function EditPlayerScore(props) {
         <div key={player}
             className={scorecard.onBoard ? 'on-board' : 'off-board'}>
             <h3>{player}</h3>
-            <div>Total: {scorecard.total}</div>
             <form>
                 <div className="input-group mb-3">
                     <input

@@ -4,19 +4,27 @@ import { EditPlayerScore } from '../components/edit-player-score';
 import { PlayerScore } from '../components/player-score';
 
 export function Game(props) {
+    const players = props.players;
     const scorecards = props.scorecards;
     const setScorecards = props.setScorecards;
 
-    const [selectedPlayer, setSelectedPlayer] = useState();
+    const [selectedPlayer, setSelectedPlayer] = useState(players[0]);
 
     function handleSetScore(newScore) {
         console.log('new score', newScore);
         console.log('for player', selectedPlayer);
         setScorecards(selectedPlayer, newScore);
+        handleNextPlayer();
     };
 
-    function handleScorecardSelect(player) {
-        setSelectedPlayer(player);
+    function handleNextPlayer() {
+        const recentPlayerIndex = players.indexOf(selectedPlayer);
+        if (recentPlayerIndex === players.length - 1) {
+            // last player so loop to first player
+            setSelectedPlayer(players[0]);
+        } else {
+            setSelectedPlayer(players[recentPlayerIndex + 1]);
+        }
     }
 
     function renderPlayers() {
@@ -27,7 +35,6 @@ export function Game(props) {
                 <PlayerScore
                     player={player}
                     scorecard={scorecards[player]}
-                    select={handleScorecardSelect}
                 />
             </div>
         ));
@@ -44,7 +51,7 @@ export function Game(props) {
             )
         } else {
             return (
-                <h2>no player selected</h2>
+                <h3>no player selected</h3>
             )
         }
     }
@@ -52,7 +59,7 @@ export function Game(props) {
     return (
         <div>
             <h2>Scorecard</h2>
-            <div className="row">
+            <div className="row mb-5">
                 {renderPlayers()}
             </div>
             {renderCurrentPlayer()}

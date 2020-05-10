@@ -4,11 +4,6 @@ import classNames from 'classnames';
 export function PlayerScore(props) {
     const player = props.player;
     const scorecard = props.scorecard;
-    const select = props.select;
-
-    function handleSelect() {
-        select(player);
-    }
 
     function renderBoardMessages() {
         if (scorecard.total === 0) {
@@ -38,11 +33,6 @@ export function PlayerScore(props) {
                 {renderBoardMessages()}
                 <h5 className="card-title">{player}</h5>
                 <p className="card-text">Total: {scorecard.total}</p>
-                <button
-                    onClick={handleSelect}
-                    className="btn btn-primary">
-                    My turn
-                </button>
             </div>
         </div>
     )
