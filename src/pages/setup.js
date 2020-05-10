@@ -4,7 +4,7 @@ import { AddPlayer } from '../components/add-player';
 import { Player } from '../components/player';
 
 export function Setup(props) {
-    const [players, setPlayers] = useState(['Mimi', 'Emily']);
+    const [players, setPlayers] = useState([]);
 
     function handleAddPlayer(newPlayer) {
         setPlayers([newPlayer, ...players]);
