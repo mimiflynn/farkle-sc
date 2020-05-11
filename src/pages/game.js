@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import { EditPlayerScore } from '../components/edit-player-score';
-import { PlayerScore } from '../components/player-score';
+import { EditPlayerScore } from '../components/game/edit-player-score';
+import { PlayerScore } from '../components/game/player-score';
 
 export function Game(props) {
     const players = props.players;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import { AddPlayer } from '../components/add-player';
-import { Player } from '../components/player';
+import { AddPlayer } from '../components/setup/add-player';
+import { Player } from '../components/setup/player';
 
 export function Setup(props) {
     const [players, setPlayers] = useState([]);
