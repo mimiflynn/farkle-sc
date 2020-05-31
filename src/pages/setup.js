@@ -39,7 +39,7 @@ export function Setup(props) {
 
     return (
         <div>
-            <h2>Players</h2>
+            <h2>Add Players</h2>
             <div className="row players">
                 <div className="col-12">
                     <AddPlayer handleSave={handleAddPlayer} />

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
 import { Setup } from './pages/setup';
-import { Game } from './pages/game';
+import { Play } from './pages/play';
+
 import { Nav } from './components/nav';
 import { Reference } from './components/reference';
 import { Rules } from './components/rules';
@@ -60,7 +61,7 @@ function App() {
                 );
             } else {
                 return (
-                    <Game players={players}
+                    <Play players={players}
                         scorecards={scorecards}
                         setScorecards={handleUpdateScores} />
                 );
