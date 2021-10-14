@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Setup } from './pages/setup';
 import { Play } from './pages/play';
 
+import { Modal } from './components/modal';
 import { Nav } from './components/nav';
 import { Reference } from './components/reference';
 import { Rules } from './components/rules';
@@ -12,6 +13,7 @@ function App() {
     const [players, setPlayers] = useState([]);
     const [reference, setReference] = useState(false);
     const [scorecards, setScorecards] = useState({});
+    const [newGameWarning, setShowNewGameWarning] = useState(false);
 
     function handleToggleReference() {
         setReference(!reference);
@@ -80,7 +82,17 @@ function App() {
         }
     }
 
+    function renderNewGameWarning() {
+        return (
+            <Modal title="Alert!!!">
+                Are you sure you want to clear the game and start a new one?
+                <button className="btn btn-secondary" onClick={resetGame}>Yes</button> <button onClick={() => setShowNewGameWarning(false)} className="btn btn-secondary">No</button>
+            </Modal>
+        )
+    }
+
     function resetGame() {
+        setShowNewGameWarning(false);
         setPlayers([]);
     }
 
@@ -91,7 +103,7 @@ function App() {
                     <li className="nav-item">
                         <button
                             className="btn btn-link"
-                            onClick={resetGame}>
+                            onClick={() => setShowNewGameWarning(true)}>
                             New Game
                         </button>
                     </li>
@@ -108,6 +120,7 @@ function App() {
                 {renderGame()}
                 {renderReference()}
             </div>
+            {newGameWarning ? renderNewGameWarning() : null}
         </div>
     );
 }
