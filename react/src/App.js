@@ -40,19 +40,26 @@ function App() {
 
     function handleUpdateScores(player, score) {
         const cardToUpdate = scorecards[player];
+        const updatedScoreCards = {};
 
-        if (cardToUpdate.onBoard || score >= 500) {
-            const updatedScoreCards = {};
-            const total = parseInt(score, 10) + cardToUpdate.total;
-
+        if (cardToUpdate.onBoard) {
             updatedScoreCards[player] = Object.assign({}, cardToUpdate, {
                 turns: [...cardToUpdate.turns, ...[score]],
-                total,
-                onBoard: !cardToUpdate.onBoard ? (parseInt(score, 10) + cardToUpdate.total) > 500 : true
+                total: parseInt(score, 10) + cardToUpdate.total
             });
-
-            setScorecards(Object.assign({}, scorecards, updatedScoreCards));
+        } else if (score >= 500) {
+            updatedScoreCards[player] = Object.assign({}, cardToUpdate, {
+                turns: [...cardToUpdate.turns, ...[score]],
+                total: parseInt(score, 10),
+                onBoard: true
+            });
+        } else {
+            updatedScoreCards[player] = Object.assign({}, cardToUpdate, {
+                turns: [...cardToUpdate.turns, ...[score]]
+            });
         }
+
+        setScorecards(Object.assign({}, scorecards, updatedScoreCards));
     }
 
     function renderGame() {

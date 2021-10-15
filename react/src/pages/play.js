@@ -35,6 +35,8 @@ export function Play(props) {
     }
 
     function renderPlayers() {
+        console.log('players', props.players)
+        console.log('scorecards', props.scorecards)
         return props.players.map((player) => (
             <div
                 className="col-sm"
