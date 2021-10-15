@@ -76,11 +76,11 @@ export function Play(props) {
     return (
         <div>
             <h2>Scorecard</h2>
+            {error ? renderError() : null}
+            {renderCurrentPlayer()}
             <div className="row mb-5">
                 {renderPlayers()}
             </div>
-            {error ? renderError() : null}
-            {renderCurrentPlayer()}
         </div>
     )
 };
