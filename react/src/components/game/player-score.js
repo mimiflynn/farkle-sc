@@ -15,6 +15,26 @@ export function PlayerScore(props) {
         }
     }
 
+    function renderTurnHistory() {
+        if (scorecard.turns.length >= 1) {
+            const turnList = scorecard.turns.map((turn, index) => {
+                const key = `${player}-turn-${index}`;
+                return (
+                    <li className="list-group-item" key={key}>{turn}</li>
+                )
+            })
+
+            return (
+                <div>
+                    <h6>Turn History</h6>
+                    <ul className="list-group list-group-flush">
+                        {turnList}
+                    </ul>
+                </div>
+            )
+        }
+    }
+
     return (
         <div className={classNames('card', {
             'on-board': scorecard.onBoard
@@ -23,6 +43,7 @@ export function PlayerScore(props) {
                 {renderBoardMessages()}
                 <h5 className="card-title">{player}</h5>
                 <p className="card-text">Total: {scorecard.total}</p>
+                {renderTurnHistory()}
             </div>
         </div>
     )
