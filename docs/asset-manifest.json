@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/farkle-sc/static/css/main.d741137d.chunk.css",
-    "main.js": "/farkle-sc/static/js/main.c91dcce4.chunk.js",
-    "main.js.map": "/farkle-sc/static/js/main.c91dcce4.chunk.js.map",
+    "main.js": "/farkle-sc/static/js/main.728cf9ec.chunk.js",
+    "main.js.map": "/farkle-sc/static/js/main.728cf9ec.chunk.js.map",
     "runtime-main.js": "/farkle-sc/static/js/runtime-main.7ff6c718.js",
     "runtime-main.js.map": "/farkle-sc/static/js/runtime-main.7ff6c718.js.map",
     "static/js/2.15c94c6d.chunk.js": "/farkle-sc/static/js/2.15c94c6d.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.7ff6c718.js",
     "static/js/2.15c94c6d.chunk.js",
     "static/css/main.d741137d.chunk.css",
-    "static/js/main.c91dcce4.chunk.js"
+    "static/js/main.728cf9ec.chunk.js"
   ]
 }
