@@ -9,12 +9,19 @@ export function Play(props) {
     const setScorecards = props.setScorecards;
 
     const [selectedPlayer, setSelectedPlayer] = useState(players[0]);
+    const [error, setError] = useState(false);
 
     function handleSetScore(newScore) {
         console.log('new score', newScore);
         console.log('for player', selectedPlayer);
-        setScorecards(selectedPlayer, newScore);
-        handleNextPlayer();
+        if (!isNaN(newScore)) {
+            setScorecards(selectedPlayer, newScore);
+            setError(false);
+            handleNextPlayer();
+        } else {
+            console.log('score is not a number!');
+            setError(true);
+        }
     };
 
     function handleNextPlayer() {
@@ -56,12 +63,21 @@ export function Play(props) {
         }
     }
 
+    function renderError() {
+        return (
+            <div className="alert alert-danger" role="alert">
+                Score must be a number
+            </div>
+        )
+    }
+
     return (
         <div>
             <h2>Scorecard</h2>
             <div className="row mb-5">
                 {renderPlayers()}
             </div>
+            {error ? renderError() : null}
             {renderCurrentPlayer()}
         </div>
     )

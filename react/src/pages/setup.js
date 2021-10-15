@@ -52,7 +52,7 @@ export function Setup(props) {
             </div>
             <button
                 className="btn btn-primary"
-                disabled={players.length === 0}
+                disabled={players.length <= 1}
                 onClick={handleSavePlayers}>
                 Start Game
             </button>
