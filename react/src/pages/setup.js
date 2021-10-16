@@ -51,7 +51,7 @@ export function Setup(props) {
                 </div>
             </div>
             <button
-                className="btn btn-primary"
+                className="btn btn-success"
                 disabled={players.length <= 1}
                 onClick={handleSavePlayers}>
                 Start Game

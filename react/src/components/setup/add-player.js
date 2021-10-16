@@ -25,12 +25,12 @@ export function AddPlayer(props) {
                     onChange={handleInputUpdate} />
                 <div className="input-group-append">
                     <button
-                        className="btn btn-outline-secondary"
+                        className="btn btn-secondary"
                         type="submit"
                         id="button-addon2"
                         onClick={handleAddPlayer}>
                         Add
-                        </button>
+                    </button>
                 </div>
             </div>
         </form>

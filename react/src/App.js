@@ -106,19 +106,19 @@ function App() {
     return (
         <div>
             <Nav>
-                <ul className="navbar-nav mr-auto">
-                    <li className="nav-item">
-                        <button
-                            className="btn btn-link"
-                            onClick={() => setShowNewGameWarning(true)}>
-                            New Game
-                        </button>
-                    </li>
+                <ul className="navbar-nav">
                     <li className="nav-item">
                         <button
                             className="btn btn-link"
                             onClick={handleToggleReference}>
                             {reference ? 'Game' : 'Reference'}
+                        </button>
+                    </li>
+                    <li className="nav-item">
+                        <button
+                            className="btn btn-outline-primary"
+                            onClick={() => setShowNewGameWarning(true)}>
+                            New Game
                         </button>
                     </li>
                 </ul>

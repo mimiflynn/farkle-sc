@@ -30,7 +30,7 @@ export function EditPlayerScore(props) {
                         onChange={handleInputUpdate} />
                     <div className="input-group-append">
                         <button
-                            className="btn btn-outline-secondary"
+                            className="btn btn-success"
                             type="submit"
                             id="button-addon2"
                             onClick={handleSetScore}>
