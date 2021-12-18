@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Player } from '../../../../../lib';
 
 @Component({
-    selector: 'page-setup',
-    templateUrl: './setup.component.html'
+    selector: 'sc-player',
+    templateUrl: './player.component.html'
 })
-export class SetupPageComponent implements OnInit {
-    players: Player[] = [];
+export class PlayerComponent implements OnInit {
+    player: Player;
 
     constructor() { }
 

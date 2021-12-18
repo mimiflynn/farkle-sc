@@ -41,10 +41,10 @@ export function Player(props) {
                         id="button-addon2"
                         onClick={handleAddPlayer}>
                         Save
-                            </button>
+                    </button>
                 </div>
             </div>
-        </form >
+        </form>
     );
 
     const player = (
@@ -63,14 +63,14 @@ export function Player(props) {
                     id="button-addon2"
                     onClick={handleEditPlayer}>
                     Edit
-                 </button>
+                </button>
                 <button
                     className="btn btn-outline-danger"
                     type="submit"
                     id="button-addon2"
                     onClick={handleRemovePlayer}>
                     Remove
-                 </button>
+                </button>
             </div>
         </div>
     );

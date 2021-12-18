@@ -9,4 +9,5 @@
         list of players
     </div>
 </div>
-<button class="btn btn-success">Start Game</button>
+<button class="btn btn-success"
+        [disabled]="!players.length">Start Game</button>

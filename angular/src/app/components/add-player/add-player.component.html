@@ -1,0 +1,19 @@
+<form>
+    <div class="input-group mb-3">
+        <input type="text"
+               name="player"
+               class="form-control"
+               placeholder="Player"
+               aria-label="Player"
+               value={value}
+               onChange={handleInputUpdate} />
+        <div class="input-group-append">
+            <button class="btn btn-secondary"
+                    type="submit"
+                    id="button-addon2"
+                    onClick={handleAddPlayer}>
+                Add
+            </button>
+        </div>
+    </div>
+</form>
