@@ -1,0 +1,30 @@
+{
+  "name": "farkle-sc",
+  "version": "1.0.0",
+  "description": "An easy to use scorecard for Farkle so you never need a pen and paper again.",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "directories": {
+    "doc": "docs",
+    "lib": "lib"
+  },
+  "dependencies": {
+    "webpack-dev-server": "^3.11.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mimiflynn/farkle-sc.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mimiflynn/farkle-sc/issues"
+  },
+  "homepage": "https://github.com/mimiflynn/farkle-sc#readme"
+}
