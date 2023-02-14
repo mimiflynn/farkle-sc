@@ -1,5 +1,5 @@
 {
-  "name": "farkle-sc",
+  "name": "@fsc/angular",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
