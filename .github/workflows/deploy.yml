@@ -1,7 +1,7 @@
 name: CI
 
 on:
-  pull_request:
+  push:
     branches: [master]
 
 jobs:
@@ -16,6 +16,13 @@ jobs:
           node-version: 18
           cache: 'npm'
           cache-dependency-path: './package-lock.json'
-      - run: npm ci
+      - name: 'Precache NPM modules'
+        uses: ./.github/actions/npm-setup
       - run: npm run build -w @fsc/react --if-present
-      - run: npm test --if-present
+      - name: Deploy
+        uses: crazy-max/ghaction-github-pages@v3
+        with:
+          target_branch: gh-pages
+          build_dir: build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
