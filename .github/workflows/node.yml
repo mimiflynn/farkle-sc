@@ -3,9 +3,6 @@ name: CI
 on:
   push:
     branches: [actions]
-    paths:
-      - 'apps/**'
-      - 'packages/**'
 
 jobs:
   build:
