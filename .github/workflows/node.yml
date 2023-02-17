@@ -18,4 +18,4 @@ jobs:
           cache-dependency-path: './package-lock.json'
       - run: npm ci
       - run: npm run build -w @fsc/react --if-present
-      - run: npm test --if-present
+      - run: npm run test:ci -w @fsc/react --if-present
