@@ -3,10 +3,14 @@ name: CI
 on:
   push:
     branches: [master]
-    paths: 'src/**'
+    paths:
+      - 'apps/**/src'
+      - 'packages/**'
   pull_request:
     branches: [master]
-    paths: 'src/**'
+    paths:
+      - 'apps/**/src'
+      - 'packages/**'
 
 jobs:
   build:
