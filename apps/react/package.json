@@ -2,6 +2,7 @@
   "name": "@fsc/react",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/farkle-sc",
   "dependencies": {
     "@fsc/types": "*",
     "@testing-library/jest-dom": "^5.16.5",
@@ -24,6 +25,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:ci": "react-scripts test --watchAll=false",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
