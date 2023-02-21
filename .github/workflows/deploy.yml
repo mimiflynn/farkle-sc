@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: './package-lock.json'
+      - name: 'Precache NPM modules'
+        uses: ./.github/actions/npm-setup
+      - run: npm run build -w @fsc/react --if-present
+      - name: Deploy
+        uses: crazy-max/ghaction-github-pages@v3
+        with:
+          target_branch: gh-pages
+          build_dir: apps/react/build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
