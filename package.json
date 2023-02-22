@@ -10,7 +10,9 @@
     "doc": "docs",
     "lib": "lib"
   },
-  "dependencies": {},
+  "dependencies": {
+    "bootstrap": "^5.2.3"
+  },
   "devDependencies": {
     "typescript": "^4.9.5"
   },

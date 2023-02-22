@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { ReferenceComponent } from './components/reference/reference.component';
 import { PlayComponent } from './pages/play/play.component';
 import { SetupComponent } from './pages/setup/setup.component';
+import { NavComponent } from './components/nav/nav.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { SetupComponent } from './pages/setup/setup.component';
     ReferenceComponent,
     PlayComponent,
     SetupComponent,
+    NavComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
