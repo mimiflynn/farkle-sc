@@ -24,7 +24,7 @@ export function Rules() {
         scoring dice, adding the score to your total If all six dice are scoring
         dice, you may roll all six and add the subsequent points to your running
         total. Keep rolling until you feel you are pressing your luck and have
-        the scorekeeper record your score.{' '}
+        the scorekeeper record your score.
       </p>
       <p>
         If a die were to roll off the table or in some other awkward out of play

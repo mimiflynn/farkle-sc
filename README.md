@@ -18,8 +18,20 @@ npm install
 npm run start -w @fsc/react
 ```
 
+#### Generating Components and Pages
+
 ### Angular
 
 ```
 npm run start -w @fsc/angular
+```
+
+#### Generating Components and Pages
+
+```
+npm run ng generate component components/<new component name> -w @fsc/angular
+```
+
+```
+npm run ng generate component pages/<new page name> -w @fsc/angular
 ```
