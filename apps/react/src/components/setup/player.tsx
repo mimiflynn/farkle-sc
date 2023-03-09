@@ -1,14 +1,15 @@
 import { BaseSyntheticEvent, useCallback, useState } from 'react';
+import { Player } from '@fsc/types';
 
 interface PlayerProps {
-  handleEdit: (player: string, value: string) => void;
-  handleRemove: (player: string) => void;
-  player: string;
+  handleEdit: (player: Player, value: Player) => void;
+  handleRemove: (player: Player) => void;
+  player: Player;
 }
 
-export function Player({ player, handleEdit, handleRemove }: PlayerProps) {
+export function PlayerName({ player, handleEdit, handleRemove }: PlayerProps) {
   const [edit, setEdit] = useState(false);
-  const [value, setValue] = useState(player);
+  const [value, setValue] = useState(player as unknown as string);
 
   const handleInputUpdate = useCallback((event: BaseSyntheticEvent) => {
     setValue(event.target.value);
@@ -70,7 +71,7 @@ export function Player({ player, handleEdit, handleRemove }: PlayerProps) {
         className="form-control"
         placeholder="Player"
         aria-label="Player"
-        value={player}
+        value={player as unknown as string}
         readOnly
       />
       <div className="input-group-append">

@@ -1,10 +1,10 @@
 import { useState } from 'react';
+import { Player, Scores } from '@fsc/types';
 
 import { Setup } from './pages/setup';
 import { Play } from './pages/play';
 
 import { Modal } from './components/modal';
-import { Scores } from '@fsc/types';
 import { Nav } from './components/nav';
 import { Reference } from './components/reference';
 import { Rules } from './components/rules';
@@ -12,7 +12,7 @@ import { Rules } from './components/rules';
 import './App.scss';
 
 function App() {
-  const [players, setPlayers] = useState([] as string[]);
+  const [players, setPlayers] = useState([] as Player[]);
   const [reference, setReference] = useState(false);
   const [scorecards, setScorecards] = useState({} as Scores);
   const [newGameWarning, setShowNewGameWarning] = useState(false);
@@ -21,12 +21,12 @@ function App() {
     setReference(!reference);
   }
 
-  function handleSetPlayers(allPlayers: string[]) {
+  function handleSetPlayers(allPlayers: Player[]) {
     setPlayers(allPlayers);
     setAllScorecards(allPlayers);
   }
 
-  function setAllScorecards(allPlayers: string[]) {
+  function setAllScorecards(allPlayers: Player[]) {
     const newScoreCards = {} as Scores;
 
     allPlayers.forEach((player) => {
@@ -40,7 +40,7 @@ function App() {
     setScorecards(newScoreCards);
   }
 
-  function handleUpdateScores(player: string, score: number) {
+  function handleUpdateScores(player: Player, score: number) {
     const cardToUpdate = scorecards[player];
     const updatedScoreCards = {} as Scores;
 

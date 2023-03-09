@@ -2,12 +2,14 @@
   <fsc-nav>
     <ul class="navbar-nav">
       <li class="nav-item">
-        <button class="btn btn-link">reference</button>
+        <a class="btn btn-link" routerLink="setup">reference</a>
       </li>
       <li class="nav-item">
-        <button class="btn btn-outline-primary">New Game</button>
+        <a class="btn btn-outline-primary" routerLink="setup">New Game</a>
       </li>
     </ul>
   </fsc-nav>
-  <div class="container-fluid mt-3">game content</div>
+  <div class="container-fluid mt-3">
+    <router-outlet></router-outlet>
+  </div>
 </div>

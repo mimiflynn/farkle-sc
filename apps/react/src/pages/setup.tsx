@@ -1,16 +1,17 @@
+import { Player } from '@fsc/types';
 import { useState } from 'react';
 
 import { AddPlayer } from '../components/setup/add-player';
-import { Player } from '../components/setup/player';
+import { PlayerName } from '../components/setup/player';
 
 interface SetupProps {
-  setGamePlayers: (allPlayers: string[]) => void;
+  setGamePlayers: (allPlayers: Player[]) => void;
 }
 
 export function Setup({ setGamePlayers }: SetupProps) {
-  const [players, setPlayers] = useState([] as string[]);
+  const [players, setPlayers] = useState([] as Player[]);
 
-  function handleAddPlayer(newPlayer: string) {
+  function handleAddPlayer(newPlayer: Player) {
     setPlayers([newPlayer, ...players]);
   }
 
@@ -18,14 +19,14 @@ export function Setup({ setGamePlayers }: SetupProps) {
     setGamePlayers(players);
   }
 
-  function handleEditPlayer(oldPlayer: string, newPlayer: string) {
+  function handleEditPlayer(oldPlayer: Player, newPlayer: Player) {
     const newPlayers = players.slice();
     const index = players.indexOf(oldPlayer);
     newPlayers[index] = newPlayer;
     setPlayers(newPlayers);
   }
 
-  function handleRemovePlayer(oldPlayer: string) {
+  function handleRemovePlayer(oldPlayer: Player) {
     const newPlayers = players.slice();
     const index = players.indexOf(oldPlayer);
     newPlayers.splice(index, 1);
@@ -34,7 +35,7 @@ export function Setup({ setGamePlayers }: SetupProps) {
 
   function renderPlayers() {
     return players.map((player) => (
-      <Player
+      <PlayerName
         key={player}
         player={player}
         handleEdit={handleEditPlayer}
