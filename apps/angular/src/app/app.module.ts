@@ -9,6 +9,8 @@ import { SetupComponent } from './pages/setup/setup.component';
 import { NavComponent } from './components/nav/nav.component';
 import { RulesComponent } from './components/rules/rules.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { AddPlayerComponent } from './components/add-player/add-player.component';
+import { PlayerComponent } from './components/player/player.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { ModalComponent } from './components/modal/modal.component';
     NavComponent,
     RulesComponent,
     ModalComponent,
+    AddPlayerComponent,
+    PlayerComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],

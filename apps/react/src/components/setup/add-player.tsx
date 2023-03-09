@@ -1,11 +1,12 @@
 import { BaseSyntheticEvent, useState } from 'react';
+import { Player } from '@fsc/types';
 
 interface AddPlayerProps {
-  handleSave: (player: string) => void;
+  handleSave: (player: Player) => void;
 }
 
 export function AddPlayer({ handleSave }: AddPlayerProps) {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState('' as unknown as Player);
 
   const handleInputUpdate = (event: BaseSyntheticEvent) => {
     setValue(event.target.value);
@@ -14,7 +15,7 @@ export function AddPlayer({ handleSave }: AddPlayerProps) {
   const handleAddPlayer = (event: BaseSyntheticEvent) => {
     event.preventDefault();
     handleSave(value);
-    setValue('');
+    setValue('' as unknown as Player);
   };
 
   return (
@@ -26,7 +27,7 @@ export function AddPlayer({ handleSave }: AddPlayerProps) {
           className="form-control"
           placeholder="Player"
           aria-label="Player"
-          value={value}
+          value={value as unknown as string}
           onChange={handleInputUpdate}
         />
         <div className="input-group-append">

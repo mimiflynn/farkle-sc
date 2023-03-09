@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Player } from '@fsc/types';
 
 @Component({
-  selector: 'app-setup',
+  selector: 'fsc-setup',
   templateUrl: './setup.component.html',
-  styleUrls: ['./setup.component.scss']
+  styleUrls: ['./setup.component.scss'],
 })
 export class SetupComponent {
-
+  @Input() players: Player[] = [];
 }

@@ -1,1 +1,16 @@
-<p>setup works!</p>
+<h2>Add Players</h2>
+<div class="row players">
+    <div class="col-12">
+      <fsc-add-player  />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+        <fsc-player *ngFor="let player of players" [player]="player" />
+    </div>
+  </div>
+  <button
+    class="btn btn-success"
+  >
+    Start Game
+  </button>
