@@ -1,12 +1,11 @@
 import { BaseSyntheticEvent, useState } from 'react';
-import { Player } from '@fsc/types';
 
 interface AddPlayerProps {
-  handleSave: (player: Player) => void;
+  handleSave: (player: string) => void;
 }
 
 export function AddPlayer({ handleSave }: AddPlayerProps) {
-  const [value, setValue] = useState('' as unknown as Player);
+  const [value, setValue] = useState('');
 
   const handleInputUpdate = (event: BaseSyntheticEvent) => {
     setValue(event.target.value);
@@ -15,7 +14,7 @@ export function AddPlayer({ handleSave }: AddPlayerProps) {
   const handleAddPlayer = (event: BaseSyntheticEvent) => {
     event.preventDefault();
     handleSave(value);
-    setValue('' as unknown as Player);
+    setValue('');
   };
 
   return (
