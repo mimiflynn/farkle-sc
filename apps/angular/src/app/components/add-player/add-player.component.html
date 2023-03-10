@@ -2,19 +2,14 @@
   <div class="input-group mb-3">
     <input
       type="text"
-      name="player"
+      id="player-name"
       class="form-control"
-      placeholder="Player"
-      aria-label="Player"
-      value="{value}"
-      onChange="{handleInputUpdate}"
+      placeholder="Player name"
+      aria-label="Player name"
+      [(ngModel)]="name"
     />
     <div class="input-group-append">
-      <button
-        class="btn btn-secondary"
-        type="submit"
-        onClick="{handleAddPlayer}"
-      >
+      <button class="btn btn-secondary" type="submit" (click)="save()">
         Add
       </button>
     </div>
