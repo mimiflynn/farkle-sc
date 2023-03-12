@@ -1,5 +1,5 @@
-import { Scorecard } from '@fsc/types';
-import { BaseSyntheticEvent, useCallback, useState } from 'react';
+import { type Scorecard } from '@fsc/types';
+import { type BaseSyntheticEvent, useCallback, useState } from 'react';
 
 interface EditPlayerScoreProps {
   handleSave: (score: number) => void;

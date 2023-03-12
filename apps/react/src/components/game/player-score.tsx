@@ -1,5 +1,5 @@
-import classNames from 'classnames';
-import { Scorecard } from '@fsc/types';
+import { type Scorecard } from "@fsc/types";
+import classNames from "classnames";
 
 interface PlayerScoreProps {
   player: string;
@@ -26,7 +26,7 @@ export function PlayerScore({ player, scorecard }: PlayerScoreProps) {
             {turn}
           </li>
         );
-      });
+      })
 
       return (
         <div>

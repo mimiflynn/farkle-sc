@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { Player } from '@fsc/types';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { type Player } from '@fsc/types';
 
 @Component({
   selector: 'fsc-player',
@@ -9,9 +9,12 @@ import { Player } from '@fsc/types';
 export class PlayerComponent {
   @Input() player: Player = '';
 
-  edit: boolean = false;
+  @Output()
+  addPlayer = new EventEmitter<string>();
 
-  toggleEdit(): void {
+  edit = false;
+
+  toggleEdit (): void {
     this.edit = !this.edit;
   }
 }

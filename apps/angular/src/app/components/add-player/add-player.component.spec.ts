@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddPlayerComponent } from './add-player.component';
 
@@ -8,16 +8,15 @@ describe('AddPlayerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddPlayerComponent ]
-    })
-    .compileComponents();
+      declarations: [AddPlayerComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AddPlayerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+  })
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
+  })
 });

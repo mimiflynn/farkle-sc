@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { type Store } from '@ngrx/store';
 
 import { addPlayer } from 'app/store/players/players.actions';
 
@@ -11,11 +11,11 @@ import { addPlayer } from 'app/store/players/players.actions';
 export class SetupComponent {
   players: string[] = [];
 
-  constructor(private store: Store<{ players: string[] }>) {
+  constructor (private readonly store: Store<{ players: string[] }>) {
     this.store.subscribe((state) => {
       console.log('state', state);
       this.players = state.players;
-    });
+    })
   }
 
   addPlayer(name: string) {

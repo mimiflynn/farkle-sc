@@ -1,13 +1,12 @@
-import { useState } from 'react';
-import { Scores } from '@fsc/types';
+import { type Scores } from "@fsc/types";
+import { useState } from "react";
 
-import { Setup } from './pages/setup';
-import { Play } from './pages/play';
-
-import { Modal } from './components/modal';
+import { Modal } from "./components/modal";
 import { Nav } from './components/nav';
 import { Reference } from './components/reference';
 import { Rules } from './components/rules';
+import { Play } from './pages/play';
+import { Setup } from "./pages/setup";
 
 import './App.scss';
 
@@ -34,7 +33,7 @@ function App() {
         turns: [],
         total: 0,
         onBoard: false,
-      };
+      }
     });
 
     setScorecards(newScoreCards);
@@ -48,17 +47,17 @@ function App() {
       updatedScoreCards[player] = Object.assign({}, cardToUpdate, {
         turns: [...cardToUpdate.turns, ...[score]],
         total: score + cardToUpdate.total,
-      });
+      })
     } else if (score >= 500) {
       updatedScoreCards[player] = Object.assign({}, cardToUpdate, {
         turns: [...cardToUpdate.turns, ...[score]],
         total: score,
         onBoard: true,
-      });
+      })
     } else {
       updatedScoreCards[player] = Object.assign({}, cardToUpdate, {
         turns: [...cardToUpdate.turns, ...[score]],
-      });
+      })
     }
 
     setScorecards(Object.assign({}, scorecards, updatedScoreCards));
@@ -103,7 +102,9 @@ function App() {
           Yes
         </button>{' '}
         <button
-          onClick={() => setShowNewGameWarning(false)}
+          onClick={() => {
+            setShowNewGameWarning(false);
+          }}
           className="btn btn-secondary"
         >
           No
@@ -129,7 +130,9 @@ function App() {
           <li className="nav-item">
             <button
               className="btn btn-outline-primary"
-              onClick={() => setShowNewGameWarning(true)}
+              onClick={() => {
+                setShowNewGameWarning(true);
+              }}
             >
               New Game
             </button>

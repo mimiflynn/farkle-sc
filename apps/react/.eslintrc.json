@@ -11,6 +11,12 @@
     "react-hooks",
     "import"
   ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "project": ["tsconfig.json"]
+  },
   "rules": {
     "jsx-quotes": ["error", "prefer-double"],
     "react/display-name": "warn",
@@ -38,11 +44,6 @@
   "settings": {
     "react": {
       "version": "detect"
-    },
-    "import/resolver": {
-      "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
-      }
     }
   }
 }

@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, useState } from 'react';
+import { type BaseSyntheticEvent, useState } from 'react';
 
 interface AddPlayerProps {
   handleSave: (player: string) => void;
@@ -9,7 +9,7 @@ export function AddPlayer({ handleSave }: AddPlayerProps) {
 
   const handleInputUpdate = (event: BaseSyntheticEvent) => {
     setValue(event.target.value);
-  };
+  }
 
   const handleAddPlayer = (event: BaseSyntheticEvent) => {
     event.preventDefault();

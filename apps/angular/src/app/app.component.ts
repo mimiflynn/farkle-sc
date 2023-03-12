@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Scores } from '@fsc/types';
+import { type Scores } from '@fsc/types';
 
 @Component({
   selector: 'fsc-root',
@@ -13,7 +13,7 @@ export class AppComponent {
   showReference = false;
   showNewGameWarning = false;
 
-  ngOnInit() {}
+  ngOnInit () {}
 
   resetGame() {
     this.showNewGameWarning = false;

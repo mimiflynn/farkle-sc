@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, useCallback, useState } from 'react';
+import { type BaseSyntheticEvent, useCallback, useState } from 'react';
 
 interface PlayerProps {
   handleEdit: (player: string, value: string) => void;

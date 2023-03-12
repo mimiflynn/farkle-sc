@@ -9,9 +9,9 @@ export class AddPlayerComponent {
   @Output()
   addPlayer = new EventEmitter<string>();
 
-  name: string = '';
+  name = '';
 
-  constructor() {}
+  constructor () {}
 
   save(): void {
     console.log('save name', this.name);
