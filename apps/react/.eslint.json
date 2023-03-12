@@ -1,0 +1,48 @@
+{
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:cypress/recommended",
+    "../../.eslintrc.json"
+  ],
+  "plugins": [
+    "prettier",
+    "react",
+    "@typescript-eslint",
+    "react-hooks",
+    "import"
+  ],
+  "rules": {
+    "jsx-quotes": ["error", "prefer-double"],
+    "react/display-name": "warn",
+    "react/jsx-no-useless-fragment": [
+      "warn",
+      {
+        "allowExpressions": true
+      }
+    ],
+    "react/prop-types": "warn",
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/self-closing-comp": "warn",
+    "react/jsx-curly-brace-presence": [
+      "warn",
+      {
+        "props": "never",
+        "children": "ignore",
+        "propElementValues": "always"
+      }
+    ],
+    "react-hooks/rules-of-hooks": "warn",
+    "react-hooks/exhaustive-deps": "warn"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  }
+}
