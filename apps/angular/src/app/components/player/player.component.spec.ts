@@ -3,12 +3,12 @@ import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { PlayerComponent } from './player.component';
 
 describe('PlayerComponent', () => {
-  let component: PlayerComponent;
+    let component: PlayerComponent;
     let fixture: ComponentFixture<PlayerComponent>;
 
     beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [PlayerComponent],
+        await TestBed.configureTestingModule({
+            declarations: [PlayerComponent],
         }).compileComponents();
 
         fixture = TestBed.createComponent(PlayerComponent);
@@ -16,7 +16,7 @@ describe('PlayerComponent', () => {
         fixture.detectChanges();
     });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    it('should create', () => {
+        expect(component).toBeTruthy();
     });
 });

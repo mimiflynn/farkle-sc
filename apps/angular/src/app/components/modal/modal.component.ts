@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'fsc-modal',
-  templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.scss'],
+    selector: 'fsc-modal',
+    templateUrl: './modal.component.html',
+    styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent {
-  title = 'modal title';
+    title = 'modal title';
 }

@@ -1,5 +1,5 @@
 export function Rules() {
-  return (
+    return (
         <>
             <h2>Who Goes First</h2>
             <p>
@@ -46,5 +46,5 @@ export function Rules() {
                 player has another chance to beat the new winner.
             </p>
         </>
-  );
+    );
 }

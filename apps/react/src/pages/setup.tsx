@@ -4,46 +4,46 @@ import { AddPlayer } from '../components/setup/add-player';
 import { PlayerName } from '../components/setup/player';
 
 interface SetupProps {
-  setGamePlayers: (allPlayers: string[]) => void;
+    setGamePlayers: (allPlayers: string[]) => void;
 }
 
 export function Setup({ setGamePlayers }: SetupProps) {
-  const [players, setPlayers] = useState([] as string[]);
+    const [players, setPlayers] = useState([] as string[]);
 
     function handleAddPlayer(newPlayer: string) {
-    setPlayers([newPlayer, ...players]);
+        setPlayers([newPlayer, ...players]);
     }
 
-  function handleSavePlayers() {
-    setGamePlayers(players);
+    function handleSavePlayers() {
+        setGamePlayers(players);
     }
 
-  function handleEditPlayer(oldPlayer: string, newPlayer: string) {
-    const newPlayers = players.slice();
+    function handleEditPlayer(oldPlayer: string, newPlayer: string) {
+        const newPlayers = players.slice();
         const index = players.indexOf(oldPlayer);
         newPlayers[index] = newPlayer;
         setPlayers(newPlayers);
     }
 
-  function handleRemovePlayer(oldPlayer: string) {
-    const newPlayers = players.slice();
+    function handleRemovePlayer(oldPlayer: string) {
+        const newPlayers = players.slice();
         const index = players.indexOf(oldPlayer);
         newPlayers.splice(index, 1);
         setPlayers(newPlayers);
     }
 
-  function renderPlayers() {
-    return players.map((player) => (
+    function renderPlayers() {
+        return players.map((player) => (
             <PlayerName
                 key={player}
                 player={player}
                 handleEdit={handleEditPlayer}
                 handleRemove={handleRemovePlayer}
             />
-    ));
+        ));
     }
 
-  return (
+    return (
         <div>
             <h2>Add Players</h2>
             <div className="row players">
@@ -62,5 +62,5 @@ export function Setup({ setGamePlayers }: SetupProps) {
                 Start Game
             </button>
         </div>
-  );
+    );
 }

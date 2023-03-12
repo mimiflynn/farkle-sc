@@ -1,5 +1,5 @@
 export function Reference() {
-  return (
+    return (
         <dl>
             <dt>5′s</dt>
             <dd>50 point</dd>
@@ -32,5 +32,5 @@ export function Reference() {
             <dt>Two sets of Three of a Kind</dt>
             <dd>2,500</dd>
         </dl>
-  );
+    );
 }

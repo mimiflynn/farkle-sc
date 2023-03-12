@@ -1,18 +1,18 @@
 import { type BaseSyntheticEvent, useState } from 'react';
 
 interface AddPlayerProps {
-  handleSave: (player: string) => void;
+    handleSave: (player: string) => void;
 }
 
 export function AddPlayer({ handleSave }: AddPlayerProps) {
-  const [value, setValue] = useState('');
+    const [value, setValue] = useState('');
 
     const handleInputUpdate = (event: BaseSyntheticEvent) => {
-    setValue(event.target.value);
+        setValue(event.target.value);
     };
 
     const handleAddPlayer = (event: BaseSyntheticEvent) => {
-    event.preventDefault();
+        event.preventDefault();
         handleSave(value);
         setValue('');
     };
@@ -41,5 +41,5 @@ export function AddPlayer({ handleSave }: AddPlayerProps) {
                 </div>
             </div>
         </form>
-  );
+    );
 }

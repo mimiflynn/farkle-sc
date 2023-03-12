@@ -3,12 +3,12 @@ import { type ComponentFixture, TestBed } from '@angular/core/testing';
 import { NavComponent } from './nav.component';
 
 describe('NavComponent', () => {
-  let component: NavComponent;
+    let component: NavComponent;
     let fixture: ComponentFixture<NavComponent>;
 
     beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [NavComponent],
+        await TestBed.configureTestingModule({
+            declarations: [NavComponent],
         }).compileComponents();
 
         fixture = TestBed.createComponent(NavComponent);
@@ -16,7 +16,7 @@ describe('NavComponent', () => {
         fixture.detectChanges();
     });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    it('should create', () => {
+        expect(component).toBeTruthy();
     });
 });

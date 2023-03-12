@@ -1,12 +1,12 @@
 import { type ReactNode } from 'react';
 
 interface ModalProps {
-  children: ReactNode;
-  title: string;
+    children: ReactNode;
+    title: string;
 }
 
 export function Modal({ children, title }: ModalProps) {
-  return (
+    return (
         <div className="modal" tabIndex={-1}>
             <div className="modal-dialog">
                 <div className="modal-content">
@@ -17,5 +17,5 @@ export function Modal({ children, title }: ModalProps) {
                 </div>
             </div>
         </div>
-  );
+    );
 }

@@ -2,28 +2,28 @@ import { type Scorecard } from '@fsc/types';
 import { type BaseSyntheticEvent, useCallback, useState } from 'react';
 
 interface EditPlayerScoreProps {
-  handleSave: (score: number) => void;
-  player: string;
-  scorecard: Scorecard;
+    handleSave: (score: number) => void;
+    player: string;
+    scorecard: Scorecard;
 }
 
 export function EditPlayerScore({ handleSave, player, scorecard }: EditPlayerScoreProps) {
-  const [value, setValue] = useState(0);
+    const [value, setValue] = useState(0);
 
     const handleInputUpdate = useCallback((event: BaseSyntheticEvent) => {
-    setValue(event.target.value);
+        setValue(event.target.value);
     }, []);
 
     const handleSetScore = useCallback(
-    (event: BaseSyntheticEvent) => {
-      event.preventDefault();
+        (event: BaseSyntheticEvent) => {
+            event.preventDefault();
             handleSave(value);
             setValue(0);
         },
-    [handleSave, value]
-  );
+        [handleSave, value]
+    );
 
-  return (
+    return (
         <div key={player} className={scorecard.onBoard ? 'on-board' : 'off-board'}>
             <h3>{player}</h3>
             <form>
@@ -50,5 +50,5 @@ export function EditPlayerScore({ handleSave, player, scorecard }: EditPlayerSco
                 </div>
             </form>
         </div>
-  );
+    );
 }

@@ -11,77 +11,77 @@ import { Setup } from './pages/setup';
 import './App.scss';
 
 function App() {
-  const [players, setPlayers] = useState([] as string[]);
+    const [players, setPlayers] = useState([] as string[]);
     const [reference, setReference] = useState(false);
     const [scorecards, setScorecards] = useState({} as Scores);
     const [newGameWarning, setShowNewGameWarning] = useState(false);
 
     function handleToggleReference() {
-    setReference(!reference);
+        setReference(!reference);
     }
 
-  function handleSetPlayers(allPlayers: string[]) {
-    setPlayers(allPlayers);
+    function handleSetPlayers(allPlayers: string[]) {
+        setPlayers(allPlayers);
         setAllScorecards(allPlayers);
     }
 
-  function setAllScorecards(allPlayers: string[]) {
-    const newScoreCards = {} as Scores;
+    function setAllScorecards(allPlayers: string[]) {
+        const newScoreCards = {} as Scores;
 
         allPlayers.forEach((player) => {
-      newScoreCards[player] = {
-        turns: [],
-        total: 0,
-        onBoard: false,
-            }
+            newScoreCards[player] = {
+                turns: [],
+                total: 0,
+                onBoard: false,
+            };
         });
 
-    setScorecards(newScoreCards)
+        setScorecards(newScoreCards);
     }
 
-  function handleUpdateScores(player: string, score: number) {
-    const cardToUpdate = scorecards[player];
+    function handleUpdateScores(player: string, score: number) {
+        const cardToUpdate = scorecards[player];
         const updatedScoreCards = {} as Scores;
 
         if (cardToUpdate.onBoard) {
-      updatedScoreCards[player] = Object.assign({}, cardToUpdate, {
-        turns: [...cardToUpdate.turns, ...[score]],
-        total: score + cardToUpdate.total,
+            updatedScoreCards[player] = Object.assign({}, cardToUpdate, {
+                turns: [...cardToUpdate.turns, ...[score]],
+                total: score + cardToUpdate.total,
             });
         } else if (score >= 500) {
-      updatedScoreCards[player] = Object.assign({}, cardToUpdate, {
-        turns: [...cardToUpdate.turns, ...[score]],
-        total: score,
-        onBoard: true,
+            updatedScoreCards[player] = Object.assign({}, cardToUpdate, {
+                turns: [...cardToUpdate.turns, ...[score]],
+                total: score,
+                onBoard: true,
             });
         } else {
-      updatedScoreCards[player] = Object.assign({}, cardToUpdate, {
-        turns: [...cardToUpdate.turns, ...[score]],
+            updatedScoreCards[player] = Object.assign({}, cardToUpdate, {
+                turns: [...cardToUpdate.turns, ...[score]],
             });
         }
 
-    setScorecards(Object.assign({}, scorecards, updatedScoreCards));
+        setScorecards(Object.assign({}, scorecards, updatedScoreCards));
     }
 
-  function renderGame() {
-    if (!reference) {
-      if (players.length === 0) {
-        return <Setup setGamePlayers={handleSetPlayers} />;
+    function renderGame() {
+        if (!reference) {
+            if (players.length === 0) {
+                return <Setup setGamePlayers={handleSetPlayers} />;
             } else {
-        return (
+                return (
                     <Play
                         players={players}
                         scorecards={scorecards}
                         setScorecards={handleUpdateScores}
                     />
-        );
-      }
+                );
+            }
+        }
     }
-  }
 
-  function renderReference() {
-    if (reference) {
-      return (
+    function renderReference() {
+        if (reference) {
+            return (
                 <div className="row">
                     <div className="col-6">
                         <Rules />
@@ -90,12 +90,12 @@ function App() {
                         <Reference />
                     </div>
                 </div>
-      );
+            );
         }
-  }
+    }
 
-  function renderNewGameWarning() {
-    return (
+    function renderNewGameWarning() {
+        return (
             <Modal title="Alert!!!">
                 Are you sure you want to clear the game and start a new one?
                 <button className="btn btn-secondary" onClick={resetGame}>
@@ -103,22 +103,22 @@ function App() {
                 </button>{' '}
                 <button
                     onClick={() => {
-                      setShowNewGameWarning(false);
+                        setShowNewGameWarning(false);
                     }}
                     className="btn btn-secondary"
                 >
                     No
                 </button>
             </Modal>
-    );
-  }
+        );
+    }
 
-  function resetGame() {
-    setShowNewGameWarning(false);
+    function resetGame() {
+        setShowNewGameWarning(false);
         setPlayers([]);
     }
 
-  return (
+    return (
         <div>
             <Nav>
                 <ul className="navbar-nav">
@@ -131,7 +131,7 @@ function App() {
                         <button
                             className="btn btn-outline-primary"
                             onClick={() => {
-                              setShowNewGameWarning(true);
+                                setShowNewGameWarning(true);
                             }}
                         >
                             New Game
@@ -145,7 +145,7 @@ function App() {
             </div>
             {newGameWarning ? renderNewGameWarning() : null}
         </div>
-  );
+    );
 }
 
 export default App;
