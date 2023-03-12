@@ -27,13 +27,13 @@ import { playersReducer } from './store/players/players.reducer';
     ModalComponent,
     AddPlayerComponent,
     PlayerComponent,
-  ],
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     StoreModule.forRoot({ players: playersReducer }),
-  ],
+    ],
   providers: [],
   bootstrap: [AppComponent],
 })

@@ -8,16 +8,16 @@ import { type Scores } from '@fsc/types';
 })
 export class AppComponent {
   players: string[] = [];
-  scores: Scores = {};
+    scores: Scores = {};
 
-  showReference = false;
-  showNewGameWarning = false;
+    showReference = false;
+    showNewGameWarning = false;
 
-  ngOnInit () {}
+    ngOnInit() {}
 
   resetGame() {
     this.showNewGameWarning = false;
-    this.players = [];
-    this.scores = {};
-  }
+        this.players = [];
+        this.scores = {};
+    }
 }

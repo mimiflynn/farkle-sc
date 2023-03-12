@@ -4,19 +4,19 @@ import { SetupComponent } from './setup.component';
 
 describe('SetupComponent', () => {
   let component: SetupComponent;
-  let fixture: ComponentFixture<SetupComponent>;
+    let fixture: ComponentFixture<SetupComponent>;
 
-  beforeEach(async () => {
+    beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [SetupComponent],
-    }).compileComponents();
+        }).compileComponents();
 
-    fixture = TestBed.createComponent(SetupComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  })
+        fixture = TestBed.createComponent(SetupComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  })
+    });
 });

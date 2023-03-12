@@ -4,19 +4,19 @@ import { ReferenceComponent } from './reference.component';
 
 describe('ReferenceComponent', () => {
   let component: ReferenceComponent;
-  let fixture: ComponentFixture<ReferenceComponent>;
+    let fixture: ComponentFixture<ReferenceComponent>;
 
-  beforeEach(async () => {
+    beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ReferenceComponent],
-    }).compileComponents();
+        }).compileComponents();
 
-    fixture = TestBed.createComponent(ReferenceComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  })
+        fixture = TestBed.createComponent(ReferenceComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  })
+    });
 });

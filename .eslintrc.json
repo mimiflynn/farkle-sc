@@ -1,87 +1,68 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true,
-    "jest": true
-  },
-  "extends": [
-    "eslint:recommended",
-    "plugin:prettier/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "standard-with-typescript"
-  ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "jest": true
     },
-    "ecmaVersion": "latest",
-    "sourceType": "module",
-    "project": ["tsconfig.json"]
-  },
-  "plugins": [
-    "prettier",
-    "react",
-    "@typescript-eslint",
-    "react-hooks",
-    "import"
-  ],
-  "rules": {
-    "@typescript-eslint/no-redeclare": "off",
-    "no-restricted-globals": "off",
-    "prettier/prettier": [
-      "error",
-      {
-        "endOfLine": "auto"
-      }
+    "extends": [
+        "eslint:recommended",
+        "plugin:prettier/recommended",
+        "plugin:@typescript-eslint/recommended",
+        "standard-with-typescript"
     ],
-    "@typescript-eslint/no-unused-vars": [
-      "warn",
-      {
-        "ignoreRestSiblings": true
-      }
-    ],
-    "@typescript-eslint/no-explicit-any": "off",
-    "quotes": [
-      "error",
-      "single",
-      {
-        "avoidEscape": true
-      }
-    ],
-    "object-shorthand": ["warn", "always"],
-    "sort-imports": [
-      "error",
-      {
-        "ignoreCase": false,
-        "ignoreDeclarationSort": true
-      }
-    ],
-    "import/order": [
-      1,
-      {
-        "groups": [
-          "external",
-          "builtin",
-          "internal",
-          "sibling",
-          "parent",
-          "index"
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest",
+        "sourceType": "module",
+        "project": ["tsconfig.json"]
+    },
+    "plugins": ["react", "@typescript-eslint", "react-hooks", "import"],
+    "rules": {
+        "@typescript-eslint/no-redeclare": "off",
+        "no-restricted-globals": "off",
+        "@typescript-eslint/no-unused-vars": [
+            "warn",
+            {
+                "ignoreRestSiblings": true
+            }
         ],
-        "alphabetize": {
-          "order": "asc",
-          "caseInsensitive": true
+        "@typescript-eslint/no-explicit-any": "off",
+        "quotes": [
+            "error",
+            "single",
+            {
+                "avoidEscape": true
+            }
+        ],
+        "object-shorthand": ["warn", "always"],
+        "sort-imports": [
+            "error",
+            {
+                "ignoreCase": false,
+                "ignoreDeclarationSort": true
+            }
+        ],
+        "import/order": [
+            1,
+            {
+                "groups": ["external", "builtin", "internal", "sibling", "parent", "index"],
+                "alphabetize": {
+                    "order": "asc",
+                    "caseInsensitive": true
+                }
+            }
+        ],
+        "import/no-duplicates": "warn"
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".jsx", ".ts", ".tsx"],
+                "paths": ["**/src"]
+            }
         }
-      }
-    ],
-    "import/no-duplicates": "warn"
-  },
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"],
-        "paths": ["**/src"]
-      }
     }
-  }
 }

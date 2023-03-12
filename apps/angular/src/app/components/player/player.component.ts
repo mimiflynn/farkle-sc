@@ -9,12 +9,12 @@ import { type Player } from '@fsc/types';
 export class PlayerComponent {
   @Input() player: Player = '';
 
-  @Output()
-  addPlayer = new EventEmitter<string>();
+    @Output()
+    addPlayer = new EventEmitter<string>();
 
-  edit = false;
+    edit = false;
 
-  toggleEdit (): void {
+    toggleEdit(): void {
     this.edit = !this.edit;
-  }
+    }
 }

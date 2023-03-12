@@ -4,19 +4,19 @@ import { RulesComponent } from './rules.component';
 
 describe('RulesComponent', () => {
   let component: RulesComponent;
-  let fixture: ComponentFixture<RulesComponent>;
+    let fixture: ComponentFixture<RulesComponent>;
 
-  beforeEach(async () => {
+    beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RulesComponent],
-    }).compileComponents();
+        }).compileComponents();
 
-    fixture = TestBed.createComponent(RulesComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  })
+        fixture = TestBed.createComponent(RulesComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  })
+    });
 });

@@ -11,15 +11,15 @@ import { addPlayer } from 'app/store/players/players.actions';
 export class SetupComponent {
   players: string[] = [];
 
-  constructor (private readonly store: Store<{ players: string[] }>) {
+    constructor(private readonly store: Store<{ players: string[] }>) {
     this.store.subscribe((state) => {
       console.log('state', state);
-      this.players = state.players;
-    })
+            this.players = state.players;
+        });
   }
 
   addPlayer(name: string) {
     console.log('add player in setup', name);
-    addPlayer({ name });
-  }
+        addPlayer({ name });
+    }
 }

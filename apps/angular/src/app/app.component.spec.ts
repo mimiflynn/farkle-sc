@@ -7,27 +7,27 @@ describe('AppComponent', () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [AppComponent]
-    }).compileComponents();
-  })
+        }).compileComponents()
+    });
 
   it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  })
+        const app = fixture.componentInstance;
+        expect(app).toBeTruthy();
+    });
 
   it("should have as title 'new-ng'", () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('new-ng');
-  })
+        const app = fixture.componentInstance;
+        expect(app.title).toEqual('new-ng');
+    });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain(
+        fixture.detectChanges();
+        const compiled = fixture.nativeElement as HTMLElement;
+        expect(compiled.querySelector('.content span')?.textContent).toContain(
       'new-ng app is running!'
-    )
+    );
   });
 })

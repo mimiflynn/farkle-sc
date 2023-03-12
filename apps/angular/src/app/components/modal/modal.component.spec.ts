@@ -4,19 +4,19 @@ import { ModalComponent } from './modal.component';
 
 describe('ModalComponent', () => {
   let component: ModalComponent;
-  let fixture: ComponentFixture<ModalComponent>;
+    let fixture: ComponentFixture<ModalComponent>;
 
-  beforeEach(async () => {
+    beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ModalComponent],
-    }).compileComponents();
+        }).compileComponents();
 
-    fixture = TestBed.createComponent(ModalComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  })
+        fixture = TestBed.createComponent(ModalComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  })
+    });
 });

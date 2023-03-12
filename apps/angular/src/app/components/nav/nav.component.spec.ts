@@ -4,19 +4,19 @@ import { NavComponent } from './nav.component';
 
 describe('NavComponent', () => {
   let component: NavComponent;
-  let fixture: ComponentFixture<NavComponent>;
+    let fixture: ComponentFixture<NavComponent>;
 
-  beforeEach(async () => {
+    beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [NavComponent],
-    }).compileComponents();
+        }).compileComponents();
 
-    fixture = TestBed.createComponent(NavComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  })
+        fixture = TestBed.createComponent(NavComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  })
+    });
 });

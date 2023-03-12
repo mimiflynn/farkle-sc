@@ -4,19 +4,19 @@ import { PlayerComponent } from './player.component';
 
 describe('PlayerComponent', () => {
   let component: PlayerComponent;
-  let fixture: ComponentFixture<PlayerComponent>;
+    let fixture: ComponentFixture<PlayerComponent>;
 
-  beforeEach(async () => {
+    beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [PlayerComponent],
-    }).compileComponents();
+        }).compileComponents();
 
-    fixture = TestBed.createComponent(PlayerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  })
+        fixture = TestBed.createComponent(PlayerComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  })
+    });
 });
