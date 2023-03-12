@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Player } from '@fsc/types';
 
 import { addPlayer } from 'app/store/players/players.actions';
 
@@ -10,13 +9,17 @@ import { addPlayer } from 'app/store/players/players.actions';
   styleUrls: ['./setup.component.scss'],
 })
 export class SetupComponent {
-  @Input() players: Player[] = [];
+  players: string[] = [];
 
   constructor(private store: Store<{ players: string[] }>) {
-    console.log('store', store);
+    this.store.subscribe((state) => {
+      console.log('state', state);
+      this.players = state.players;
+    });
   }
 
   addPlayer(name: string) {
+    console.log('add player in setup', name);
     addPlayer({ name });
   }
 }

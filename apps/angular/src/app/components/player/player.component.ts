@@ -7,5 +7,11 @@ import { Player } from '@fsc/types';
   styleUrls: ['./player.component.scss'],
 })
 export class PlayerComponent {
-  @Input() player: Player = {} as Player;
+  @Input() player: Player = '';
+
+  edit: boolean = false;
+
+  toggleEdit(): void {
+    this.edit = !this.edit;
+  }
 }

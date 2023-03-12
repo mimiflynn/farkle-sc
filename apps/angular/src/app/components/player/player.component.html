@@ -1,35 +1,32 @@
-<form>
-  <div className="input-group mb-3">
-    <input
-      type="text"
-      name="player"
-      className="form-control"
-      placeholder="Player"
-      aria-label="Player"
-      value="{value}"
-      onChange="{handleInputUpdate}"
-    />
-    <div className="input-group-append">
-      <button
-        className="btn btn-outline-secondary"
-        type="submit"
-        id="button-addon2"
-        onClick="{handleAddPlayer}"
-      >
-        Save
-      </button>
-    </div>
-  </div>
-</form>
-
-<div className="input-group mb-3">
+<div *ngIf="edit" className="input-group mb-3">
   <input
     type="text"
     name="player"
     className="form-control"
     placeholder="Player"
     aria-label="Player"
-    value="{player}"
+    [value]="player"
+    onChange="{handleInputUpdate}"
+  />
+  <div className="input-group-append">
+    <button
+      className="btn btn-outline-secondary"
+      type="submit"
+      id="button-addon2"
+    >
+      Save
+    </button>
+  </div>
+</div>
+
+<div *ngIf="!edit" className="input-group mb-3">
+  <input
+    type="text"
+    name="player"
+    className="form-control"
+    placeholder="Player"
+    aria-label="Player"
+    [value]="player"
     readOnly
   />
   <div className="input-group-append">
@@ -37,16 +34,11 @@
       className="btn btn-outline-secondary"
       type="submit"
       id="button-addon2"
-      onClick="{handleEditPlayer}"
+      (click)="toggleEdit()"
     >
       Edit
     </button>
-    <button
-      className="btn btn-outline-danger"
-      type="submit"
-      id="button-addon2"
-      onClick="{handleRemovePlayer}"
-    >
+    <button className="btn btn-outline-danger" type="submit" id="button-addon2">
       Remove
     </button>
   </div>
