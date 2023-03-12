@@ -13,6 +13,9 @@ import { ModalComponent } from './components/modal/modal.component';
 import { AddPlayerComponent } from './components/add-player/add-player.component';
 import { PlayerComponent } from './components/player/player.component';
 
+import { StoreModule } from '@ngrx/store';
+import { playersReducer } from './store/players/players.reducer';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +28,12 @@ import { PlayerComponent } from './components/player/player.component';
     AddPlayerComponent,
     PlayerComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    StoreModule.forRoot({ players: playersReducer }),
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

@@ -7,14 +7,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class AddPlayerComponent {
   @Output()
-  savePlayer = new EventEmitter<string>();
+  addPlayer = new EventEmitter<string>();
 
   name: string = '';
 
   constructor() {}
 
   save(): void {
-    console.log('save name');
-    this.savePlayer.emit(this.name);
+    console.log('save name', this.name);
+    this.addPlayer.emit(this.name);
   }
 }
