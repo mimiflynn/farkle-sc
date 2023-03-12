@@ -10,6 +10,10 @@ export const playersReducer = createReducer(
         console.log('addPlayer action', action);
         return [];
     }),
-    on(removePlayer, (state, action) => []),
-    on(reset, (state) => initialState)
+    on(removePlayer, (state, action) => {
+        console.log('addPlayer state', state);
+        console.log('addPlayer action', action);
+        return [];
+    }),
+    on(reset, () => initialState)
 );

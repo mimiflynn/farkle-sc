@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
     selector: 'fsc-add-player',
@@ -10,8 +10,6 @@ export class AddPlayerComponent {
     addPlayer = new EventEmitter<string>();
 
     name = '';
-
-    constructor() {}
 
     save(): void {
         console.log('save name', this.name);

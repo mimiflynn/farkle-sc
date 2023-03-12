@@ -13,8 +13,6 @@ export class AppComponent {
     showReference = false;
     showNewGameWarning = false;
 
-    ngOnInit() {}
-
     resetGame() {
         this.showNewGameWarning = false;
         this.players = [];
