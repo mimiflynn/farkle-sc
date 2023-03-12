@@ -1,44 +1,40 @@
-<div *ngIf="edit" className="input-group mb-3">
+<div *ngIf="edit" class="input-group mb-3">
   <input
     type="text"
     name="player"
-    className="form-control"
+    class="form-control"
     placeholder="Player"
     aria-label="Player"
     [value]="player"
     onChange="{handleInputUpdate}"
   />
-  <div className="input-group-append">
-    <button
-      className="btn btn-outline-secondary"
-      type="submit"
-      id="button-addon2"
-    >
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">
       Save
     </button>
   </div>
 </div>
 
-<div *ngIf="!edit" className="input-group mb-3">
+<div *ngIf="!edit" class="input-group mb-3">
   <input
     type="text"
     name="player"
-    className="form-control"
+    class="form-control"
     placeholder="Player"
     aria-label="Player"
     [value]="player"
     readOnly
   />
-  <div className="input-group-append">
+  <div class="input-group-append">
     <button
-      className="btn btn-outline-secondary"
+      class="btn btn-outline-secondary"
       type="submit"
       id="button-addon2"
       (click)="toggleEdit()"
     >
       Edit
     </button>
-    <button className="btn btn-outline-danger" type="submit" id="button-addon2">
+    <button class="btn btn-outline-danger" type="submit" id="button-addon2">
       Remove
     </button>
   </div>
