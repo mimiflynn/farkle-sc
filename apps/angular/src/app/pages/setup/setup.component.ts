@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Players } from '@fsc/types';
 import { Store } from '@ngrx/store';
 
 import { addPlayer, editPlayer, removePlayer } from 'app/store/players/players.actions';
@@ -9,7 +10,7 @@ import { addPlayer, editPlayer, removePlayer } from 'app/store/players/players.a
     styleUrls: ['./setup.component.scss'],
 })
 export class SetupComponent {
-    players: string[] = [];
+    players: Players = [];
 
     constructor(private store: Store<{ players: { players: string[] } }>) {
         this.store.subscribe((state) => {
@@ -17,15 +18,15 @@ export class SetupComponent {
         });
     }
 
-    handleAddPlayer(name: string): void {
-        this.store.dispatch(addPlayer({ name }));
+    handleAddPlayer(newPlayer: string): void {
+        this.store.dispatch(addPlayer({ newPlayer }));
     }
 
-    handleEditPlayer({ oldName, newName }: { oldName: string; newName: string }): void {
-        this.store.dispatch(editPlayer({ oldName, newName }));
+    handleEditPlayer({ oldPlayer, newPlayer }: { oldPlayer: string; newPlayer: string }): void {
+        this.store.dispatch(editPlayer({ oldPlayer, newPlayer }));
     }
 
-    handleRemovePlayer(name: string): void {
-        this.store.dispatch(removePlayer({ name }));
+    handleRemovePlayer(player: string): void {
+        this.store.dispatch(removePlayer({ player }));
     }
 }

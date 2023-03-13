@@ -1,28 +1,24 @@
+import { addPlayerReducer, editPlayerReducer, removePlayerReducer } from '@fsc/reducers';
+import { Players } from '@fsc/types';
 import { createReducer, on } from '@ngrx/store';
 import { addPlayer, editPlayer, removePlayer, reset } from './players.actions';
 
 export interface PlayersState {
-    players: string[];
+    players: Players;
 }
 
 export const initialState: PlayersState = { players: ['Luna', 'Ainslie'] };
 
 export const playersReducer = createReducer(
     initialState,
-    on(addPlayer, ({ players }, { name }) => {
-        return { players: [...players, ...[name]] };
+    on(addPlayer, ({ players }, { newPlayer }) => {
+        return { players: addPlayerReducer({ players, newPlayer }) };
     }),
-    on(editPlayer, ({ players }, { oldName, newName }) => {
-        const newPlayers = players.slice();
-        const index = players.indexOf(oldName);
-        newPlayers[index] = newName;
-        return { players: newPlayers };
+    on(editPlayer, ({ players }, { oldPlayer, newPlayer }) => {
+        return { players: editPlayerReducer({ players, oldPlayer, newPlayer }) };
     }),
-    on(removePlayer, ({ players }, { name }) => {
-        const newPlayers = players.slice();
-        const index = players.indexOf(name);
-        newPlayers.splice(index, 1);
-        return { players: newPlayers };
+    on(removePlayer, ({ players }, { player }) => {
+        return { players: removePlayerReducer({ players, player }) };
     }),
     on(reset, () => initialState)
 );

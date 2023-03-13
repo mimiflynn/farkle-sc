@@ -10,7 +10,7 @@ export class PlayerComponent {
     @Input() player: Player = '';
 
     @Output()
-    editPlayer = new EventEmitter<{ oldName: string; newName: string }>();
+    editPlayer = new EventEmitter<{ oldPlayer: string; newPlayer: string }>();
 
     @Output()
     removePlayer = new EventEmitter<string>();
@@ -24,7 +24,7 @@ export class PlayerComponent {
     }
 
     save(): void {
-        this.editPlayer.emit({ oldName: this.oldPlayer, newName: this.player });
+        this.editPlayer.emit({ oldPlayer: this.oldPlayer, newPlayer: this.player });
     }
 
     remove(): void {
