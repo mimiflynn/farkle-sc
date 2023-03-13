@@ -24,12 +24,10 @@ export class PlayerComponent {
     }
 
     save(): void {
-        console.log('edit name', this.player);
         this.editPlayer.emit({ oldName: this.oldPlayer, newName: this.player });
     }
 
     remove(): void {
-        console.log('remove name', this.player);
         this.removePlayer.emit(this.player);
     }
 }
