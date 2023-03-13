@@ -14,5 +14,6 @@ export class AddPlayerComponent {
     save(): void {
         console.log('save name', this.name);
         this.addPlayer.emit(this.name);
+        this.name = '';
     }
 }

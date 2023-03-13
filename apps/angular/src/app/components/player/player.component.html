@@ -1,41 +1,40 @@
 <div *ngIf="edit" class="input-group mb-3">
-  <input
-    type="text"
-    name="player"
-    class="form-control"
-    placeholder="Player"
-    aria-label="Player"
-    [value]="player"
-    onChange="{handleInputUpdate}"
-  />
-  <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">
-      Save
-    </button>
-  </div>
+    <input
+        type="text"
+        name="player"
+        class="form-control"
+        placeholder="Player"
+        aria-label="Player"
+        [(ngModel)]="player"
+    />
+    <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="submit" id="button-addon2" (click)="save()">
+            Save
+        </button>
+    </div>
 </div>
 
 <div *ngIf="!edit" class="input-group mb-3">
-  <input
-    type="text"
-    name="player"
-    class="form-control"
-    placeholder="Player"
-    aria-label="Player"
-    [value]="player"
-    readOnly
-  />
-  <div class="input-group-append">
-    <button
-      class="btn btn-outline-secondary"
-      type="submit"
-      id="button-addon2"
-      (click)="toggleEdit()"
-    >
-      Edit
-    </button>
-    <button class="btn btn-outline-danger" type="submit" id="button-addon2">
-      Remove
-    </button>
-  </div>
+    <input
+        type="text"
+        name="player"
+        class="form-control"
+        placeholder="Player"
+        aria-label="Player"
+        [(ngModel)]="player"
+        readOnly
+    />
+    <div class="input-group-append">
+        <button
+            class="btn btn-outline-secondary"
+            type="submit"
+            id="button-addon2"
+            (click)="toggleEdit()"
+        >
+            Edit
+        </button>
+        <button class="btn btn-outline-danger" type="submit" id="button-addon2" (click)="remove()">
+            Remove
+        </button>
+    </div>
 </div>

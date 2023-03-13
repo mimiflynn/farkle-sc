@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { type Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
-import { addPlayer } from 'app/store/players/players.actions';
+import { addPlayer, editPlayer, removePlayer } from 'app/store/players/players.actions';
 
 @Component({
     selector: 'fsc-setup',
@@ -11,15 +11,21 @@ import { addPlayer } from 'app/store/players/players.actions';
 export class SetupComponent {
     players: string[] = [];
 
-    constructor(private readonly store: Store<{ players: string[] }>) {
+    constructor(private store: Store<{ players: { players: string[] } }>) {
         this.store.subscribe((state) => {
-            console.log('state', state);
-            this.players = state.players;
+            this.players = state.players.players;
         });
     }
 
-    addPlayer(name: string) {
-        console.log('add player in setup', name);
-        addPlayer({ name });
+    handleAddPlayer(name: string): void {
+        this.store.dispatch(addPlayer({ name }));
+    }
+
+    handleEditPlayer({ oldName, newName }: { oldName: string; newName: string }): void {
+        this.store.dispatch(editPlayer({ oldName, newName }));
+    }
+
+    handleRemovePlayer(name: string): void {
+        this.store.dispatch(removePlayer({ name }));
     }
 }

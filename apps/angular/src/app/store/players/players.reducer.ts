@@ -1,19 +1,28 @@
 import { createReducer, on } from '@ngrx/store';
-import { addPlayer, removePlayer, reset } from './players.actions';
+import { addPlayer, editPlayer, removePlayer, reset } from './players.actions';
 
-export const initialState = ['Luna', 'Ainslie'];
+export interface PlayersState {
+    players: string[];
+}
+
+export const initialState: PlayersState = { players: ['Luna', 'Ainslie'] };
 
 export const playersReducer = createReducer(
     initialState,
-    on(addPlayer, (state, action) => {
-        console.log('addPlayer state', state);
-        console.log('addPlayer action', action);
-        return [];
+    on(addPlayer, ({ players }, { name }) => {
+        return { players: [...players, ...[name]] };
     }),
-    on(removePlayer, (state, action) => {
-        console.log('addPlayer state', state);
-        console.log('addPlayer action', action);
-        return [];
+    on(editPlayer, ({ players }, { oldName, newName }) => {
+        const newPlayers = players.slice();
+        const index = players.indexOf(oldName);
+        newPlayers[index] = newName;
+        return { players: newPlayers };
+    }),
+    on(removePlayer, ({ players }, { name }) => {
+        const newPlayers = players.slice();
+        const index = players.indexOf(name);
+        newPlayers.splice(index, 1);
+        return { players: newPlayers };
     }),
     on(reset, () => initialState)
 );
