@@ -1,17 +1,18 @@
+import { addPlayerReducer, editPlayerReducer, removePlayerReducer } from '@fsc/state';
+import { Players } from '@fsc/types';
+import { AddPlayer } from 'components/setup/add-player';
+import { PlayerName } from 'components/setup/player';
 import { useState } from 'react';
 
-import { AddPlayer } from '../components/setup/add-player';
-import { PlayerName } from '../components/setup/player';
-
 interface SetupProps {
-    setGamePlayers: (allPlayers: string[]) => void;
+    setGamePlayers: (allPlayers: Players) => void;
 }
 
 export function Setup({ setGamePlayers }: SetupProps) {
     const [players, setPlayers] = useState([] as string[]);
 
     function handleAddPlayer(newPlayer: string) {
-        setPlayers([newPlayer, ...players]);
+        setPlayers(addPlayerReducer({ players, newPlayer }));
     }
 
     function handleSavePlayers() {
@@ -19,17 +20,11 @@ export function Setup({ setGamePlayers }: SetupProps) {
     }
 
     function handleEditPlayer(oldPlayer: string, newPlayer: string) {
-        const newPlayers = players.slice();
-        const index = players.indexOf(oldPlayer);
-        newPlayers[index] = newPlayer;
-        setPlayers(newPlayers);
+        setPlayers(editPlayerReducer({ players, oldPlayer, newPlayer }));
     }
 
-    function handleRemovePlayer(oldPlayer: string) {
-        const newPlayers = players.slice();
-        const index = players.indexOf(oldPlayer);
-        newPlayers.splice(index, 1);
-        setPlayers(newPlayers);
+    function handleRemovePlayer(player: string) {
+        setPlayers(removePlayerReducer({ players, player }));
     }
 
     function renderPlayers() {

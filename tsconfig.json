@@ -2,11 +2,10 @@
     "compilerOptions": {
         "baseUrl": ".",
         "esModuleInterop": true,
-        "jsx": "react-jsx",
         "lib": ["dom", "dom.iterable", "esnext"],
         "noEmit": true,
         "paths": {
-            "@fsc/reducers/*": ["./packages/reducers/*"],
+            "@fsc/state/*": ["./packages/state/*"],
             "@fsc/types/*": ["./packages/types/*"]
         },
         "target": "es5"

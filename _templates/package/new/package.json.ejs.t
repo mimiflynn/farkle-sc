@@ -12,12 +12,6 @@ sh: cd <%= cwd %> && npm install
     "lint": "eslint --ext js,ts,tsx --fix",
     "typecheck": "tsc --project tsconfig.json --noEmit"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",

@@ -1,4 +1,4 @@
-import { addPlayerReducer, editPlayerReducer, removePlayerReducer } from '@fsc/reducers';
+import { addPlayerReducer, editPlayerReducer, removePlayerReducer } from '@fsc/state';
 import { Players } from '@fsc/types';
 import { createReducer, on } from '@ngrx/store';
 import { addPlayer, editPlayer, removePlayer, reset } from './players.actions';

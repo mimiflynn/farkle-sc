@@ -1,14 +1,13 @@
 import { Players } from '@fsc/types';
 
-export function addPlayerReducer({
-    players,
-    newPlayer,
-}: {
+interface addPlayerProps {
     players: Players;
     newPlayer: string;
-}): Players {
-    return [...players, newPlayer];
 }
+
+export const addPlayerReducer = ({ players, newPlayer }: addPlayerProps): Players => {
+    return [...players, newPlayer];
+};
 
 export function editPlayerReducer({
     players,
