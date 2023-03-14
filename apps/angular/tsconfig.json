@@ -21,11 +21,8 @@
         "useDefineForClassFields": false,
         "lib": ["ES2022", "dom"]
     },
-    "include": ["src", "**/*"],
-    "paths": {
-        "@fsc/state/*": ["../../packages/state/*"],
-        "@fsc/types/*": ["../../packages/types/*"]
-    },
+    "include": ["src"],
+    "references": [{ "path": "../../packages/state" }, { "path": "../../packages/types" }],
     "angularCompilerOptions": {
         "enableI18nLegacyMessageIdFormat": false,
         "strictInjectionParameters": true,

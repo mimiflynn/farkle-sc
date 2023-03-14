@@ -23,6 +23,7 @@
         "eslint-plugin-n": "^15.6.1",
         "eslint-plugin-prettier": "^4.2.1",
         "eslint-plugin-promise": "^6.1.1",
+        "tsconfig-paths-webpack-plugin": "^4.0.1",
         "typescript": "^4.9.5"
     },
     "scripts": {
@@ -34,7 +35,7 @@
         "type": "git",
         "url": "git+https://github.com/mimiflynn/farkle-sc.git"
     },
-    "author": "",
+    "author": "Mimi Flynn",
     "license": "ISC",
     "bugs": {
         "url": "https://github.com/mimiflynn/farkle-sc/issues"

@@ -9,5 +9,6 @@
             "@fsc/types/*": ["./packages/types/*"]
         },
         "target": "es5"
-    }
+    },
+    "include": ["./packages"]
 }
