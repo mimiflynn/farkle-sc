@@ -10,5 +10,5 @@
         },
         "target": "es5"
     },
-    "include": ["./packages"]
+    "exclude": ["**/*.test.ts"]
 }
