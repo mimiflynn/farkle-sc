@@ -10,5 +10,13 @@
         },
         "target": "es5"
     },
-    "exclude": ["**/*.test.ts"]
+    "exclude": ["**/*.test.ts"],
+    "references": [
+        {
+            "path": "./packages/state/tsconfig.ref.json"
+        },
+        {
+            "path": "./packages/types/tsconfig.ref.json"
+        }
+    ]
 }

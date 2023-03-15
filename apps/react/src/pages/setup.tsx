@@ -1,8 +1,9 @@
+import { addPlayerReducer, editPlayerReducer, removePlayerReducer } from '@fsc/state';
 import { Players } from '@fsc/types';
 import { AddPlayer } from 'components/setup/add-player';
 import { PlayerName } from 'components/setup/player';
 import { useState } from 'react';
-import { addPlayerReducer, editPlayerReducer, removePlayerReducer } from 'utils/reducers';
+// import { addPlayerReducer, editPlayerReducer, removePlayerReducer } from 'utils/reducers';
 
 interface SetupProps {
     setGamePlayers: (allPlayers: Players) => void;
