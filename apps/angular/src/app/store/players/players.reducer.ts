@@ -1,14 +1,13 @@
 // import { addPlayerReducer, editPlayerReducer, removePlayerReducer } from '@fsc/state';
-import { Players } from '@fsc/types';
 import { createReducer, on } from '@ngrx/store';
 import { addPlayer, editPlayer, removePlayer, reset } from './players.actions';
 import { addPlayerReducer, editPlayerReducer, removePlayerReducer } from './utils';
 
 export interface PlayersState {
-    players: Players;
+    players: string[];
 }
 
-export const initialState: PlayersState = { players: ['Luna', 'Ainslie'] };
+export const initialState: PlayersState = { players: [] };
 
 export const playersReducer = createReducer(
     initialState,

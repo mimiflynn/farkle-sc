@@ -19,10 +19,17 @@
         "target": "ES2022",
         "module": "ES2022",
         "useDefineForClassFields": false,
-        "lib": ["ES2022", "dom"]
+        "lib": ["ES2022", "dom"],
+        "paths": {
+            "@fsc/state/*": ["../../../packages/state/*"],
+            "@fsc/types/*": ["../../../packages/types/*"]
+        }
     },
-    "include": ["src"],
-    "references": [{ "path": "../../packages/state" }, { "path": "../../packages/types" }],
+    "include": ["src", "../../packages"],
+    "references": [
+        { "path": "../../packages/state/tsconfig.ref.json" },
+        { "path": "../../packages/types/tsconfig.ref.json" }
+    ],
     "angularCompilerOptions": {
         "enableI18nLegacyMessageIdFormat": false,
         "strictInjectionParameters": true,

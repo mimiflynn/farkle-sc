@@ -15,6 +15,8 @@ import { PlayComponent } from './pages/play/play.component';
 import { SetupComponent } from './pages/setup/setup.component';
 
 import { playersReducer } from './store/players/players.reducer';
+import { PlayerScoreComponent } from './components/player-score/player-score.component';
+import { EditPlayerScoreComponent } from './components/edit-player-score/edit-player-score.component';
 
 @NgModule({
     declarations: [
@@ -27,6 +29,8 @@ import { playersReducer } from './store/players/players.reducer';
         ModalComponent,
         AddPlayerComponent,
         PlayerComponent,
+        PlayerScoreComponent,
+        EditPlayerScoreComponent,
     ],
     imports: [
         BrowserModule,

@@ -1,11 +1,9 @@
-import { Players } from '@fsc/types';
-
 export interface addPlayerProps {
-    players: Players;
+    players: string[];
     newPlayer: string;
 }
 
-export function addPlayerReducer({ players, newPlayer }: addPlayerProps): Players {
+export function addPlayerReducer({ players, newPlayer }: addPlayerProps): string[] {
     return [...players, newPlayer];
 }
 
@@ -14,10 +12,10 @@ export function editPlayerReducer({
     oldPlayer,
     newPlayer,
 }: {
-    players: Players;
+    players: string[];
     oldPlayer: string;
     newPlayer: string;
-}): Players {
+}): string[] {
     const newPlayers = players.slice();
     const index = players.indexOf(oldPlayer);
     newPlayers[index] = newPlayer;
@@ -28,9 +26,9 @@ export function removePlayerReducer({
     players,
     player,
 }: {
-    players: Players;
+    players: string[];
     player: string;
-}): Players {
+}): string[] {
     const newPlayers = players.slice();
     const index = players.indexOf(player);
     newPlayers.splice(index, 1);

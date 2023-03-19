@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Players } from '@fsc/types';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { addPlayer, editPlayer, removePlayer } from 'app/store/players/players.actions';
@@ -10,9 +10,9 @@ import { addPlayer, editPlayer, removePlayer } from 'app/store/players/players.a
     styleUrls: ['./setup.component.scss'],
 })
 export class SetupComponent {
-    players: Players = [];
+    players: string[] = [];
 
-    constructor(private store: Store<{ players: { players: string[] } }>) {
+    constructor(private store: Store<{ players: { players: string[] } }>, private router: Router) {
         this.store.subscribe((state) => {
             this.players = state.players.players;
         });
@@ -28,5 +28,10 @@ export class SetupComponent {
 
     handleRemovePlayer(player: string): void {
         this.store.dispatch(removePlayer({ player }));
+    }
+
+    play(): void {
+        console.log('play clicked');
+        this.router.navigateByUrl('play');
     }
 }

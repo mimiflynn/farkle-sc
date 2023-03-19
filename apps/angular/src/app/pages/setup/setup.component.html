@@ -14,4 +14,4 @@
         />
     </div>
 </div>
-<button class="btn btn-success">Start Game</button>
+<button class="btn btn-success" [disabled]="players.length < 2" (click)="play()">Start Game</button>
