@@ -1,3 +1,5 @@
+import { Player } from './player';
+
 export interface Scorecard {
     turns: [];
     total: number;
