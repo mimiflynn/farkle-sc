@@ -1,0 +1,17 @@
+<h2>Add Players</h2>
+<div class="row players">
+    <div class="col-12">
+        <fsc-add-player (addPlayer)="handleAddPlayer($event)" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <fsc-player
+            *ngFor="let player of players"
+            [player]="player"
+            (editPlayer)="handleEditPlayer($event)"
+            (removePlayer)="handleRemovePlayer($event)"
+        />
+    </div>
+</div>
+<button class="btn btn-success" [disabled]="players.length < 2" (click)="play()">Start Game</button>

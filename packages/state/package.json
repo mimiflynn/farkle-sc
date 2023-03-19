@@ -1,0 +1,25 @@
+{
+    "name": "@fsc/state",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "dependencies": {
+        "@fsc/types": "*"
+    },
+    "scripts": {
+        "lint": "eslint --ext js,ts,tsx --fix",
+        "typecheck": "tsc --project tsconfig.json --noEmit"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
+}

@@ -1,13 +1,22 @@
 {
-  "compilerOptions": {
-    "baseUrl": ".",
-    "esModuleInterop": true,
-    "jsx": "react-jsx",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "noEmit": true,
-    "paths": {
-      "@rnw/types/*": ["./packages/types/*"]
+    "compilerOptions": {
+        "baseUrl": ".",
+        "esModuleInterop": true,
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "noEmit": true,
+        "paths": {
+            "@fsc/state/*": ["./packages/state/*"],
+            "@fsc/types/*": ["./packages/types/*"]
+        },
+        "target": "es5"
     },
-    "target": "es5"
-  }
+    "exclude": ["**/*.test.ts"],
+    "references": [
+        {
+            "path": "./packages/state/tsconfig.ref.json"
+        },
+        {
+            "path": "./packages/types/tsconfig.ref.json"
+        }
+    ]
 }

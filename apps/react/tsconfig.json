@@ -1,7 +1,9 @@
 {
-  "extends": "../../tsconfig.app.json",
-  "compilerOptions": {
-    "baseUrl": "src"
-  },
-  "include": ["src"]
+    "extends": "../../tsconfig.app.json",
+    "compilerOptions": {
+        "baseUrl": "src",
+        "jsx": "react-jsx"
+    },
+    "include": ["src"],
+    "references": [{ "path": "../../packages/state" }, { "path": "../../packages/types" }]
 }

@@ -1,58 +1,54 @@
-import { Scorecard } from '@fsc/types';
-import { BaseSyntheticEvent, useCallback, useState } from 'react';
+import { type Scorecard } from '@fsc/types';
+import { type BaseSyntheticEvent, useCallback, useState } from 'react';
 
 interface EditPlayerScoreProps {
-  handleSave: (score: number) => void;
-  player: string;
-  scorecard: Scorecard;
+    handleSave: (score: number) => void;
+    player: string;
+    scorecard: Scorecard;
 }
 
-export function EditPlayerScore({
-  handleSave,
-  player,
-  scorecard,
-}: EditPlayerScoreProps) {
-  const [value, setValue] = useState(0);
+export function EditPlayerScore({ handleSave, player, scorecard }: EditPlayerScoreProps) {
+    const [value, setValue] = useState(0);
 
-  const handleInputUpdate = useCallback((event: BaseSyntheticEvent) => {
-    setValue(event.target.value);
-  }, []);
+    const handleInputUpdate = useCallback((event: BaseSyntheticEvent) => {
+        setValue(event.target.value);
+    }, []);
 
-  const handleSetScore = useCallback(
-    (event: BaseSyntheticEvent) => {
-      event.preventDefault();
-      handleSave(value);
-      setValue(0);
-    },
-    [handleSave, value]
-  );
+    const handleSetScore = useCallback(
+        (event: BaseSyntheticEvent) => {
+            event.preventDefault();
+            handleSave(value);
+            setValue(0);
+        },
+        [handleSave, value]
+    );
 
-  return (
-    <div key={player} className={scorecard.onBoard ? 'on-board' : 'off-board'}>
-      <h3>{player}</h3>
-      <form>
-        <div className="input-group mb-3">
-          <input
-            type="text"
-            name="score"
-            className="form-control"
-            placeholder="Score"
-            aria-label="Score"
-            value={value}
-            onChange={handleInputUpdate}
-          />
-          <div className="input-group-append">
-            <button
-              className="btn btn-success"
-              type="submit"
-              id="button-addon2"
-              onClick={handleSetScore}
-            >
-              Save
-            </button>
-          </div>
+    return (
+        <div key={player} className={scorecard.onBoard ? 'on-board' : 'off-board'}>
+            <h3>{player}</h3>
+            <form>
+                <div className="input-group mb-3">
+                    <input
+                        type="text"
+                        name="score"
+                        className="form-control"
+                        placeholder="Score"
+                        aria-label="Score"
+                        value={value}
+                        onChange={handleInputUpdate}
+                    />
+                    <div className="input-group-append">
+                        <button
+                            className="btn btn-success"
+                            type="submit"
+                            id="button-addon2"
+                            onClick={handleSetScore}
+                        >
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
-      </form>
-    </div>
-  );
+    );
 }

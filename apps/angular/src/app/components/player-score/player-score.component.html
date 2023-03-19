@@ -1,0 +1,8 @@
+<div class="card" [ngClass]="{ 'on-board': scorecard?.onBoard }" key="{player}">
+    <div class="card-body">
+        renderBoardMessages
+        <h5 class="card-title">{{ player }}</h5>
+        <p class="card-text">Total: {{ scorecard?.total }}</p>
+        renderTurnHistory
+    </div>
+</div>
