@@ -1,5 +1,3 @@
-import { Player } from './player';
-
 export interface Scorecard {
     turns: [];
     total: number;
@@ -7,5 +5,5 @@ export interface Scorecard {
 }
 
 export interface Scores {
-    [key: Player]: Scorecard;
+    [key: string]: Scorecard;
 }

@@ -1,4 +1,4 @@
-import { type Scores } from '@fsc/types';
+import { Scores } from '@fsc/types';
 import { useState } from 'react';
 
 import { EditPlayerScore } from '../components/game/edit-player-score';

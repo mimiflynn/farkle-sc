@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Scorecard } from '@fsc/types';
+import { Scores } from '@fsc/types';
 import { Store } from '@ngrx/store';
 @Component({
     selector: 'fsc-play',
@@ -8,9 +8,7 @@ import { Store } from '@ngrx/store';
 })
 export class PlayComponent {
     players: string[] = [];
-    scores: {
-        [key: string]: Scorecard;
-    };
+    scores: Scores;
     error = false;
 
     constructor(private store: Store<{ players: { players: string[] } }>) {
