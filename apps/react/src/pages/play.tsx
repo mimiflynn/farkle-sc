@@ -15,14 +15,11 @@ export function Play({ players, scorecards, setScorecards }: PlayProps) {
     const [error, setError] = useState(false);
 
     function handleSetScore(newScore: number) {
-        console.log('new score', newScore);
-        console.log('for player', selectedPlayer);
         if (!isNaN(newScore)) {
             setScorecards(selectedPlayer, newScore);
             setError(false);
             handleNextPlayer();
         } else {
-            console.log('score is not a number!');
             setError(true);
         }
     }
@@ -38,9 +35,6 @@ export function Play({ players, scorecards, setScorecards }: PlayProps) {
     }
 
     function renderPlayers() {
-        console.log('players', players);
-        console.log('scorecards', scorecards);
-
         return players.map((player) => (
             <div className="col-sm" key={player}>
                 <PlayerScore player={player} scorecard={scorecards[player]} />

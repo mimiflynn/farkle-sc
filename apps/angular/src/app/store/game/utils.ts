@@ -1,4 +1,4 @@
-import { Scores } from '@fsc/types/types';
+import { Scorecard, Scores } from '@fsc/types/types';
 
 export const initialScorecard = {
     turns: [],
@@ -6,16 +6,14 @@ export const initialScorecard = {
     onBoard: false,
 };
 
-export function setScoreReducer({
-    currentPlayer,
-    newScore,
+export function setPlayerScore({
+    scorecard,
+    score,
 }: {
-    currentPlayer: number;
-    newScore: number;
-}) {
-    console.log('current player', currentPlayer);
-    console.log('setScoreReducer', newScore);
-    return {};
+    scorecard: Scorecard;
+    score: number;
+}): Scorecard {
+    return { ...scorecard, turns: [...scorecard.turns, score], total: scorecard.total + score };
 }
 
 export function initScorecards(players: string[]) {

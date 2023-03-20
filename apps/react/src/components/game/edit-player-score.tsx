@@ -29,7 +29,7 @@ export function EditPlayerScore({ handleSave, player, scorecard }: EditPlayerSco
             <form>
                 <div className="input-group mb-3">
                     <input
-                        type="text"
+                        type="number"
                         name="score"
                         className="form-control"
                         placeholder="Score"
@@ -38,12 +38,7 @@ export function EditPlayerScore({ handleSave, player, scorecard }: EditPlayerSco
                         onChange={handleInputUpdate}
                     />
                     <div className="input-group-append">
-                        <button
-                            className="btn btn-success"
-                            type="submit"
-                            id="button-addon2"
-                            onClick={handleSetScore}
-                        >
+                        <button className="btn btn-success" type="submit" onClick={handleSetScore}>
                             Save
                         </button>
                     </div>

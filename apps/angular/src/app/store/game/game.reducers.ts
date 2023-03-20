@@ -2,27 +2,26 @@
 import { Scores } from '@fsc/types/types';
 import { createReducer, on } from '@ngrx/store';
 import { initScores, reset, setScore } from './game.actions';
-import { initScorecards, setScoreReducer } from './utils';
+import { initScorecards, setPlayerScore } from './utils';
 
 export interface GameState {
-    currentPlayer: number;
     scores: Scores;
 }
 
-export const initialState: GameState = { currentPlayer: 0, scores: {} };
+export const initialState: GameState = { scores: {} };
 
 export const gameReducer = createReducer(
     initialState,
-    on(initScores, (_, { players }) => {
+    on(initScores, (state, { players }) => {
         return {
-            currentPlayer: 0,
             scores: initScorecards(players),
         };
     }),
-    on(setScore, ({ currentPlayer }, { newScore }) => {
+    on(setScore, (state, { player, score }) => {
+        const newScore = {};
+        newScore[player] = setPlayerScore({ scorecard: state.scores[player], score });
         return {
-            currentPlayer: currentPlayer + 1,
-            scores: setScoreReducer({ currentPlayer, newScore }),
+            scores: { ...state.scores, ...newScore },
         };
     }),
     on(reset, () => initialState)

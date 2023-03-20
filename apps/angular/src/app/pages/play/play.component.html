@@ -1,7 +1,10 @@
 <div>
     <h2>Scorecard</h2>
     <div *ngIf="error" class="alert alert-danger" role="alert">Score must be a number</div>
-    renderCurrentPlayer
+    <fsc-edit-player-score
+        [player]="players[currentPlayer]"
+        (saveScorecard)="handleSetScore($event)"
+    />
     <div *ngFor="let player of players" class="row mb-5">
         <fsc-player-score [player]="player" [scorecard]="scores[currentPlayer]" />
     </div>
