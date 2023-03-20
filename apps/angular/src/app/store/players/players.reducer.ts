@@ -8,7 +8,7 @@ export interface PlayersState {
     currentPlayer: number;
 }
 
-export const initialState: PlayersState = { currentPlayer: 0, players: ['Luna', 'Ainslie'] };
+export const initialState: PlayersState = { currentPlayer: 0, players: [] };
 
 export const playersReducer = createReducer(
     initialState,
