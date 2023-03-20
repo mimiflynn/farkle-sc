@@ -1,7 +1,5 @@
-import { Player } from './player';
-
 export interface Scorecard {
-    turns: [];
+    turns: number[];
     total: number;
     onBoard: boolean;
 }

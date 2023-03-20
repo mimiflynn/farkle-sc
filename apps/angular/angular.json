@@ -3,6 +3,7 @@
   "version": 1,
   "cli": {
     "packageManager": "npm",
+    "defaultCollection": "@ngrx/schematics",
     "analytics": false
   },
   "newProjectRoot": "projects",
