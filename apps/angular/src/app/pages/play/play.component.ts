@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { Scorecard, Scores } from '@fsc/types';
 import { Store } from '@ngrx/store';
 import { setScore } from 'app/store/game/game.actions';
+import { State } from 'app/store/index';
 import { nextPlayer } from 'app/store/players/players.actions';
 
-import { State } from '../../store/index';
 @Component({
     selector: 'fsc-play',
     templateUrl: './play.component.html',
