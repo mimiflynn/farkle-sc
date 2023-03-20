@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Player } from '@fsc/types';
 
 @Component({
@@ -6,17 +6,13 @@ import { Player } from '@fsc/types';
     templateUrl: './edit-player-score.component.html',
     styleUrls: ['./edit-player-score.component.scss'],
 })
-export class EditPlayerScoreComponent implements OnChanges {
+export class EditPlayerScoreComponent {
     @Input() player: Player = '';
 
     @Output()
     saveScorecard = new EventEmitter<number>();
 
     score = 0;
-
-    ngOnChanges(): void {
-        console.log('player', this.player);
-    }
 
     save() {
         this.saveScorecard.emit(this.score);

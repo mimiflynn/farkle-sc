@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Scores } from '@fsc/types';
+import { Scorecard, Scores } from '@fsc/types';
 import { Store } from '@ngrx/store';
 import { setScore } from 'app/store/game/game.actions';
 import { nextPlayer } from 'app/store/players/players.actions';
@@ -18,6 +18,7 @@ export class PlayComponent {
 
     constructor(private store: Store<State>) {
         this.store.subscribe(({ players, game }) => {
+            this.currentPlayer = players.currentPlayer;
             this.players = players.players;
             this.scores = game.scores;
         });
@@ -26,5 +27,9 @@ export class PlayComponent {
     handleSetScore(score: number) {
         this.store.dispatch(setScore({ player: this.players[this.currentPlayer], score }));
         this.store.dispatch(nextPlayer());
+    }
+
+    getScorecard(player): Scorecard {
+        return this.scores[player];
     }
 }

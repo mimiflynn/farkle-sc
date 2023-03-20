@@ -6,6 +6,6 @@
         (saveScorecard)="handleSetScore($event)"
     />
     <div *ngFor="let player of players" class="row mb-5">
-        <fsc-player-score [player]="player" [scorecard]="scores[currentPlayer]" />
+        <fsc-player-score [player]="player" [scorecard]="getScorecard(player)" />
     </div>
 </div>

@@ -1,6 +1,6 @@
 <div class="card" [ngClass]="{ 'on-board': scorecard?.onBoard }" key="{player}">
     <div class="card-body">
-        <div class="alert alert-warning" role="alert">
+        <div *ngIf="!scorecard?.onBoard" class="alert alert-warning" role="alert">
             A score of 500 is needed in one roll to be on the board.
         </div>
         <h5 class="card-title">{{ player }}</h5>
