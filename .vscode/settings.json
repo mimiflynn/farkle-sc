@@ -12,8 +12,5 @@
     "search.exclude": {
         "**/node_modules": true,
         "**/.angular": true
-    },
-    "yaml.schemas": {
-        "https://json.schemastore.org/github-workflow.json": "file:///Users/mimiflynn/Projects/Web/farkle-sc/.github/workflows/deploy.yml"
     }
 }
