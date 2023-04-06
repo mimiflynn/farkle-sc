@@ -1,18 +1,14 @@
-<div [ngClass]="{ 'on-board': scorecard.onBoard }">
-    <h3>{{ player }}</h3>
-    <div class="input-group mb-3">
-        <input
-            type="text"
-            name="score"
-            class="form-control"
-            placeholder="Score"
-            aria-label="Score"
-            [(ngModel)]="score"
-        />
-        <div class="input-group-append">
-            <button class="btn btn-success" type="submit" id="button-addon2" (click)="save()">
-                Save
-            </button>
-        </div>
+<h3>{{ player }}</h3>
+<div class="input-group mb-3">
+    <input
+        type="number"
+        name="score"
+        class="form-control"
+        placeholder="Score"
+        aria-label="Score"
+        [(ngModel)]="score"
+    />
+    <div class="input-group-append">
+        <button class="btn btn-success" type="submit" (click)="save()">Save</button>
     </div>
 </div>

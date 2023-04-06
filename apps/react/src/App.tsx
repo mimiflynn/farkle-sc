@@ -1,3 +1,4 @@
+import { updateScores } from '@fsc/state';
 import { type Scores } from '@fsc/types';
 import { useState } from 'react';
 
@@ -60,7 +61,7 @@ function App() {
             });
         }
 
-        setScorecards(Object.assign({}, scorecards, updatedScoreCards));
+        setScorecards(updateScores({ scores: scorecards, player, score }));
     }
 
     function renderGame() {

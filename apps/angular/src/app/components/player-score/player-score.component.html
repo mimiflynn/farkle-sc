@@ -1,8 +1,15 @@
 <div class="card" [ngClass]="{ 'on-board': scorecard?.onBoard }" key="{player}">
     <div class="card-body">
-        renderBoardMessages
+        <div *ngIf="!scorecard?.onBoard" class="alert alert-warning" role="alert">
+            A score of 500 is needed in one roll to be on the board.
+        </div>
         <h5 class="card-title">{{ player }}</h5>
         <p class="card-text">Total: {{ scorecard?.total }}</p>
-        renderTurnHistory
+        <div *ngIf="!!scorecard?.turns?.length">
+            <h6>Turn History</h6>
+            <ul class="list-group list-group-flush">
+                <li *ngFor="let turn of scorecard?.turns" class="list-group-item">{{ turn }}</li>
+            </ul>
+        </div>
     </div>
 </div>

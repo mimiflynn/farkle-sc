@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { initScores } from 'app/store/game/game.actions';
 
 import { addPlayer, editPlayer, removePlayer } from 'app/store/players/players.actions';
 
@@ -31,7 +32,7 @@ export class SetupComponent {
     }
 
     play(): void {
-        console.log('play clicked');
+        this.store.dispatch(initScores({ players: this.players }));
         this.router.navigateByUrl('play');
     }
 }

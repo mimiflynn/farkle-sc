@@ -1,11 +1,9 @@
-import { Player } from './player';
-
 export interface Scorecard {
-    turns: [];
+    turns: number[];
     total: number;
     onBoard: boolean;
 }
 
 export interface Scores {
-    [key: Player]: Scorecard;
+    [key: string]: Scorecard;
 }

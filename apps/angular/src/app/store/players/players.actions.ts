@@ -6,4 +6,5 @@ export const editPlayer = createAction(
     props<{ oldPlayer: string; newPlayer: string }>()
 );
 export const removePlayer = createAction('[Players] Remove Existing', props<{ player: string }>());
+export const nextPlayer = createAction('[Players] Next Player');
 export const reset = createAction('[Players] Reset');

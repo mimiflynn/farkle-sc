@@ -1,24 +1,35 @@
 // import { addPlayerReducer, editPlayerReducer, removePlayerReducer } from '@fsc/state';
 import { createReducer, on } from '@ngrx/store';
-import { addPlayer, editPlayer, removePlayer, reset } from './players.actions';
+import { addPlayer, editPlayer, nextPlayer, removePlayer, reset } from './players.actions';
 import { addPlayerReducer, editPlayerReducer, removePlayerReducer } from './utils';
 
 export interface PlayersState {
     players: string[];
+    currentPlayer: number;
 }
 
-export const initialState: PlayersState = { players: [] };
+export const initialState: PlayersState = { currentPlayer: 0, players: [] };
 
 export const playersReducer = createReducer(
     initialState,
-    on(addPlayer, ({ players }, { newPlayer }) => {
-        return { players: addPlayerReducer({ players, newPlayer }) };
+    on(addPlayer, (state, { newPlayer }) => {
+        return { ...state, players: addPlayerReducer({ players: state.players, newPlayer }) };
     }),
-    on(editPlayer, ({ players }, { oldPlayer, newPlayer }) => {
-        return { players: editPlayerReducer({ players, oldPlayer, newPlayer }) };
+    on(editPlayer, (state, { oldPlayer, newPlayer }) => {
+        return {
+            ...state,
+            players: editPlayerReducer({ players: state.players, oldPlayer, newPlayer }),
+        };
     }),
-    on(removePlayer, ({ players }, { player }) => {
-        return { players: removePlayerReducer({ players, player }) };
+    on(removePlayer, (state, { player }) => {
+        return { ...state, players: removePlayerReducer({ players: state.players, player }) };
+    }),
+    on(nextPlayer, (state) => {
+        return {
+            ...state,
+            currentPlayer:
+                state.currentPlayer === state.players.length - 1 ? 0 : state.currentPlayer + 1,
+        };
     }),
     on(reset, () => initialState)
 );

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Player, Scorecard } from '@fsc/types';
+import { Player } from '@fsc/types';
 
 @Component({
     selector: 'fsc-edit-player-score',
@@ -8,14 +8,14 @@ import { Player, Scorecard } from '@fsc/types';
 })
 export class EditPlayerScoreComponent {
     @Input() player: Player = '';
-    @Input() scorecard: Scorecard;
 
     @Output()
-    saveScorecard = new EventEmitter<Scorecard>();
+    saveScorecard = new EventEmitter<number>();
 
     score = 0;
 
     save() {
-        this.saveScorecard.emit(this.scorecard);
+        this.saveScorecard.emit(this.score);
+        this.score = 0;
     }
 }
