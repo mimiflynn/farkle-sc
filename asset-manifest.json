@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/farkle-sc/static/css/main.24a9404a.css",
+    "main.js": "/farkle-sc/static/js/main.345249ea.js",
+    "static/js/529.52d09a5a.chunk.js": "/farkle-sc/static/js/529.52d09a5a.chunk.js",
+    "index.html": "/farkle-sc/index.html",
+    "main.24a9404a.css.map": "/farkle-sc/static/css/main.24a9404a.css.map",
+    "main.345249ea.js.map": "/farkle-sc/static/js/main.345249ea.js.map",
+    "529.52d09a5a.chunk.js.map": "/farkle-sc/static/js/529.52d09a5a.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.24a9404a.css",
+    "static/js/main.345249ea.js"
+  ]
+}
