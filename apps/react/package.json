@@ -4,12 +4,13 @@
     "private": true,
     "homepage": "/farkle-sc",
     "dependencies": {
-        "@fsc/types": "*",
         "@fsc/state": "*",
+        "@fsc/types": "*",
         "classnames": "^2.3.2",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
         "react-scripts": "5.0.1",
+        "sass": "^1.97.2",
         "web-vitals": "^4.2.4"
     },
     "devDependencies": {
