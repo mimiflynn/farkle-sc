@@ -3,6 +3,7 @@ import { Player } from '@fsc/types';
 
 @Component({
     selector: 'fsc-edit-player-score',
+    standalone: false,
     templateUrl: './edit-player-score.component.html',
     styleUrls: ['./edit-player-score.component.scss'],
 })

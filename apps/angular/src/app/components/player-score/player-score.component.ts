@@ -3,6 +3,7 @@ import { Player, Scorecard } from '@fsc/types';
 
 @Component({
     selector: 'fsc-player-score',
+    standalone: false,
     templateUrl: './player-score.component.html',
     styleUrls: ['./player-score.component.scss'],
 })

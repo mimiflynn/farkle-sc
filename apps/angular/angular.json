@@ -3,7 +3,6 @@
   "version": 1,
   "cli": {
     "packageManager": "npm",
-    "defaultCollection": "@ngrx/schematics",
     "analytics": false
   },
   "newProjectRoot": "projects",
@@ -20,15 +19,26 @@
       "prefix": "fsc",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/new-ng",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "src",
+                "output": "/"
+              }
+            ],
             "styles": ["src/styles.scss"],
             "scripts": []
           },
@@ -49,12 +59,9 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -63,10 +70,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "new-ng:build:production"
+              "buildTarget": "new-ng:build:production"
             },
             "development": {
-              "browserTarget": "new-ng:build:development"
+              "buildTarget": "new-ng:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -74,7 +81,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "new-ng:build"
+            "buildTarget": "new-ng:build"
           }
         },
         "test": {
@@ -83,7 +90,18 @@
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "src",
+                "output": "/"
+              }
+            ],
             "styles": ["src/styles.scss"],
             "scripts": []
           }

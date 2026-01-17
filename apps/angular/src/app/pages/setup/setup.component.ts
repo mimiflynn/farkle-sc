@@ -7,6 +7,7 @@ import { addPlayer, editPlayer, removePlayer } from 'app/store/players/players.a
 
 @Component({
     selector: 'fsc-setup',
+    standalone: false,
     templateUrl: './setup.component.html',
     styleUrls: ['./setup.component.scss'],
 })
