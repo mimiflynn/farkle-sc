@@ -1,9 +1,11 @@
 import { render, screen } from '@testing-library/react';
-import React from 'react';
+import { describe, it, expect } from 'vitest';
 import App from './App';
 
-test('renders learn react link', () => {
-    render(<App />);
-    const titleElement = screen.getByText(/Farkle Scorecard/i);
-    expect(titleElement).toBeInTheDocument();
+describe('App', () => {
+    it('renders Farkle Scorecard title', () => {
+        render(<App />);
+        const titleElement = screen.getByText(/Farkle Scorecard/i);
+        expect(titleElement).toBeInTheDocument();
+    });
 });
