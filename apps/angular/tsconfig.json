@@ -1,8 +1,8 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
+/* To learn more about this file see: https://angular.dev/reference/configs/file-reference#tsconfig */
 {
     "compileOnSave": false,
     "compilerOptions": {
-        "baseUrl": "src",
+        "baseUrl": "./",
         "outDir": "./dist/out-tsc",
         "forceConsistentCasingInFileNames": true,
         "strict": false,
@@ -12,20 +12,20 @@
         "noFallthroughCasesInSwitch": true,
         "sourceMap": true,
         "declaration": false,
-        "downlevelIteration": true,
         "experimentalDecorators": true,
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "importHelpers": true,
         "target": "ES2022",
         "module": "ES2022",
         "useDefineForClassFields": false,
         "lib": ["ES2022", "dom"],
         "paths": {
-            "@fsc/state/*": ["../../../packages/state/*"],
-            "@fsc/types/*": ["../../../packages/types/*"]
+            "@fsc/state/*": ["../../packages/state/*"],
+            "@fsc/types/*": ["../../packages/types/*"],
+            "app/*": ["src/app/*"]
         }
     },
-    "include": ["src", "../../packages"],
+    "include": ["src/**/*.ts", "../../packages/**/*.ts"],
     "references": [
         { "path": "../../packages/state/tsconfig.ref.json" },
         { "path": "../../packages/types/tsconfig.ref.json" }
