@@ -7,6 +7,7 @@ import { nextPlayer } from 'app/store/players/players.actions';
 
 @Component({
     selector: 'fsc-play',
+    standalone: false,
     templateUrl: './play.component.html',
     styleUrls: ['./play.component.scss'],
 })

@@ -11,7 +11,7 @@ export function EditPlayerScore({ handleSave, player, scorecard }: EditPlayerSco
     const [value, setValue] = useState(0);
 
     const handleInputUpdate = useCallback((event: BaseSyntheticEvent) => {
-        setValue(event.target.value);
+        setValue(Number(event.target.value));
     }, []);
 
     const handleSetScore = useCallback(

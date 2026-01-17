@@ -3,6 +3,7 @@ import { type Player } from '@fsc/types';
 
 @Component({
     selector: 'fsc-player',
+    standalone: false,
     templateUrl: './player.component.html',
     styleUrls: ['./player.component.scss'],
 })

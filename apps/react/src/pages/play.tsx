@@ -1,6 +1,6 @@
 import { type Scores } from '@fsc/types';
-import { EditPlayerScore } from 'components/game/edit-player-score';
-import { PlayerScore } from 'components/game/player-score';
+import { EditPlayerScore } from '../components/game/edit-player-score';
+import { PlayerScore } from '../components/game/player-score';
 import { useState } from 'react';
 
 interface PlayProps {
