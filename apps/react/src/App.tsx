@@ -47,7 +47,7 @@ function App() {
         if (cardToUpdate.onBoard) {
             updatedScoreCards[player] = Object.assign({}, cardToUpdate, {
                 turns: [...cardToUpdate.turns, ...[score]],
-                total: score + cardToUpdate.total,
+                total: Number(score) + Number(cardToUpdate.total),
             });
         } else if (score >= 500) {
             updatedScoreCards[player] = Object.assign({}, cardToUpdate, {
