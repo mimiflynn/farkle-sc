@@ -1,4 +1,4 @@
-import { Scores } from '@fsc/types';
+import { Scores, DEFAULT_ON_BOARD_THRESHOLD, WIN_SCORE } from '@fsc/types';
 
 export interface addPlayerProps {
     players: string[];
@@ -47,10 +47,12 @@ export function updateScores({
     scores,
     player,
     score,
+    onBoardThreshold = DEFAULT_ON_BOARD_THRESHOLD,
 }: {
     scores: Scores;
     player: string;
     score: number;
+    onBoardThreshold?: number;
 }): Scores {
     const cardToUpdate = scores[player];
     const updatedScores = {} as Scores;
@@ -61,7 +63,7 @@ export function updateScores({
             turns: [...cardToUpdate.turns, ...[score]],
             total: score + cardToUpdate.total,
         };
-    } else if (score >= 500) {
+    } else if (score >= onBoardThreshold) {
         updatedScores[player] = {
             ...cardToUpdate,
             turns: [...cardToUpdate.turns, ...[score]],
@@ -73,6 +75,41 @@ export function updateScores({
     }
 
     return { ...scores, ...updatedScores };
+}
+
+export function undoLastScore({ scores, player }: { scores: Scores; player: string }): Scores {
+    const cardToUpdate = scores[player];
+    if (cardToUpdate.turns.length === 0) {
+        return scores;
+    }
+
+    const newTurns = cardToUpdate.turns.slice(0, -1);
+    const newTotal = newTurns.reduce((sum, t) => sum + t, 0);
+    // if total drops below what was needed, player might no longer be "on board"
+    // but we just recalculate from scratch
+    const wasOnBoard = cardToUpdate.onBoard;
+    // Player stays "on board" only if they had gotten on board and still have a positive total
+    const stillOnBoard = wasOnBoard && newTotal > 0;
+
+    const updatedScores: Scores = {
+        ...scores,
+        [player]: {
+            turns: newTurns,
+            total: stillOnBoard ? newTotal : 0,
+            onBoard: stillOnBoard,
+        },
+    };
+
+    return updatedScores;
+}
+
+export function getWinner(scores: Scores): string | null {
+    for (const player of Object.keys(scores)) {
+        if (scores[player].total >= WIN_SCORE) {
+            return player;
+        }
+    }
+    return null;
 }
 
 export function initScorecards(players: string[]) {

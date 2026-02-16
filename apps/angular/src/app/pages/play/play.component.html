@@ -1,11 +1,31 @@
 <div>
     <h2>Scorecard</h2>
-    <div *ngIf="error" class="alert alert-danger" role="alert">Score must be a number</div>
-    <fsc-edit-player-score
-        [player]="players[currentPlayer]"
-        (saveScorecard)="handleSetScore($event)"
-    />
-    <div *ngFor="let player of players" class="row mb-5">
-        <fsc-player-score [player]="player" [scorecard]="getScorecard(player)" />
+    <div *ngIf="gameOver && winnerName"
+         class="winner-banner">
+        {{ winnerName }} wins with {{ scores[winnerName]?.total }} points!
+    </div>
+    <div *ngIf="finalRound && !gameOver"
+         class="final-round-banner">
+        Final round! {{ winnerName }} reached {{ winScore }}. Everyone else gets one last turn.
+    </div>
+    <div *ngIf="error"
+         class="alert alert-danger"
+         role="alert">Score must be a number</div>
+    <div *ngIf="!gameOver">
+        <fsc-edit-player-score [player]="players[currentPlayer]"
+                               (saveScorecard)="handleSetScore($event)" />
+    </div>
+    <div *ngIf="gameOver">
+        <h3>Game Over!</h3>
+    </div>
+    <button *ngIf="lastActionPlayer && !gameOver"
+            class="btn btn-outline-warning btn-sm mb-3"
+            (click)="handleUndo()">
+        Undo Last Score
+    </button>
+    <div *ngFor="let player of players"
+         class="row mb-5">
+        <fsc-player-score [player]="player"
+                          [scorecard]="getScorecard(player)" />
     </div>
 </div>

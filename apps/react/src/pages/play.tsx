@@ -7,9 +7,21 @@ interface PlayProps {
     players: string[];
     scorecards: Scores;
     setScorecards: (player: string, score: number) => void;
+    onFinalRoundCheck: (currentPlayer: string) => void;
+    gameOver: boolean;
+    canUndo: boolean;
+    onUndo: () => void;
 }
 
-export function Play({ players, scorecards, setScorecards }: PlayProps) {
+export function Play({
+    players,
+    scorecards,
+    setScorecards,
+    onFinalRoundCheck,
+    gameOver,
+    canUndo,
+    onUndo,
+}: PlayProps) {
     const [selectedPlayer, setSelectedPlayer] = useState(players[0]);
     const [error, setError] = useState(false);
 
@@ -25,12 +37,17 @@ export function Play({ players, scorecards, setScorecards }: PlayProps) {
 
     function handleNextPlayer() {
         const recentPlayerIndex = players.indexOf(selectedPlayer);
+        let nextIndex: number;
         if (recentPlayerIndex === players.length - 1) {
-            // last player so loop to first player
-            setSelectedPlayer(players[0]);
+            nextIndex = 0;
         } else {
-            setSelectedPlayer(players[recentPlayerIndex + 1]);
+            nextIndex = recentPlayerIndex + 1;
         }
+        const nextPlayer = players[nextIndex];
+        setSelectedPlayer(nextPlayer);
+
+        // Check if the final round has come back around
+        onFinalRoundCheck(nextPlayer);
     }
 
     function renderPlayers() {
@@ -42,6 +59,9 @@ export function Play({ players, scorecards, setScorecards }: PlayProps) {
     }
 
     function renderCurrentPlayer() {
+        if (gameOver) {
+            return <h3>Game Over!</h3>;
+        }
         if (selectedPlayer) {
             return (
                 <EditPlayerScore
@@ -68,6 +88,11 @@ export function Play({ players, scorecards, setScorecards }: PlayProps) {
             <h2>Scorecard</h2>
             {error ? renderError() : null}
             {renderCurrentPlayer()}
+            {canUndo && !gameOver && (
+                <button className="btn btn-outline-warning btn-sm mb-3" onClick={onUndo}>
+                    Undo Last Score
+                </button>
+            )}
             <div className="row mb-5">{renderPlayers()}</div>
         </div>
     );
