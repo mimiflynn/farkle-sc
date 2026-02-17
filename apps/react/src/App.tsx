@@ -216,10 +216,10 @@ function App() {
         if (reference) {
             return (
                 <div className="row">
-                    <div className="col-6">
+                    <div className="col-12 col-md-6">
                         <Rules />
                     </div>
-                    <div className="col-6">
+                    <div className="col-12 col-md-6">
                         <Reference />
                     </div>
                 </div>

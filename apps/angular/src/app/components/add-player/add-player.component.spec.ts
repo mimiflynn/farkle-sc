@@ -1,4 +1,5 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 
 import { AddPlayerComponent } from './add-player.component';
 
@@ -8,6 +9,7 @@ describe('AddPlayerComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
+            imports: [FormsModule],
             declarations: [AddPlayerComponent],
         }).compileComponents();
 

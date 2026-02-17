@@ -1,15 +1,18 @@
 <div class="input-group mb-3">
-  <input
-    type="text"
-    id="player-name"
-    class="form-control"
-    placeholder="Player name"
-    aria-label="Player name"
-    [(ngModel)]="name"
-  />
+  <input type="text"
+         id="player-name"
+         class="form-control"
+         placeholder="Player name"
+         aria-label="Player name"
+         [(ngModel)]="name"
+         (input)="error = ''" />
   <div class="input-group-append">
-    <button class="btn btn-secondary" type="submit" (click)="save()">
+    <button class="btn btn-secondary"
+            type="submit"
+            (click)="save()">
       Add
     </button>
   </div>
 </div>
+<div *ngIf="error"
+     class="text-danger small mb-2">{{ error }}</div>

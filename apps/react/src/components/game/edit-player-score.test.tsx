@@ -13,11 +13,7 @@ describe('EditPlayerScore', () => {
     it('renders player name', () => {
         const handleSave = vi.fn();
         render(
-            <EditPlayerScore
-                handleSave={handleSave}
-                player="Alice"
-                scorecard={mockScorecard}
-            />
+            <EditPlayerScore handleSave={handleSave} player="Alice" scorecard={mockScorecard} />
         );
 
         expect(screen.getByText('Alice')).toBeInTheDocument();
@@ -28,11 +24,7 @@ describe('EditPlayerScore', () => {
         const user = userEvent.setup();
 
         render(
-            <EditPlayerScore
-                handleSave={handleSave}
-                player="Alice"
-                scorecard={mockScorecard}
-            />
+            <EditPlayerScore handleSave={handleSave} player="Alice" scorecard={mockScorecard} />
         );
 
         const input = screen.getByPlaceholderText('Score');
@@ -52,11 +44,7 @@ describe('EditPlayerScore', () => {
         const user = userEvent.setup();
 
         render(
-            <EditPlayerScore
-                handleSave={handleSave}
-                player="Alice"
-                scorecard={mockScorecard}
-            />
+            <EditPlayerScore handleSave={handleSave} player="Alice" scorecard={mockScorecard} />
         );
 
         const input = screen.getByPlaceholderText('Score') as HTMLInputElement;
@@ -74,11 +62,7 @@ describe('EditPlayerScore', () => {
         const onBoardScorecard = { ...mockScorecard, onBoard: true };
 
         const { container } = render(
-            <EditPlayerScore
-                handleSave={handleSave}
-                player="Alice"
-                scorecard={onBoardScorecard}
-            />
+            <EditPlayerScore handleSave={handleSave} player="Alice" scorecard={onBoardScorecard} />
         );
 
         expect(container.firstChild).toHaveClass('on-board');
@@ -88,13 +72,23 @@ describe('EditPlayerScore', () => {
         const handleSave = vi.fn();
 
         const { container } = render(
-            <EditPlayerScore
-                handleSave={handleSave}
-                player="Alice"
-                scorecard={mockScorecard}
-            />
+            <EditPlayerScore handleSave={handleSave} player="Alice" scorecard={mockScorecard} />
         );
 
         expect(container.firstChild).toHaveClass('off-board');
+    });
+
+    it('renders a Farkle button that saves 0', async () => {
+        const handleSave = vi.fn();
+        const user = userEvent.setup();
+
+        render(
+            <EditPlayerScore handleSave={handleSave} player="Alice" scorecard={mockScorecard} />
+        );
+
+        const farkleButton = screen.getByRole('button', { name: /farkle/i });
+        await user.click(farkleButton);
+
+        expect(handleSave).toHaveBeenCalledWith(0);
     });
 });

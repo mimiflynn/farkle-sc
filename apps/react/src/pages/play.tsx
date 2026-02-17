@@ -53,7 +53,11 @@ export function Play({
     function renderPlayers() {
         return players.map((player) => (
             <div className="col-sm" key={player}>
-                <PlayerScore player={player} scorecard={scorecards[player]} />
+                <PlayerScore
+                    player={player}
+                    scorecard={scorecards[player]}
+                    isCurrentPlayer={player === selectedPlayer && !gameOver}
+                />
             </div>
         ));
     }

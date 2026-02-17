@@ -10,4 +10,5 @@ import { Player, Scorecard } from '@fsc/types';
 export class PlayerScoreComponent {
     @Input() player: Player = '';
     @Input() scorecard: Scorecard;
+    @Input() isCurrentPlayer = false;
 }

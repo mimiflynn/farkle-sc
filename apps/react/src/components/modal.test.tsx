@@ -19,10 +19,11 @@ describe('Modal', () => {
         expect(screen.getByText('Modal content here')).toBeInTheDocument();
     });
 
-    it('renders modal structure', () => {
+    it('renders modal structure with backdrop', () => {
         const { container } = render(<Modal title="Test">content</Modal>);
 
         expect(container.querySelector('.modal')).toBeInTheDocument();
+        expect(container.querySelector('.modal-backdrop')).toBeInTheDocument();
         expect(container.querySelector('.modal-dialog')).toBeInTheDocument();
         expect(container.querySelector('.modal-content')).toBeInTheDocument();
         expect(container.querySelector('.modal-header')).toBeInTheDocument();

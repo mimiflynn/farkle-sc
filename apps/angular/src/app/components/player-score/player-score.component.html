@@ -1,5 +1,5 @@
 <div class="card"
-     [ngClass]="{ 'on-board': scorecard?.onBoard }"
+     [ngClass]="{ 'on-board': scorecard?.onBoard, 'current-player': isCurrentPlayer }"
      key="{player}">
     <div class="card-body">
         <div *ngIf="!scorecard?.onBoard && scorecard?.total === 0"
