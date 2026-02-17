@@ -6,12 +6,26 @@
 </div>
 <div class="row">
     <div class="col-12">
-        <fsc-player
-            *ngFor="let player of players"
-            [player]="player"
-            (editPlayer)="handleEditPlayer($event)"
-            (removePlayer)="handleRemovePlayer($event)"
-        />
+        <fsc-player *ngFor="let player of players"
+                    [player]="player"
+                    (editPlayer)="handleEditPlayer($event)"
+                    (removePlayer)="handleRemovePlayer($event)" />
     </div>
 </div>
-<button class="btn btn-success" [disabled]="players.length < 2" (click)="play()">Start Game</button>
+<div class="row mb-3">
+    <div class="col-12">
+        <label for="onBoardThreshold"
+               class="form-label">Points needed to get on the board</label>
+        <select id="onBoardThreshold"
+                class="form-select"
+                [ngModel]="onBoardThreshold"
+                (ngModelChange)="handleThresholdChange($event)">
+            <option value="500">500 (Standard)</option>
+            <option value="750">750</option>
+            <option value="1000">1000</option>
+        </select>
+    </div>
+</div>
+<button class="btn btn-success"
+        [disabled]="players.length < 2"
+        (click)="play()">Start Game</button>

@@ -1,6 +1,10 @@
-<div class="card" [ngClass]="{ 'on-board': scorecard?.onBoard }" key="{player}">
+<div class="card"
+     [ngClass]="{ 'on-board': scorecard?.onBoard }"
+     key="{player}">
     <div class="card-body">
-        <div *ngIf="!scorecard?.onBoard" class="alert alert-warning" role="alert">
+        <div *ngIf="!scorecard?.onBoard && scorecard?.total === 0"
+             class="alert alert-warning"
+             role="alert">
             A score of 500 is needed in one roll to be on the board.
         </div>
         <h5 class="card-title">{{ player }}</h5>
@@ -8,7 +12,11 @@
         <div *ngIf="!!scorecard?.turns?.length">
             <h6>Turn History</h6>
             <ul class="list-group list-group-flush">
-                <li *ngFor="let turn of scorecard?.turns" class="list-group-item">{{ turn }}</li>
+                <li *ngFor="let turn of scorecard?.turns"
+                    class="list-group-item"
+                    [ngClass]="{ 'farkle-turn': turn === 0 }">
+                    {{ turn === 0 ? 'FARKLE!' : turn }}
+                </li>
             </ul>
         </div>
     </div>

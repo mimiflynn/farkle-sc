@@ -8,7 +8,7 @@ interface PlayerScoreProps {
 
 export function PlayerScore({ player, scorecard }: PlayerScoreProps) {
     function renderBoardMessages() {
-        if (scorecard.total === 0) {
+        if (scorecard.total === 0 && !scorecard.onBoard) {
             return (
                 <div className="alert alert-warning" role="alert">
                     A score of 500 is needed in one roll to be on the board.
@@ -22,8 +22,13 @@ export function PlayerScore({ player, scorecard }: PlayerScoreProps) {
             const turnList = scorecard.turns.map((turn, index) => {
                 const key = `${player}-turn-${index}`;
                 return (
-                    <li className="list-group-item" key={key}>
-                        {turn}
+                    <li
+                        className={classNames('list-group-item', {
+                            'farkle-turn': turn === 0,
+                        })}
+                        key={key}
+                    >
+                        {turn === 0 ? 'FARKLE!' : turn}
                     </li>
                 );
             });

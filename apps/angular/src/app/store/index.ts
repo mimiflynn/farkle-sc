@@ -5,3 +5,5 @@ export interface State {
     players: PlayersState;
     game: GameState;
 }
+
+export { getWinner } from './game/utils';
