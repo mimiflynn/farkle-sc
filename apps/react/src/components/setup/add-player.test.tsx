@@ -6,7 +6,7 @@ import { AddPlayer } from './add-player';
 describe('AddPlayer', () => {
     it('renders input and add button', () => {
         const handleSave = vi.fn();
-        render(<AddPlayer handleSave={handleSave} />);
+        render(<AddPlayer handleSave={handleSave} existingPlayers={[]} />);
 
         expect(screen.getByPlaceholderText('Player')).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /add/i })).toBeInTheDocument();
@@ -16,7 +16,7 @@ describe('AddPlayer', () => {
         const handleSave = vi.fn();
         const user = userEvent.setup();
 
-        render(<AddPlayer handleSave={handleSave} />);
+        render(<AddPlayer handleSave={handleSave} existingPlayers={[]} />);
 
         const input = screen.getByPlaceholderText('Player');
         const addButton = screen.getByRole('button', { name: /add/i });
@@ -31,7 +31,7 @@ describe('AddPlayer', () => {
         const handleSave = vi.fn();
         const user = userEvent.setup();
 
-        render(<AddPlayer handleSave={handleSave} />);
+        render(<AddPlayer handleSave={handleSave} existingPlayers={[]} />);
 
         const input = screen.getByPlaceholderText('Player') as HTMLInputElement;
         const addButton = screen.getByRole('button', { name: /add/i });
@@ -42,15 +42,32 @@ describe('AddPlayer', () => {
         expect(input.value).toBe('');
     });
 
-    it('allows adding empty player name', async () => {
+    it('shows error and does not save when name is empty', async () => {
         const handleSave = vi.fn();
         const user = userEvent.setup();
 
-        render(<AddPlayer handleSave={handleSave} />);
+        render(<AddPlayer handleSave={handleSave} existingPlayers={[]} />);
 
         const addButton = screen.getByRole('button', { name: /add/i });
         await user.click(addButton);
 
-        expect(handleSave).toHaveBeenCalledWith('');
+        expect(handleSave).not.toHaveBeenCalled();
+        expect(screen.getByText(/cannot be empty/i)).toBeInTheDocument();
+    });
+
+    it('shows error when duplicate name is entered', async () => {
+        const handleSave = vi.fn();
+        const user = userEvent.setup();
+
+        render(<AddPlayer handleSave={handleSave} existingPlayers={['Alice']} />);
+
+        const input = screen.getByPlaceholderText('Player');
+        const addButton = screen.getByRole('button', { name: /add/i });
+
+        await user.type(input, 'Alice');
+        await user.click(addButton);
+
+        expect(handleSave).not.toHaveBeenCalled();
+        expect(screen.getByText(/already exists/i)).toBeInTheDocument();
     });
 });

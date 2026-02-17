@@ -49,7 +49,7 @@ export function Setup({ setGamePlayers, onBoardThreshold, setOnBoardThreshold }:
             <h2>Add Players</h2>
             <div className="row players">
                 <div className="col-12">
-                    <AddPlayer handleSave={handleAddPlayer} />
+                    <AddPlayer handleSave={handleAddPlayer} existingPlayers={players} />
                 </div>
             </div>
             <div className="row">

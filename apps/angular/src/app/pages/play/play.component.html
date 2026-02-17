@@ -26,6 +26,7 @@
     <div *ngFor="let player of players"
          class="row mb-5">
         <fsc-player-score [player]="player"
-                          [scorecard]="getScorecard(player)" />
+                          [scorecard]="getScorecard(player)"
+                          [isCurrentPlayer]="player === players[currentPlayer] && !gameOver" />
     </div>
 </div>

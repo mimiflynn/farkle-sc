@@ -4,9 +4,10 @@ import classNames from 'classnames';
 interface PlayerScoreProps {
     player: string;
     scorecard: Scorecard;
+    isCurrentPlayer?: boolean;
 }
 
-export function PlayerScore({ player, scorecard }: PlayerScoreProps) {
+export function PlayerScore({ player, scorecard, isCurrentPlayer = false }: PlayerScoreProps) {
     function renderBoardMessages() {
         if (scorecard.total === 0 && !scorecard.onBoard) {
             return (
@@ -46,6 +47,7 @@ export function PlayerScore({ player, scorecard }: PlayerScoreProps) {
         <div
             className={classNames('card', {
                 'on-board': scorecard.onBoard,
+                'current-player': isCurrentPlayer,
             })}
             key={player}
         >
