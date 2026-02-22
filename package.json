@@ -42,5 +42,9 @@
     "bugs": {
         "url": "https://github.com/mimiflynn/farkle-sc/issues"
     },
-    "homepage": "https://github.com/mimiflynn/farkle-sc#readme"
+    "homepage": "https://github.com/mimiflynn/farkle-sc#readme",
+    "overrides": {
+        "ajv": "8.18.0",
+        "minimatch": "10.2.2"
+    }
 }
