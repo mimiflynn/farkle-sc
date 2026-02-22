@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Scorecard, Scores, WIN_SCORE } from '@fsc/types';
+import { getLeader } from '@fsc/state';
 import { Store } from '@ngrx/store';
 import { setScore, undoScore, setFinalRound, setGameOver } from 'app/store/game/game.actions';
 import { State, getWinner } from 'app/store/index';
@@ -22,6 +23,7 @@ export class PlayComponent {
     winnerName: string | null = null;
     lastActionPlayer: string | null = null;
     winScore = WIN_SCORE;
+    leader: string | null = null;
 
     constructor(private store: Store<State>) {
         this.store.subscribe(({ players, game }) => {
@@ -33,6 +35,7 @@ export class PlayComponent {
             this.gameOver = game.gameOver;
             this.winnerName = game.winnerName;
             this.lastActionPlayer = game.lastActionPlayer;
+            this.leader = getLeader(this.scores);
         });
     }
 

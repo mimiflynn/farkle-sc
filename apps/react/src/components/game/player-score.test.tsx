@@ -83,10 +83,46 @@ describe('PlayerScore', () => {
     });
 
     it('does not apply on-board class when player is not on board', () => {
-        const { container } = render(
-            <PlayerScore player="Alice" scorecard={emptyScorecard} />
-        );
+        const { container } = render(<PlayerScore player="Alice" scorecard={emptyScorecard} />);
 
         expect(container.firstChild).not.toHaveClass('on-board');
+    });
+
+    it('applies leader class when player is leader', () => {
+        const scorecard = {
+            turns: [500, 300],
+            total: 800,
+            onBoard: true,
+        };
+
+        const { container } = render(
+            <PlayerScore player="Alice" scorecard={scorecard} isLeader={true} />
+        );
+
+        expect(container.firstChild).toHaveClass('leader');
+    });
+
+    it('shows Leader badge when player is leader', () => {
+        const scorecard = {
+            turns: [500, 300],
+            total: 800,
+            onBoard: true,
+        };
+
+        render(<PlayerScore player="Alice" scorecard={scorecard} isLeader={true} />);
+
+        expect(screen.getByText('Leader')).toBeInTheDocument();
+    });
+
+    it('does not show Leader badge when player is not leader', () => {
+        const scorecard = {
+            turns: [500],
+            total: 500,
+            onBoard: true,
+        };
+
+        render(<PlayerScore player="Alice" scorecard={scorecard} isLeader={false} />);
+
+        expect(screen.queryByText('Leader')).not.toBeInTheDocument();
     });
 });

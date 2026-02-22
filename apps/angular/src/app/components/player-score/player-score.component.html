@@ -1,5 +1,5 @@
 <div class="card"
-     [ngClass]="{ 'on-board': scorecard?.onBoard, 'current-player': isCurrentPlayer }"
+     [ngClass]="{ 'on-board': scorecard?.onBoard, 'current-player': isCurrentPlayer, 'leader': isLeader }"
      key="{player}">
     <div class="card-body">
         <div *ngIf="!scorecard?.onBoard && scorecard?.total === 0"
@@ -7,7 +7,11 @@
              role="alert">
             A score of 500 is needed in one roll to be on the board.
         </div>
-        <h5 class="card-title">{{ player }}</h5>
+        <h5 class="card-title">
+            {{ player }}
+            <span *ngIf="isLeader"
+                  class="badge bg-warning text-dark ms-2">Leader</span>
+        </h5>
         <p class="card-text">Total: {{ scorecard?.total }}</p>
         <div *ngIf="!!scorecard?.turns?.length">
             <h6>Turn History</h6>

@@ -1,3 +1,4 @@
+import { getLeader } from '@fsc/state';
 import { type Scores } from '@fsc/types';
 import { EditPlayerScore } from '../components/game/edit-player-score';
 import { PlayerScore } from '../components/game/player-score';
@@ -51,12 +52,14 @@ export function Play({
     }
 
     function renderPlayers() {
+        const leader = getLeader(scorecards);
         return players.map((player) => (
             <div className="col-sm" key={player}>
                 <PlayerScore
                     player={player}
                     scorecard={scorecards[player]}
                     isCurrentPlayer={player === selectedPlayer && !gameOver}
+                    isLeader={player === leader}
                 />
             </div>
         ));

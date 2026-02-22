@@ -11,4 +11,5 @@ export class PlayerScoreComponent {
     @Input() player: Player = '';
     @Input() scorecard: Scorecard;
     @Input() isCurrentPlayer = false;
+    @Input() isLeader = false;
 }

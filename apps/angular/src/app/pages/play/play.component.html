@@ -27,6 +27,7 @@
          class="row mb-5">
         <fsc-player-score [player]="player"
                           [scorecard]="getScorecard(player)"
-                          [isCurrentPlayer]="player === players[currentPlayer] && !gameOver" />
+                          [isCurrentPlayer]="player === players[currentPlayer] && !gameOver"
+                          [isLeader]="player === leader" />
     </div>
 </div>
