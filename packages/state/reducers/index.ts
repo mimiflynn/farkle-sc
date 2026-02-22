@@ -112,6 +112,31 @@ export function getWinner(scores: Scores): string | null {
     return null;
 }
 
+export function getLeader(scores: Scores): string | null {
+    let leader: string | null = null;
+    let highestScore = 0;
+
+    for (const player of Object.keys(scores)) {
+        const { total, onBoard } = scores[player];
+        if (onBoard && total > highestScore) {
+            highestScore = total;
+            leader = player;
+        }
+    }
+
+    // Check for a tie — if multiple players share the highest score, no single leader
+    if (leader) {
+        const tiedPlayers = Object.keys(scores).filter(
+            (p) => scores[p].onBoard && scores[p].total === highestScore
+        );
+        if (tiedPlayers.length > 1) {
+            return null;
+        }
+    }
+
+    return leader;
+}
+
 export function initScorecards(players: string[]) {
     const scorecards: Scores = {};
     players.forEach((player) => {

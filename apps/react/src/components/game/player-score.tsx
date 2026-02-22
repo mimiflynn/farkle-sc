@@ -5,9 +5,15 @@ interface PlayerScoreProps {
     player: string;
     scorecard: Scorecard;
     isCurrentPlayer?: boolean;
+    isLeader?: boolean;
 }
 
-export function PlayerScore({ player, scorecard, isCurrentPlayer = false }: PlayerScoreProps) {
+export function PlayerScore({
+    player,
+    scorecard,
+    isCurrentPlayer = false,
+    isLeader = false,
+}: PlayerScoreProps) {
     function renderBoardMessages() {
         if (scorecard.total === 0 && !scorecard.onBoard) {
             return (
@@ -48,12 +54,16 @@ export function PlayerScore({ player, scorecard, isCurrentPlayer = false }: Play
             className={classNames('card', {
                 'on-board': scorecard.onBoard,
                 'current-player': isCurrentPlayer,
+                leader: isLeader,
             })}
             key={player}
         >
             <div className="card-body">
                 {renderBoardMessages()}
-                <h5 className="card-title">{player}</h5>
+                <h5 className="card-title">
+                    {player}
+                    {isLeader && <span className="badge bg-warning text-dark ms-2">Leader</span>}
+                </h5>
                 <p className="card-text">Total: {scorecard.total}</p>
                 {renderTurnHistory()}
             </div>
