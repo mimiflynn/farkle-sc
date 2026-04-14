@@ -1,0 +1,834 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions
+    xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+    xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+    xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+    xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+    id="Definitions_FarkleSC"
+    targetNamespace="http://bpmn.io/schema/bpmn"
+    exporter="manual"
+    exporterVersion="1.0">
+
+    <!--
+        Farkle Scorecard — User Flow Diagram
+        ======================================
+        Covers:
+          1. App start / saved-game detection
+          2. Game Setup (add / edit / remove players, on-board threshold)
+          3. Play loop (score entry, Farkle!, on-board check, win check)
+          4. Final Round (trigger → other players' last turns → determine winner)
+          5. Undo last score (with optional final-round cancellation)
+          6. New Game (nav button → warning modal → confirm/cancel)
+          7. Reference view toggle (nav button)
+    -->
+
+    <!-- ================================================================
+         MAIN PROCESS
+         ================================================================ -->
+    <bpmn:process id="Process_FarkleSC" name="Farkle Scorecard User Flows" isExecutable="false">
+
+        <!-- ── START ─────────────────────────────────────────────────── -->
+        <bpmn:startEvent id="Start_OpenApp" name="Open App">
+            <bpmn:outgoing>Flow_01</bpmn:outgoing>
+        </bpmn:startEvent>
+
+        <bpmn:task id="Task_CheckStorage" name="Check localStorage&#xA;for Saved Game">
+            <bpmn:incoming>Flow_01</bpmn:incoming>
+            <bpmn:outgoing>Flow_02</bpmn:outgoing>
+        </bpmn:task>
+
+        <bpmn:exclusiveGateway id="GW_SavedGame" name="Saved game&#xA;exists?">
+            <bpmn:incoming>Flow_02</bpmn:incoming>
+            <bpmn:outgoing>Flow_03_yes</bpmn:outgoing>
+            <bpmn:outgoing>Flow_03_no</bpmn:outgoing>
+        </bpmn:exclusiveGateway>
+
+        <!-- ── SETUP SUBPROCESS ──────────────────────────────────────── -->
+        <bpmn:subProcess id="SP_Setup" name="Game Setup">
+            <bpmn:incoming>Flow_03_no</bpmn:incoming>
+            <bpmn:incoming>Flow_ResetGame_toSetup</bpmn:incoming>
+            <bpmn:outgoing>Flow_Setup_toPlay</bpmn:outgoing>
+
+            <bpmn:startEvent id="Start_Setup">
+                <bpmn:outgoing>Flow_S01</bpmn:outgoing>
+            </bpmn:startEvent>
+
+            <!-- Add the first player -->
+            <bpmn:userTask id="Task_AddPlayerName" name="Type Player Name&#xA;and Click Add">
+                <bpmn:incoming>Flow_S01</bpmn:incoming>
+                <bpmn:incoming>Flow_S_AddMore</bpmn:incoming>
+                <bpmn:outgoing>Flow_S02</bpmn:outgoing>
+            </bpmn:userTask>
+
+            <!-- Decide what to do with the player list -->
+            <bpmn:exclusiveGateway id="GW_S_PlayerListAction" name="Player list action?">
+                <bpmn:incoming>Flow_S02</bpmn:incoming>
+                <bpmn:incoming>Flow_S_EditDone</bpmn:incoming>
+                <bpmn:incoming>Flow_S_RemoveDone</bpmn:incoming>
+                <bpmn:outgoing>Flow_S_AddMore</bpmn:outgoing>
+                <bpmn:outgoing>Flow_S_Edit</bpmn:outgoing>
+                <bpmn:outgoing>Flow_S_Remove</bpmn:outgoing>
+                <bpmn:outgoing>Flow_S_DonePlayers</bpmn:outgoing>
+            </bpmn:exclusiveGateway>
+
+            <bpmn:userTask id="Task_EditPlayer" name="Edit Player Name">
+                <bpmn:incoming>Flow_S_Edit</bpmn:incoming>
+                <bpmn:outgoing>Flow_S_EditDone</bpmn:outgoing>
+            </bpmn:userTask>
+
+            <bpmn:userTask id="Task_RemovePlayer" name="Remove Player">
+                <bpmn:incoming>Flow_S_Remove</bpmn:incoming>
+                <bpmn:outgoing>Flow_S_RemoveDone</bpmn:outgoing>
+            </bpmn:userTask>
+
+            <!-- Configure threshold -->
+            <bpmn:userTask id="Task_SetThreshold" name="Set On-Board Threshold&#xA;(500 / 750 / 1000, default 500)">
+                <bpmn:incoming>Flow_S_DonePlayers</bpmn:incoming>
+                <bpmn:outgoing>Flow_S03</bpmn:outgoing>
+            </bpmn:userTask>
+
+            <!-- Kick off the game -->
+            <bpmn:userTask id="Task_StartGame" name="Click Start Game&#xA;(button enabled when ≥ 2 players)">
+                <bpmn:incoming>Flow_S03</bpmn:incoming>
+                <bpmn:outgoing>Flow_S_End</bpmn:outgoing>
+            </bpmn:userTask>
+
+            <bpmn:endEvent id="End_Setup">
+                <bpmn:incoming>Flow_S_End</bpmn:incoming>
+            </bpmn:endEvent>
+
+            <!-- Setup internal flows -->
+            <bpmn:sequenceFlow id="Flow_S01" sourceRef="Start_Setup" targetRef="Task_AddPlayerName"/>
+            <bpmn:sequenceFlow id="Flow_S02" sourceRef="Task_AddPlayerName" targetRef="GW_S_PlayerListAction"/>
+            <bpmn:sequenceFlow id="Flow_S_AddMore" name="Add another player" sourceRef="GW_S_PlayerListAction" targetRef="Task_AddPlayerName"/>
+            <bpmn:sequenceFlow id="Flow_S_Edit" name="Edit a name" sourceRef="GW_S_PlayerListAction" targetRef="Task_EditPlayer"/>
+            <bpmn:sequenceFlow id="Flow_S_EditDone" sourceRef="Task_EditPlayer" targetRef="GW_S_PlayerListAction"/>
+            <bpmn:sequenceFlow id="Flow_S_Remove" name="Remove player" sourceRef="GW_S_PlayerListAction" targetRef="Task_RemovePlayer"/>
+            <bpmn:sequenceFlow id="Flow_S_RemoveDone" sourceRef="Task_RemovePlayer" targetRef="GW_S_PlayerListAction"/>
+            <bpmn:sequenceFlow id="Flow_S_DonePlayers" name="Done (≥ 2 players)" sourceRef="GW_S_PlayerListAction" targetRef="Task_SetThreshold"/>
+            <bpmn:sequenceFlow id="Flow_S03" sourceRef="Task_SetThreshold" targetRef="Task_StartGame"/>
+            <bpmn:sequenceFlow id="Flow_S_End" sourceRef="Task_StartGame" targetRef="End_Setup"/>
+        </bpmn:subProcess>
+
+        <!-- New Game interrupts Setup (user clicks nav button mid-setup) -->
+        <bpmn:boundaryEvent id="BE_NewGame_Setup" attachedToRef="SP_Setup" cancelActivity="true"
+            name="Click New Game&#xA;(from Nav)">
+            <bpmn:outgoing>Flow_BESetup_toNewGameModal</bpmn:outgoing>
+        </bpmn:boundaryEvent>
+
+        <!-- Reference view is non-interrupting — setup state is preserved -->
+        <bpmn:boundaryEvent id="BE_Reference_Setup" attachedToRef="SP_Setup" cancelActivity="false"
+            name="Click Reference&#xA;(from Nav)">
+            <bpmn:outgoing>Flow_BESetupRef_toRef</bpmn:outgoing>
+        </bpmn:boundaryEvent>
+
+        <!-- ── PLAY SUBPROCESS ───────────────────────────────────────── -->
+        <bpmn:subProcess id="SP_Play" name="Play Game">
+            <bpmn:incoming>Flow_03_yes</bpmn:incoming>
+            <bpmn:incoming>Flow_Setup_toPlay</bpmn:incoming>
+            <bpmn:outgoing>Flow_Play_toEnd</bpmn:outgoing>
+
+            <bpmn:startEvent id="Start_Play">
+                <bpmn:outgoing>Flow_P01</bpmn:outgoing>
+            </bpmn:startEvent>
+
+            <!-- Scorecard view — current player is highlighted -->
+            <bpmn:task id="Task_ShowScorecard" name="Show Scorecard&#xA;(Current Player Highlighted)">
+                <bpmn:incoming>Flow_P01</bpmn:incoming>
+                <bpmn:incoming>Flow_P_NextPlayer</bpmn:incoming>
+                <bpmn:incoming>Flow_P_UndoBack</bpmn:incoming>
+                <bpmn:incoming>Flow_P_CancelFRBack</bpmn:incoming>
+                <bpmn:outgoing>Flow_P02</bpmn:outgoing>
+            </bpmn:task>
+
+            <!-- Player picks their action for this turn -->
+            <bpmn:exclusiveGateway id="GW_P_TurnAction" name="Turn action?">
+                <bpmn:incoming>Flow_P02</bpmn:incoming>
+                <bpmn:outgoing>Flow_P_EnterScore</bpmn:outgoing>
+                <bpmn:outgoing>Flow_P_ClickFarkle</bpmn:outgoing>
+                <bpmn:outgoing>Flow_P_Undo</bpmn:outgoing>
+            </bpmn:exclusiveGateway>
+
+            <!-- ── Score entry path ── -->
+            <bpmn:userTask id="Task_EnterScore" name="Type Turn Score (≥ 0)&#xA;and Click Save">
+                <bpmn:incoming>Flow_P_EnterScore</bpmn:incoming>
+                <bpmn:incoming>Flow_P_RetryScore</bpmn:incoming>
+                <bpmn:outgoing>Flow_P03</bpmn:outgoing>
+            </bpmn:userTask>
+
+            <bpmn:exclusiveGateway id="GW_P_ValidScore" name="Input is&#xA;a valid number?">
+                <bpmn:incoming>Flow_P03</bpmn:incoming>
+                <bpmn:outgoing>Flow_P_Invalid</bpmn:outgoing>
+                <bpmn:outgoing>Flow_P_Valid</bpmn:outgoing>
+            </bpmn:exclusiveGateway>
+
+            <bpmn:task id="Task_ShowScoreError" name="Show Error:&#xA;'Score must be a number'">
+                <bpmn:incoming>Flow_P_Invalid</bpmn:incoming>
+                <bpmn:outgoing>Flow_P_RetryScore</bpmn:outgoing>
+            </bpmn:task>
+
+            <!-- ── Farkle! path (score = 0) ── -->
+            <bpmn:task id="Task_RecordFarkle" name="Record Farkle (score = 0)&#xA;Display 'FARKLE!' in turn history">
+                <bpmn:incoming>Flow_P_ClickFarkle</bpmn:incoming>
+                <bpmn:outgoing>Flow_P_FarkleToUpdate</bpmn:outgoing>
+            </bpmn:task>
+
+            <!-- ── Update scorecard (shared by both paths) ── -->
+            <bpmn:task id="Task_UpdateScorecard" name="Update Player Scorecard&#xA;(add turn, recalc total)">
+                <bpmn:incoming>Flow_P_Valid</bpmn:incoming>
+                <bpmn:incoming>Flow_P_FarkleToUpdate</bpmn:incoming>
+                <bpmn:outgoing>Flow_P04</bpmn:outgoing>
+            </bpmn:task>
+
+            <!-- On-board check -->
+            <bpmn:exclusiveGateway id="GW_P_OnBoard" name="Score ≥ threshold&#xA;&amp; player not yet on board?">
+                <bpmn:incoming>Flow_P04</bpmn:incoming>
+                <bpmn:outgoing>Flow_P_GetOnBoard</bpmn:outgoing>
+                <bpmn:outgoing>Flow_P_AlreadyOnBoard</bpmn:outgoing>
+            </bpmn:exclusiveGateway>
+
+            <bpmn:task id="Task_MarkOnBoard" name="Mark Player On Board">
+                <bpmn:incoming>Flow_P_GetOnBoard</bpmn:incoming>
+                <bpmn:outgoing>Flow_P05a</bpmn:outgoing>
+            </bpmn:task>
+
+            <!-- Win check -->
+            <bpmn:exclusiveGateway id="GW_P_WinCheck" name="Player total&#xA;≥ 10,000?">
+                <bpmn:incoming>Flow_P_AlreadyOnBoard</bpmn:incoming>
+                <bpmn:incoming>Flow_P05a</bpmn:incoming>
+                <bpmn:outgoing>Flow_P_Win</bpmn:outgoing>
+                <bpmn:outgoing>Flow_P_NoWin</bpmn:outgoing>
+            </bpmn:exclusiveGateway>
+
+            <!-- Advance to next player (no win this turn) -->
+            <bpmn:task id="Task_AdvancePlayer" name="Advance to Next Player&#xA;(round-robin)">
+                <bpmn:incoming>Flow_P_NoWin</bpmn:incoming>
+                <bpmn:outgoing>Flow_P_NextPlayer</bpmn:outgoing>
+            </bpmn:task>
+
+            <!-- ── Final Round path ── -->
+            <bpmn:task id="Task_TriggerFinalRound" name="Trigger Final Round:&#xA;Show banner, record trigger player">
+                <bpmn:incoming>Flow_P_Win</bpmn:incoming>
+                <bpmn:outgoing>Flow_P06</bpmn:outgoing>
+            </bpmn:task>
+
+            <bpmn:task id="Task_OtherPlayersTurn" name="All Other Players Each&#xA;Take One Final Turn">
+                <bpmn:incoming>Flow_P06</bpmn:incoming>
+                <bpmn:outgoing>Flow_P07</bpmn:outgoing>
+            </bpmn:task>
+
+            <bpmn:task id="Task_DetermineWinner" name="Determine Winner&#xA;(Player with Highest Score)">
+                <bpmn:incoming>Flow_P07</bpmn:incoming>
+                <bpmn:outgoing>Flow_P08</bpmn:outgoing>
+            </bpmn:task>
+
+            <bpmn:endEvent id="End_Play" name="Game Over">
+                <bpmn:incoming>Flow_P08</bpmn:incoming>
+            </bpmn:endEvent>
+
+            <!-- ── Undo path ── -->
+            <bpmn:task id="Task_UndoScore" name="Undo Last Score Entry&#xA;(remove last turn, recalc total)">
+                <bpmn:incoming>Flow_P_Undo</bpmn:incoming>
+                <bpmn:outgoing>Flow_P_UndoCheck</bpmn:outgoing>
+            </bpmn:task>
+
+            <bpmn:exclusiveGateway id="GW_P_UndoCancelFR" name="Was a winning score&#xA;just undone?">
+                <bpmn:incoming>Flow_P_UndoCheck</bpmn:incoming>
+                <bpmn:outgoing>Flow_P_CancelFR</bpmn:outgoing>
+                <bpmn:outgoing>Flow_P_UndoBack</bpmn:outgoing>
+            </bpmn:exclusiveGateway>
+
+            <bpmn:task id="Task_CancelFinalRound" name="Cancel Final Round&#xA;(clear winner flag, reset state)">
+                <bpmn:incoming>Flow_P_CancelFR</bpmn:incoming>
+                <bpmn:outgoing>Flow_P_CancelFRBack</bpmn:outgoing>
+            </bpmn:task>
+
+            <!-- Play internal flows -->
+            <bpmn:sequenceFlow id="Flow_P01" sourceRef="Start_Play" targetRef="Task_ShowScorecard"/>
+            <bpmn:sequenceFlow id="Flow_P02" sourceRef="Task_ShowScorecard" targetRef="GW_P_TurnAction"/>
+            <bpmn:sequenceFlow id="Flow_P_EnterScore" name="Enter score" sourceRef="GW_P_TurnAction" targetRef="Task_EnterScore"/>
+            <bpmn:sequenceFlow id="Flow_P_ClickFarkle" name="Click Farkle!" sourceRef="GW_P_TurnAction" targetRef="Task_RecordFarkle"/>
+            <bpmn:sequenceFlow id="Flow_P_Undo" name="Undo last score&#xA;(button visible after any entry)" sourceRef="GW_P_TurnAction" targetRef="Task_UndoScore"/>
+            <bpmn:sequenceFlow id="Flow_P03" sourceRef="Task_EnterScore" targetRef="GW_P_ValidScore"/>
+            <bpmn:sequenceFlow id="Flow_P_Invalid" name="No (not a number)" sourceRef="GW_P_ValidScore" targetRef="Task_ShowScoreError"/>
+            <bpmn:sequenceFlow id="Flow_P_RetryScore" sourceRef="Task_ShowScoreError" targetRef="Task_EnterScore"/>
+            <bpmn:sequenceFlow id="Flow_P_Valid" name="Yes" sourceRef="GW_P_ValidScore" targetRef="Task_UpdateScorecard"/>
+            <bpmn:sequenceFlow id="Flow_P_FarkleToUpdate" sourceRef="Task_RecordFarkle" targetRef="Task_UpdateScorecard"/>
+            <bpmn:sequenceFlow id="Flow_P04" sourceRef="Task_UpdateScorecard" targetRef="GW_P_OnBoard"/>
+            <bpmn:sequenceFlow id="Flow_P_GetOnBoard" name="Yes — gets on board" sourceRef="GW_P_OnBoard" targetRef="Task_MarkOnBoard"/>
+            <bpmn:sequenceFlow id="Flow_P_AlreadyOnBoard" name="No" sourceRef="GW_P_OnBoard" targetRef="GW_P_WinCheck"/>
+            <bpmn:sequenceFlow id="Flow_P05a" sourceRef="Task_MarkOnBoard" targetRef="GW_P_WinCheck"/>
+            <bpmn:sequenceFlow id="Flow_P_Win" name="Yes" sourceRef="GW_P_WinCheck" targetRef="Task_TriggerFinalRound"/>
+            <bpmn:sequenceFlow id="Flow_P_NoWin" name="No" sourceRef="GW_P_WinCheck" targetRef="Task_AdvancePlayer"/>
+            <bpmn:sequenceFlow id="Flow_P_NextPlayer" sourceRef="Task_AdvancePlayer" targetRef="Task_ShowScorecard"/>
+            <bpmn:sequenceFlow id="Flow_P06" sourceRef="Task_TriggerFinalRound" targetRef="Task_OtherPlayersTurn"/>
+            <bpmn:sequenceFlow id="Flow_P07" sourceRef="Task_OtherPlayersTurn" targetRef="Task_DetermineWinner"/>
+            <bpmn:sequenceFlow id="Flow_P08" sourceRef="Task_DetermineWinner" targetRef="End_Play"/>
+            <bpmn:sequenceFlow id="Flow_P_UndoCheck" sourceRef="Task_UndoScore" targetRef="GW_P_UndoCancelFR"/>
+            <bpmn:sequenceFlow id="Flow_P_CancelFR" name="Yes — cancel final round" sourceRef="GW_P_UndoCancelFR" targetRef="Task_CancelFinalRound"/>
+            <bpmn:sequenceFlow id="Flow_P_UndoBack" name="No" sourceRef="GW_P_UndoCancelFR" targetRef="Task_ShowScorecard"/>
+            <bpmn:sequenceFlow id="Flow_P_CancelFRBack" sourceRef="Task_CancelFinalRound" targetRef="Task_ShowScorecard"/>
+        </bpmn:subProcess>
+
+        <!-- New Game interrupts Play (user clicks nav button mid-game) -->
+        <bpmn:boundaryEvent id="BE_NewGame_Play" attachedToRef="SP_Play" cancelActivity="true"
+            name="Click New Game&#xA;(from Nav)">
+            <bpmn:outgoing>Flow_BEPlay_toNewGameModal</bpmn:outgoing>
+        </bpmn:boundaryEvent>
+
+        <!-- Reference view is non-interrupting during Play -->
+        <bpmn:boundaryEvent id="BE_Reference_Play" attachedToRef="SP_Play" cancelActivity="false"
+            name="Click Reference&#xA;(from Nav)">
+            <bpmn:outgoing>Flow_BEPlayRef_toRef</bpmn:outgoing>
+        </bpmn:boundaryEvent>
+
+        <!-- ── REFERENCE VIEW ────────────────────────────────────────── -->
+        <bpmn:task id="Task_ViewReference" name="Display Reference View&#xA;(Rules + Scoring Guide)">
+            <bpmn:incoming>Flow_BESetupRef_toRef</bpmn:incoming>
+            <bpmn:incoming>Flow_BEPlayRef_toRef</bpmn:incoming>
+            <bpmn:outgoing>Flow_Ref_Back</bpmn:outgoing>
+        </bpmn:task>
+
+        <!--
+            Reference is a non-interrupting boundary — game state is preserved.
+            Clicking "Game" in the nav returns the user to the active screen.
+        -->
+        <bpmn:task id="Task_ReturnFromReference" name="Click 'Game' to&#xA;Return to Active Screen">
+            <bpmn:incoming>Flow_Ref_Back</bpmn:incoming>
+        </bpmn:task>
+
+        <!-- ── NEW GAME MODAL ────────────────────────────────────────── -->
+        <bpmn:task id="Task_NewGameModal" name="Show New Game&#xA;Warning Modal">
+            <bpmn:incoming>Flow_BESetup_toNewGameModal</bpmn:incoming>
+            <bpmn:incoming>Flow_BEPlay_toNewGameModal</bpmn:incoming>
+            <bpmn:outgoing>Flow_NG_Confirm</bpmn:outgoing>
+            <bpmn:outgoing>Flow_NG_Cancel</bpmn:outgoing>
+        </bpmn:task>
+
+        <bpmn:task id="Task_ResetGame" name="Reset All State&#xA;&amp; Clear localStorage">
+            <bpmn:incoming>Flow_NG_Confirm</bpmn:incoming>
+            <bpmn:outgoing>Flow_ResetGame_toSetup</bpmn:outgoing>
+        </bpmn:task>
+
+        <!-- Cancel puts the user back to wherever they were (no state change) -->
+        <bpmn:endEvent id="End_NG_Cancel" name="Return to Game&#xA;(no change)">
+            <bpmn:incoming>Flow_NG_Cancel</bpmn:incoming>
+        </bpmn:endEvent>
+
+        <!-- ── GAME OVER END EVENT ───────────────────────────────────── -->
+        <bpmn:endEvent id="End_GameOver" name="Show Winner Banner&#xA;(Game Complete)">
+            <bpmn:incoming>Flow_Play_toEnd</bpmn:incoming>
+        </bpmn:endEvent>
+
+        <!-- ── TOP-LEVEL SEQUENCE FLOWS ─────────────────────────────── -->
+        <bpmn:sequenceFlow id="Flow_01" sourceRef="Start_OpenApp" targetRef="Task_CheckStorage"/>
+        <bpmn:sequenceFlow id="Flow_02" sourceRef="Task_CheckStorage" targetRef="GW_SavedGame"/>
+        <bpmn:sequenceFlow id="Flow_03_yes" name="Yes — resume saved game" sourceRef="GW_SavedGame" targetRef="SP_Play"/>
+        <bpmn:sequenceFlow id="Flow_03_no" name="No — fresh setup" sourceRef="GW_SavedGame" targetRef="SP_Setup"/>
+        <bpmn:sequenceFlow id="Flow_Setup_toPlay" sourceRef="SP_Setup" targetRef="SP_Play"/>
+        <bpmn:sequenceFlow id="Flow_Play_toEnd" sourceRef="SP_Play" targetRef="End_GameOver"/>
+        <bpmn:sequenceFlow id="Flow_ResetGame_toSetup" sourceRef="Task_ResetGame" targetRef="SP_Setup"/>
+        <bpmn:sequenceFlow id="Flow_BESetup_toNewGameModal" sourceRef="BE_NewGame_Setup" targetRef="Task_NewGameModal"/>
+        <bpmn:sequenceFlow id="Flow_BEPlay_toNewGameModal" sourceRef="BE_NewGame_Play" targetRef="Task_NewGameModal"/>
+        <bpmn:sequenceFlow id="Flow_NG_Confirm" name="Confirm" sourceRef="Task_NewGameModal" targetRef="Task_ResetGame"/>
+        <bpmn:sequenceFlow id="Flow_NG_Cancel" name="Cancel" sourceRef="Task_NewGameModal" targetRef="End_NG_Cancel"/>
+        <bpmn:sequenceFlow id="Flow_BESetupRef_toRef" sourceRef="BE_Reference_Setup" targetRef="Task_ViewReference"/>
+        <bpmn:sequenceFlow id="Flow_BEPlayRef_toRef" sourceRef="BE_Reference_Play" targetRef="Task_ViewReference"/>
+        <bpmn:sequenceFlow id="Flow_Ref_Back" sourceRef="Task_ViewReference" targetRef="Task_ReturnFromReference"/>
+
+    </bpmn:process>
+
+    <!-- ================================================================
+         DIAGRAM INTERCHANGE (layout)
+         ================================================================ -->
+    <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+        <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_FarkleSC">
+
+            <!-- Start -->
+            <bpmndi:BPMNShape id="Shape_Start_OpenApp" bpmnElement="Start_OpenApp">
+                <dc:Bounds x="152" y="82" width="36" height="36"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="144" y="125" width="55" height="14"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Task_CheckStorage" bpmnElement="Task_CheckStorage">
+                <dc:Bounds x="240" y="60" width="160" height="80"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_GW_SavedGame" bpmnElement="GW_SavedGame" isMarkerVisible="true">
+                <dc:Bounds x="455" y="75" width="50" height="50"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="437" y="132" width="86" height="27"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+
+            <!-- Setup subprocess -->
+            <bpmndi:BPMNShape id="Shape_SP_Setup" bpmnElement="SP_Setup" isExpanded="true">
+                <dc:Bounds x="200" y="200" width="880" height="360"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Start_Setup" bpmnElement="Start_Setup">
+                <dc:Bounds x="232" y="362" width="36" height="36"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Task_AddPlayerName" bpmnElement="Task_AddPlayerName">
+                <dc:Bounds x="320" y="340" width="160" height="80"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_GW_S_PlayerListAction" bpmnElement="GW_S_PlayerListAction" isMarkerVisible="true">
+                <dc:Bounds x="535" y="355" width="50" height="50"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="515" y="412" width="90" height="27"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Task_EditPlayer" bpmnElement="Task_EditPlayer">
+                <dc:Bounds x="510" y="240" width="160" height="80"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Task_RemovePlayer" bpmnElement="Task_RemovePlayer">
+                <dc:Bounds x="510" y="450" width="160" height="80"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Task_SetThreshold" bpmnElement="Task_SetThreshold">
+                <dc:Bounds x="700" y="340" width="160" height="80"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Task_StartGame" bpmnElement="Task_StartGame">
+                <dc:Bounds x="900" y="340" width="160" height="80"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_End_Setup" bpmnElement="End_Setup">
+                <dc:Bounds x="1032" y="362" width="36" height="36"/>
+            </bpmndi:BPMNShape>
+
+            <!-- Setup boundary events -->
+            <bpmndi:BPMNShape id="Shape_BE_NewGame_Setup" bpmnElement="BE_NewGame_Setup">
+                <dc:Bounds x="452" y="542" width="36" height="36"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="430" y="585" width="80" height="27"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_BE_Reference_Setup" bpmnElement="BE_Reference_Setup">
+                <dc:Bounds x="612" y="542" width="36" height="36"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="590" y="585" width="80" height="27"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+
+            <!-- Play subprocess -->
+            <bpmndi:BPMNShape id="Shape_SP_Play" bpmnElement="SP_Play" isExpanded="true">
+                <dc:Bounds x="200" y="640" width="1200" height="560"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Start_Play" bpmnElement="Start_Play">
+                <dc:Bounds x="232" y="902" width="36" height="36"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Task_ShowScorecard" bpmnElement="Task_ShowScorecard">
+                <dc:Bounds x="320" y="880" width="160" height="80"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_GW_P_TurnAction" bpmnElement="GW_P_TurnAction" isMarkerVisible="true">
+                <dc:Bounds x="535" y="895" width="50" height="50"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="518" y="952" width="84" height="14"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Task_EnterScore" bpmnElement="Task_EnterScore">
+                <dc:Bounds x="640" y="760" width="160" height="80"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_GW_P_ValidScore" bpmnElement="GW_P_ValidScore" isMarkerVisible="true">
+                <dc:Bounds x="855" y="775" width="50" height="50"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="835" y="832" width="90" height="27"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Task_ShowScoreError" bpmnElement="Task_ShowScoreError">
+                <dc:Bounds x="830" y="660" width="160" height="80"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Task_RecordFarkle" bpmnElement="Task_RecordFarkle">
+                <dc:Bounds x="640" y="900" width="160" height="80"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Task_UpdateScorecard" bpmnElement="Task_UpdateScorecard">
+                <dc:Bounds x="960" y="880" width="160" height="80"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_GW_P_OnBoard" bpmnElement="GW_P_OnBoard" isMarkerVisible="true">
+                <dc:Bounds x="1175" y="895" width="50" height="50"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="1152" y="952" width="96" height="40"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Task_MarkOnBoard" bpmnElement="Task_MarkOnBoard">
+                <dc:Bounds x="1150" y="780" width="160" height="80"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_GW_P_WinCheck" bpmnElement="GW_P_WinCheck" isMarkerVisible="true">
+                <dc:Bounds x="1055" y="1015" width="50" height="50"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="1032" y="1072" width="96" height="27"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Task_AdvancePlayer" bpmnElement="Task_AdvancePlayer">
+                <dc:Bounds x="840" y="1100" width="160" height="80"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Task_TriggerFinalRound" bpmnElement="Task_TriggerFinalRound">
+                <dc:Bounds x="1160" y="1100" width="160" height="80"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Task_OtherPlayersTurn" bpmnElement="Task_OtherPlayersTurn">
+                <dc:Bounds x="1160" y="1020" width="160" height="80"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Task_DetermineWinner" bpmnElement="Task_DetermineWinner">
+                <dc:Bounds x="1160" y="920" width="160" height="80"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_End_Play" bpmnElement="End_Play">
+                <dc:Bounds x="1332" y="942" width="36" height="36"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="1318" y="985" width="65" height="14"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Task_UndoScore" bpmnElement="Task_UndoScore">
+                <dc:Bounds x="640" y="1040" width="160" height="80"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_GW_P_UndoCancelFR" bpmnElement="GW_P_UndoCancelFR" isMarkerVisible="true">
+                <dc:Bounds x="855" y="1055" width="50" height="50"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="832" y="1112" width="96" height="40"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Task_CancelFinalRound" bpmnElement="Task_CancelFinalRound">
+                <dc:Bounds x="840" y="1160" width="160" height="80"/>
+            </bpmndi:BPMNShape>
+
+            <!-- Play boundary events -->
+            <bpmndi:BPMNShape id="Shape_BE_NewGame_Play" bpmnElement="BE_NewGame_Play">
+                <dc:Bounds x="452" y="1182" width="36" height="36"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="430" y="1225" width="80" height="27"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_BE_Reference_Play" bpmnElement="BE_Reference_Play">
+                <dc:Bounds x="612" y="1182" width="36" height="36"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="590" y="1225" width="80" height="27"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+
+            <!-- Reference & New Game (below play) -->
+            <bpmndi:BPMNShape id="Shape_Task_ViewReference" bpmnElement="Task_ViewReference">
+                <dc:Bounds x="540" y="1290" width="160" height="80"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Task_ReturnFromReference" bpmnElement="Task_ReturnFromReference">
+                <dc:Bounds x="760" y="1290" width="160" height="80"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Task_NewGameModal" bpmnElement="Task_NewGameModal">
+                <dc:Bounds x="300" y="1290" width="160" height="80"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_Task_ResetGame" bpmnElement="Task_ResetGame">
+                <dc:Bounds x="300" y="1420" width="160" height="80"/>
+            </bpmndi:BPMNShape>
+
+            <bpmndi:BPMNShape id="Shape_End_NG_Cancel" bpmnElement="End_NG_Cancel">
+                <dc:Bounds x="192" y="1322" width="36" height="36"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="170" y="1365" width="80" height="27"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+
+            <!-- Game Over end -->
+            <bpmndi:BPMNShape id="Shape_End_GameOver" bpmnElement="End_GameOver">
+                <dc:Bounds x="1432" y="902" width="36" height="36"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="1405" y="945" width="90" height="27"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+
+            <!-- ── EDGES ─────────────────────────────────────────────── -->
+            <bpmndi:BPMNEdge id="Edge_Flow_01" bpmnElement="Flow_01">
+                <di:waypoint x="188" y="100"/>
+                <di:waypoint x="240" y="100"/>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_02" bpmnElement="Flow_02">
+                <di:waypoint x="400" y="100"/>
+                <di:waypoint x="455" y="100"/>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_03_yes" bpmnElement="Flow_03_yes">
+                <di:waypoint x="480" y="125"/>
+                <di:waypoint x="480" y="920"/>
+                <di:waypoint x="200" y="920"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="490" y="510" width="90" height="27"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_03_no" bpmnElement="Flow_03_no">
+                <di:waypoint x="480" y="125"/>
+                <di:waypoint x="480" y="200"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="487" y="155" width="80" height="27"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_Setup_toPlay" bpmnElement="Flow_Setup_toPlay">
+                <di:waypoint x="640" y="560"/>
+                <di:waypoint x="640" y="640"/>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_Play_toEnd" bpmnElement="Flow_Play_toEnd">
+                <di:waypoint x="1400" y="920"/>
+                <di:waypoint x="1432" y="920"/>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_ResetGame_toSetup" bpmnElement="Flow_ResetGame_toSetup">
+                <di:waypoint x="380" y="1420"/>
+                <di:waypoint x="380" y="200"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="388" y="810" width="72" height="14"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+
+            <!-- Setup internal edges -->
+            <bpmndi:BPMNEdge id="Edge_Flow_S01" bpmnElement="Flow_S01">
+                <di:waypoint x="268" y="380"/>
+                <di:waypoint x="320" y="380"/>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_S02" bpmnElement="Flow_S02">
+                <di:waypoint x="480" y="380"/>
+                <di:waypoint x="535" y="380"/>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_S_AddMore" bpmnElement="Flow_S_AddMore">
+                <di:waypoint x="560" y="355"/>
+                <di:waypoint x="560" y="320"/>
+                <di:waypoint x="400" y="320"/>
+                <di:waypoint x="400" y="340"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="430" y="300" width="100" height="14"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_S_Edit" bpmnElement="Flow_S_Edit">
+                <di:waypoint x="560" y="355"/>
+                <di:waypoint x="560" y="280"/>
+                <di:waypoint x="510" y="280"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="520" y="310" width="60" height="14"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_S_EditDone" bpmnElement="Flow_S_EditDone">
+                <di:waypoint x="590" y="280"/>
+                <di:waypoint x="620" y="280"/>
+                <di:waypoint x="620" y="355"/>
+                <di:waypoint x="585" y="355"/>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_S_Remove" bpmnElement="Flow_S_Remove">
+                <di:waypoint x="560" y="405"/>
+                <di:waypoint x="560" y="490"/>
+                <di:waypoint x="510" y="490"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="520" y="435" width="72" height="14"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_S_RemoveDone" bpmnElement="Flow_S_RemoveDone">
+                <di:waypoint x="590" y="490"/>
+                <di:waypoint x="620" y="490"/>
+                <di:waypoint x="620" y="405"/>
+                <di:waypoint x="585" y="405"/>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_S_DonePlayers" bpmnElement="Flow_S_DonePlayers">
+                <di:waypoint x="585" y="380"/>
+                <di:waypoint x="700" y="380"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="612" y="358" width="80" height="27"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_S03" bpmnElement="Flow_S03">
+                <di:waypoint x="860" y="380"/>
+                <di:waypoint x="900" y="380"/>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_S_End" bpmnElement="Flow_S_End">
+                <di:waypoint x="1060" y="380"/>
+                <di:waypoint x="1032" y="380"/>
+            </bpmndi:BPMNEdge>
+
+            <!-- Setup boundary edges -->
+            <bpmndi:BPMNEdge id="Edge_Flow_BESetup_toNewGameModal" bpmnElement="Flow_BESetup_toNewGameModal">
+                <di:waypoint x="470" y="578"/>
+                <di:waypoint x="470" y="1330"/>
+                <di:waypoint x="300" y="1330"/>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_BESetupRef_toRef" bpmnElement="Flow_BESetupRef_toRef">
+                <di:waypoint x="630" y="578"/>
+                <di:waypoint x="630" y="1290"/>
+            </bpmndi:BPMNEdge>
+
+            <!-- Play internal edges -->
+            <bpmndi:BPMNEdge id="Edge_Flow_P01" bpmnElement="Flow_P01">
+                <di:waypoint x="268" y="920"/>
+                <di:waypoint x="320" y="920"/>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P02" bpmnElement="Flow_P02">
+                <di:waypoint x="480" y="920"/>
+                <di:waypoint x="535" y="920"/>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P_EnterScore" bpmnElement="Flow_P_EnterScore">
+                <di:waypoint x="560" y="895"/>
+                <di:waypoint x="560" y="800"/>
+                <di:waypoint x="640" y="800"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="565" y="840" width="60" height="14"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P_ClickFarkle" bpmnElement="Flow_P_ClickFarkle">
+                <di:waypoint x="585" y="920"/>
+                <di:waypoint x="640" y="940"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="590" y="922" width="55" height="14"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P_Undo" bpmnElement="Flow_P_Undo">
+                <di:waypoint x="560" y="945"/>
+                <di:waypoint x="560" y="1080"/>
+                <di:waypoint x="640" y="1080"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="565" y="1000" width="80" height="40"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P03" bpmnElement="Flow_P03">
+                <di:waypoint x="800" y="800"/>
+                <di:waypoint x="855" y="800"/>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P_Invalid" bpmnElement="Flow_P_Invalid">
+                <di:waypoint x="880" y="775"/>
+                <di:waypoint x="880" y="740"/>
+                <di:waypoint x="830" y="740"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="830" y="745" width="90" height="27"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P_RetryScore" bpmnElement="Flow_P_RetryScore">
+                <di:waypoint x="830" y="700"/>
+                <di:waypoint x="720" y="700"/>
+                <di:waypoint x="720" y="760"/>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P_Valid" bpmnElement="Flow_P_Valid">
+                <di:waypoint x="905" y="800"/>
+                <di:waypoint x="940" y="800"/>
+                <di:waypoint x="940" y="920"/>
+                <di:waypoint x="960" y="920"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="912" y="780" width="22" height="14"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P_FarkleToUpdate" bpmnElement="Flow_P_FarkleToUpdate">
+                <di:waypoint x="800" y="940"/>
+                <di:waypoint x="960" y="940"/>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P04" bpmnElement="Flow_P04">
+                <di:waypoint x="1120" y="920"/>
+                <di:waypoint x="1175" y="920"/>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P_GetOnBoard" bpmnElement="Flow_P_GetOnBoard">
+                <di:waypoint x="1200" y="895"/>
+                <di:waypoint x="1200" y="860"/>
+                <di:waypoint x="1150" y="860"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="1152" y="862" width="88" height="27"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P_AlreadyOnBoard" bpmnElement="Flow_P_AlreadyOnBoard">
+                <di:waypoint x="1200" y="945"/>
+                <di:waypoint x="1200" y="980"/>
+                <di:waypoint x="1080" y="980"/>
+                <di:waypoint x="1080" y="1015"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="1120" y="958" width="22" height="14"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P05a" bpmnElement="Flow_P05a">
+                <di:waypoint x="1150" y="820"/>
+                <di:waypoint x="1080" y="820"/>
+                <di:waypoint x="1080" y="1015"/>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P_Win" bpmnElement="Flow_P_Win">
+                <di:waypoint x="1105" y="1040"/>
+                <di:waypoint x="1160" y="1040"/>
+                <di:waypoint x="1160" y="1100"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="1112" y="1042" width="22" height="14"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P_NoWin" bpmnElement="Flow_P_NoWin">
+                <di:waypoint x="1080" y="1065"/>
+                <di:waypoint x="1080" y="1140"/>
+                <di:waypoint x="840" y="1140"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="948" y="1142" width="22" height="14"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P_NextPlayer" bpmnElement="Flow_P_NextPlayer">
+                <di:waypoint x="840" y="1140"/>
+                <di:waypoint x="400" y="1140"/>
+                <di:waypoint x="400" y="960"/>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P06" bpmnElement="Flow_P06">
+                <di:waypoint x="1240" y="1100"/>
+                <di:waypoint x="1240" y="1060"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="1246" y="1078" width="0" height="0"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P07" bpmnElement="Flow_P07">
+                <di:waypoint x="1240" y="1020"/>
+                <di:waypoint x="1240" y="1000"/>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P08" bpmnElement="Flow_P08">
+                <di:waypoint x="1320" y="960"/>
+                <di:waypoint x="1332" y="960"/>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P_UndoCheck" bpmnElement="Flow_P_UndoCheck">
+                <di:waypoint x="800" y="1080"/>
+                <di:waypoint x="855" y="1080"/>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P_CancelFR" bpmnElement="Flow_P_CancelFR">
+                <di:waypoint x="880" y="1105"/>
+                <di:waypoint x="880" y="1160"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="888" y="1130" width="104" height="27"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P_UndoBack" bpmnElement="Flow_P_UndoBack">
+                <di:waypoint x="855" y="1080"/>
+                <di:waypoint x="400" y="1080"/>
+                <di:waypoint x="400" y="960"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="618" y="1058" width="22" height="14"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_P_CancelFRBack" bpmnElement="Flow_P_CancelFRBack">
+                <di:waypoint x="840" y="1200"/>
+                <di:waypoint x="400" y="1200"/>
+                <di:waypoint x="400" y="960"/>
+            </bpmndi:BPMNEdge>
+
+            <!-- Play boundary edges -->
+            <bpmndi:BPMNEdge id="Edge_Flow_BEPlay_toNewGameModal" bpmnElement="Flow_BEPlay_toNewGameModal">
+                <di:waypoint x="470" y="1218"/>
+                <di:waypoint x="470" y="1330"/>
+                <di:waypoint x="460" y="1330"/>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_BEPlayRef_toRef" bpmnElement="Flow_BEPlayRef_toRef">
+                <di:waypoint x="630" y="1218"/>
+                <di:waypoint x="630" y="1290"/>
+            </bpmndi:BPMNEdge>
+
+            <!-- Reference edges -->
+            <bpmndi:BPMNEdge id="Edge_Flow_Ref_Back" bpmnElement="Flow_Ref_Back">
+                <di:waypoint x="700" y="1330"/>
+                <di:waypoint x="760" y="1330"/>
+            </bpmndi:BPMNEdge>
+
+            <!-- New Game modal edges -->
+            <bpmndi:BPMNEdge id="Edge_Flow_NG_Confirm" bpmnElement="Flow_NG_Confirm">
+                <di:waypoint x="380" y="1370"/>
+                <di:waypoint x="380" y="1420"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="388" y="1388" width="44" height="14"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+
+            <bpmndi:BPMNEdge id="Edge_Flow_NG_Cancel" bpmnElement="Flow_NG_Cancel">
+                <di:waypoint x="300" y="1330"/>
+                <di:waypoint x="228" y="1330"/>
+                <bpmndi:BPMNLabel><dc:Bounds x="248" y="1310" width="36" height="14"/></bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+
+</bpmn:definitions>
